@@ -15,7 +15,8 @@ GfxSSIDListBox::GfxSSIDListBox(uint16_t x, uint16_t y) :
 
     // TODO: calculate screen lines based on line height and screen size
     // as ooposed to this hard-coded value
-    _screenLines = 4;
+    _lineHeight = (CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP));
+    _screenLines = CbOled.getDisplayHeight() / _lineHeight;
     _screenStart = 0;
 }
 
@@ -85,7 +86,7 @@ uint16_t GfxSSIDListBox::width()
 
 uint16_t GfxSSIDListBox::height()
 {
-    return CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP);
+    return _lineHeight * (count() < _screenLines ? count() : _screenLines);
 }
 
 GfxNetInfo* GfxSSIDListBox::operator[](int16_t idx)
@@ -140,6 +141,17 @@ int16_t GfxSSIDListBox::findPreceding(uint8_t from)
         }
     }
     return -1;
+}
+
+uint8_t GfxSSIDListBox::count()
+{
+    uint8_t count=0;
+    for (uint8_t i=0; i<MaxItems; i++) {
+        if (_items[i] != NULL) {
+            count++;
+        }
+    }
+    return count;
 }
 
 int16_t GfxSSIDListBox::find(const String& ssid, uint8_t n)

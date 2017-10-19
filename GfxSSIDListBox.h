@@ -29,6 +29,7 @@ public:
     void draw(uint16_t xOffset=0, uint16_t yOffset=0);
     uint16_t width();
     uint16_t height();
+    uint16_t lineHeight();
 
     //! Get an GfxNetInfo pointer by index
     //! \param idx the index of the item to fetch
@@ -85,6 +86,9 @@ public:
     //! \param from the index to search from
     int16_t findPreceding(uint8_t from=MaxItems);
 
+    //! \return how many non-NULL items are in the list
+    uint8_t count();
+
 protected:
     //! \return index of first "gap" (i.e. where item is NULL), or -1 if there are no gaps
     //! \param startAt index to start looking for gaps at
@@ -111,6 +115,7 @@ protected:
     int16_t _selected;
     uint8_t _screenLines;
     uint8_t _screenStart;
+    uint8_t _lineHeight;
     // TODO: uint8_t _frameSize; uint8_t _frameStart;
 
 };

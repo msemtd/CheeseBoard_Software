@@ -10,10 +10,10 @@
 #include <Wire.h>
 #endif
 
-// Our CbOLED object will have some extra functions, like multi-line wrapped text
-class CbOLEDClass : public CbOLED_CLASS {
+// Our CbOled object will have some extra functions, like multi-line wrapped text
+class CbOledClass : public CBOLED_CLASS {
 public:
-    CbOLEDClass(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset=U8X8_PIN_NONE);
+    CbOledClass(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset=U8X8_PIN_NONE);
 
     // Get the width of a single character
     u8g2_uint_t getCharWidth(char c);
@@ -32,5 +32,5 @@ public:
 
 };
 
-extern CbOLEDClass CbOLED;
+extern CbOledClass CbOled;
 

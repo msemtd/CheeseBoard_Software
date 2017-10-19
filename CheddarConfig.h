@@ -8,11 +8,11 @@ const uint8_t   ROT_PUSH_PIN                = D8;
 const uint8_t   ROT_A_PIN                   = D7;
 const uint8_t   ROT_B_PIN                   = D6;
 
-const uint8_t   CbOLED_SDA_PIN              = D5;
-const uint8_t   CbOLED_SCK_PIN              = D4;
+const uint8_t   CBOLED_SDA_PIN              = D5;
+const uint8_t   CBOLED_SCK_PIN              = D4;
 #define OLED_MESSAGE_FONT                   u8g2_font_helvR08_tf
-const uint8_t   CbOLED_MESSAGE_FONT_HEIGHT  = 8;
-const uint8_t   CbOLED_MESSAGE_FONT_VSEP    = 3;
+const uint8_t   CBOLED_MESSAGE_FONT_HEIGHT  = 8;
+const uint8_t   CBOLED_MESSAGE_FONT_VSEP    = 3;
 
 const uint8_t   RGBLED_DATA_PIN             = D3;
 const uint8_t   RGBLED_COUNT                = 5;

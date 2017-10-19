@@ -3,8 +3,8 @@
 #include "GfxNetInfo.h"
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
-#include "CbOLED.h"
-#include CHEESEBOARD_CONFIG
+#include "CbOled.h"
+#include "Config.h"
 
 GfxNetInfo::GfxNetInfo(String newSsid, int8_t newChannel, uint8_t newSignal) :
     _ssid(newSsid),
@@ -50,7 +50,7 @@ void GfxNetInfo::draw(uint16_t xOffset, uint16_t yOffset)
 
 uint16_t GfxNetInfo::height()
 {
-    return CbOLED_MESSAGE_FONT_HEIGHT + (2*CbOLED_MESSAGE_FONT_VSEP);
+    return CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP);
 }
 
 uint16_t GfxNetInfo::width()

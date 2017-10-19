@@ -23,7 +23,7 @@ public:
     //! \return true if successful, else false
     bool remove(const uint8_t idx, bool compactAfter=true);
 
-    //! Draw the GfxStringListBox (do not send buffer to CbOLED)
+    //! Draw the GfxStringListBox (do not send buffer to CbOled)
     //! Items contains NULL strings will not be displayed
     void draw(uint16_t xOffset=0, uint16_t yOffset=0);
     uint16_t width();

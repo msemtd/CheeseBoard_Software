@@ -1,6 +1,6 @@
 #include <CbDebug.h>
 #include "GfxSignalStrength.h"
-#include "CbOLED.h"
+#include "CbOled.h"
 
 GfxSignalStrength::GfxSignalStrength() : 
     _signal(0)
@@ -13,8 +13,8 @@ void GfxSignalStrength::draw(uint16_t xOffset, uint16_t yOffset)
     uint8_t fullBar = height() - 4;
     uint8_t h = fullBar * _signal / 100;
     
-    CbOLED.drawVLine(xOffset+3, yOffset+fullBar+2-h, h);
-    CbOLED.drawVLine(xOffset+4, yOffset+fullBar+2-h, h);
+    CbOled.drawVLine(xOffset+3, yOffset+fullBar+2-h, h);
+    CbOled.drawVLine(xOffset+4, yOffset+fullBar+2-h, h);
 }
 
 uint16_t GfxSignalStrength::width()
@@ -24,7 +24,7 @@ uint16_t GfxSignalStrength::width()
 
 uint16_t GfxSignalStrength::height()
 {
-    return CbOLED_MESSAGE_FONT_HEIGHT + (2*CbOLED_MESSAGE_FONT_VSEP);
+    return CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP);
 }
 
 void GfxSignalStrength::setSignal(uint8_t percent) 

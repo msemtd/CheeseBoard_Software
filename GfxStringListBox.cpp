@@ -1,11 +1,11 @@
 #include <CbDebug.h>
 #include "GfxStringListBox.h"
 #include "GfxTextBox.h"
-#include CHEESEBOARD_CONFIG
+#include "Config.h"
 
 GfxStringListBox::GfxStringListBox(uint16_t width) :
     _width(width),
-    _lineHeight(CbOLED_MESSAGE_FONT_HEIGHT + (2*CbOLED_MESSAGE_FONT_VSEP)),
+    _lineHeight(CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP)),
     _selected(-1)
 {
     for(uint8_t i=0; i<MaxItems; i++) {

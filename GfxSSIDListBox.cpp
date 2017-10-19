@@ -3,8 +3,8 @@
 #include "GfxSSIDListBox.h"
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
-#include "CbOLED.h"
-#include CHEESEBOARD_CONFIG
+#include "CbOled.h"
+#include "Config.h"
 
 GfxSSIDListBox::GfxSSIDListBox(uint16_t x, uint16_t y) :
     _selected(-1)
@@ -70,7 +70,7 @@ void GfxSSIDListBox::draw(uint16_t xOffset, uint16_t yOffset)
                 uint16_t y = drawn * _items[i]->height();
                 _items[i]->draw(xOffset, yOffset+y);
                 if (_selected == i) {
-                    CbOLED.drawFrame(xOffset, y, _items[i]->width(), _items[i]->height());
+                    CbOled.drawFrame(xOffset, y, _items[i]->width(), _items[i]->height());
                 }
                 drawn++;
             }
@@ -85,7 +85,7 @@ uint16_t GfxSSIDListBox::width()
 
 uint16_t GfxSSIDListBox::height()
 {
-    return CbOLED_MESSAGE_FONT_HEIGHT + (2*CbOLED_MESSAGE_FONT_VSEP);
+    return CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP);
 }
 
 GfxNetInfo* GfxSSIDListBox::operator[](int16_t idx)

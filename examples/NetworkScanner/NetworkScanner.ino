@@ -8,6 +8,7 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
+#include <ESP8266WiFi.h>
 
 // Include CheeseBoard headers for the components we'll be using in
 // this example
@@ -64,12 +65,19 @@ void loop()
 {
     CbRotaryInput.update();
 
-    if (CbMillis() > lastDisplayRefresh + 5000 || displayUpdate) {
-        CbOled.clearBuffer();
-        listbox.draw();
-        CbOled.sendBuffer();
-        displayUpdate = false;
+    if (CbMillis() > lastDisplayRefresh + 3000 || displayUpdate) {
+         lastDisplayRefresh = CbMillis();
+         CbOled.clearBuffer();
+         listbox.draw();
+         CbOled.sendBuffer();
+         displayUpdate = false;
     }
-    DBF("%-12d D8 digitalRead=%d\n", CbMillis(), digitalRead(D8));
+
+    DBF("%-12d D8 heap=0x%06x cycles=0x%012x wifistatus=%d\n", 
+        CbMillis(), 
+        ESP.getFreeHeap(),
+        ESP.getCycleCount(),
+        WiFi.status()
+        );
 }
 

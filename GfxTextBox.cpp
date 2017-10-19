@@ -10,7 +10,7 @@ GfxTextBox::GfxTextBox(uint16_t width, String text, bool border) :
 }
 
 void GfxTextBox::draw(uint16_t xOffset, uint16_t yOffset) {
-    DBF("GfxText draw@%d,%d : text=%s\n", xOffset, yOffset, _text.c_str());
+    _DBF("GfxText draw@%d,%d : text=%s\n", xOffset, yOffset, _text.c_str());
     CbOled.setFont(CBOLED_MESSAGE_FONT);
     uint16_t strLenPixels;
     uint16_t useLen = _text.length();

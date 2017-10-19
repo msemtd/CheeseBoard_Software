@@ -1,4 +1,5 @@
 #include "CbRotaryInput.h"
+#include "CbDebug.h"
 #include "Config.h"
 
 CbRotaryInputClass CbRotaryInput(ROT_PUSH_PIN, ROT_A_PIN, ROT_B_PIN);
@@ -28,6 +29,7 @@ void CbRotaryInputClass::update()
     // Update the button and handle presses
     _button.update();
     if (_button.tapped()) {
+        DBLN(F("CbRotaryInputClass::update button press"));
         if (_buttonCb != NULL) {
             _buttonCb();
         }

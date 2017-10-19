@@ -9,7 +9,7 @@ GfxSignalStrength::GfxSignalStrength() :
 
 void GfxSignalStrength::draw(uint16_t xOffset, uint16_t yOffset) 
 {
-    DBF("GfxSignalStrength draw@%d,%d : signal=%d\n", xOffset, yOffset, _signal);
+    _DBF("GfxSignalStrength draw@%d,%d : signal=%d\n", xOffset, yOffset, _signal);
     uint8_t fullBar = height() - 4;
     uint8_t h = fullBar * _signal / 100;
     

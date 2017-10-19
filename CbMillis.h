@@ -11,11 +11,11 @@
  * millis drift, where time is slowed down.
  *
  * CbMillis() as a replacement for the stock millis() function,
- * and a addCbMillisOffset() which can then be used to compensate
+ * and a addMillisOffset() which can then be used to compensate
  * drift in the internal clock.  In the case of NeoPixel show() 
  * calls, the drift is approximately proportional to the number 
  * of NeoPixels which are updated, and so the millis offset can 
- * be calculated and addCbMillisOffset() called to "fix" the 
+ * be calculated and addMillisOffset() called to "fix" the 
  * clock.
  *
  */
@@ -27,6 +27,6 @@ extern float _CbMillisOffsetMs;
 unsigned long CbMillis(); 
 
 //! Add offset
-void addCbMillisOffset(float ms);
+void addMillisOffset(float ms);
 
 

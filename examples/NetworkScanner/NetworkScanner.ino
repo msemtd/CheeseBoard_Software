@@ -17,11 +17,10 @@
 #include <GfxSSIDListBox.h>
 #include <CbRotaryInput.h>
 
-// A global listbox object
-GfxSSIDListBox listbox(128);
 
-uint32_t lastDisplayRefresh = 0;
-bool displayUpdate = true;
+GfxSSIDListBox listbox(128);        // A global listbox object
+uint32_t lastDisplayRefresh = 0;    // Timer to refresh display now and then
+bool displayUpdate = true;          // Flag to request immediate display update
 
 void buttonCb(void)
 {
@@ -31,7 +30,14 @@ void buttonCb(void)
 
 void rotaryCb(int8_t diff, int32_t value)
 {
-    DBF("rotaryCb diff=%d value=%d\n", diff, value);
+    DBF("rotaryCb diff=%d value=%d", diff, value);
+    int16_t i = listbox.selected();
+    int16_t n = diff > 0 ? listbox.findNext(i) : listbox.findPreceding(i);
+    DBF(" current=%d new=%d\n", i, n);
+    if (n != -1) {
+        listbox.select(n);
+        listbox.scrollTo(n);
+    }
     displayUpdate = true;
 }
 

@@ -77,11 +77,6 @@ public:
     //! \return the index of the updated / added item, or -1 if the operation failed (e.g. no space in list to add a new item)
     int16_t update(String ssid, int8_t channel, uint8_t signal);
 
-protected:
-    //! \return index of first "gap" (i.e. where item is NULL), or -1 if there are no gaps
-    //! \param startAt index to start looking for gaps at
-    int16_t findGap(uint8_t startAt=0);
-
     //! \return the first index which is not NULL after "from", or -1 if not found
     //! \param from the index to search from
     int16_t findNext(uint8_t from=0);
@@ -89,6 +84,11 @@ protected:
     //! \return the first index which is not NULL before "from", or -1 if not found
     //! \param from the index to search from
     int16_t findPreceding(uint8_t from=MaxItems);
+
+protected:
+    //! \return index of first "gap" (i.e. where item is NULL), or -1 if there are no gaps
+    //! \param startAt index to start looking for gaps at
+    int16_t findGap(uint8_t startAt=0);
 
     //! Sort the items contained in the list box using quicksort
     // TODO: void sort();

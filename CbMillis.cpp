@@ -7,7 +7,7 @@ unsigned long CbMillis() {
     return millis() + (unsigned long)_CbMillisOffsetMs;
 }
 
-void addCbMillisOffset(float ms)
+void addMillisOffset(float ms)
 {
     _CbMillisOffsetMs += ms;
 }

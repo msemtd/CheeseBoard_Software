@@ -73,11 +73,5 @@ void loop()
          displayUpdate = false;
     }
 
-    DBF("%-12d D8 heap=0x%06x cycles=0x%012x wifistatus=%d\n", 
-        CbMillis(), 
-        ESP.getFreeHeap(),
-        ESP.getCycleCount(),
-        WiFi.status()
-        );
 }
 

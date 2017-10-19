@@ -31,15 +31,6 @@ const uint8_t   TEXTLISTITEM_FONT_HEIGHT    = 8;
 const uint8_t   TEXTLISTITEM_FONT_PADDING   = 1;
 const uint8_t   TEXTLISTITEM_HEIGHT         = TEXTLISTITEM_FONT_HEIGHT + 2*TEXTLISTITEM_FONT_PADDING + 2;
 
-// You can define these in wiki.mk if you're using the Makefile build, else edit these lines
-// to add wifi credentials... however, be certain not to add to git and upload to a public place!
-#define         SSID                        WIFI_SSID
-#define         PASSWORD                    WIFI_PASS
-
-// The host to connect to for the purposes of testing
-#define         TEST_HOST                   "thinker"
-const uint16_t  TEST_PORT                   = 8000;
-
 // This should be defined only when using the "version 0", preproduction
 // boards with the button hack.  For production boards, delete this 
 // BOARD_V0 #define.

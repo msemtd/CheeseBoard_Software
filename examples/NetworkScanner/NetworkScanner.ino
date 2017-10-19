@@ -18,6 +18,8 @@
 #include <GfxSSIDListBox.h>
 #include <CbRotaryInput.h>
 
+#include "Scanner.h"
+
 
 GfxSSIDListBox listbox(128);        // A global listbox object
 uint32_t lastDisplayRefresh = 0;    // Timer to refresh display now and then
@@ -42,6 +44,47 @@ void rotaryCb(int8_t diff, int32_t value)
     displayUpdate = true;
 }
 
+int rssiToQuality(int RSSI) {
+    int quality = 0;
+
+    if (RSSI <= -100) {
+        quality = 0;
+    } else if (RSSI >= -50) {
+        quality = 100;
+    } else {
+        quality = 2 * (RSSI + 100);
+    }   
+    return quality;
+}
+
+void scanCb(int16_t numNetworks)
+{
+    DBF("scanCb number of networks found=%d:\n", numNetworks);
+    for (int16_t i=0; i<numNetworks; i++) {
+        DBF("%d: %s, Ch:%d Qu:%d %s\n", i+1, WiFi.SSID(i).c_str(), WiFi.channel(i), rssiToQuality(WiFi.RSSI(i)), WiFi.encryptionType(i) == ENC_TYPE_NONE ? "open" : "secure");
+        listbox.update(WiFi.SSID(i), WiFi.channel(i), rssiToQuality(WiFi.RSSI(i)));
+    }
+    Scanner.startScan();
+}
+
+void updateDisplay()
+{
+    if (CbMillis() > lastDisplayRefresh + 3000 || displayUpdate) {
+        lastDisplayRefresh = CbMillis();
+        displayUpdate = false;
+
+        CbOled.clearBuffer();
+        if (listbox.count() == 0) { 
+            CbOled.drawText("no networks found\nscanning...", 'C', 'M');
+        } else {
+            if (listbox.selected() == -1) {
+                listbox.select(0);
+            }
+            listbox.draw();
+        }
+        CbOled.sendBuffer();
+    }
+}
 void setup()
 {
     Serial.begin(115200);
@@ -49,29 +92,17 @@ void setup()
 
     CbOled.begin();
     CbRotaryInput.begin(buttonCb, rotaryCb);
+    Scanner.begin(scanCb);
 
-    listbox.add(GfxNetInfo(String("wirescubedextended"), 1, 75));
-    listbox.add(GfxNetInfo(String("leslians"), 3, 53));
-    listbox.add(GfxNetInfo(String("OtherNet1"), 7, 13));
-    listbox.add(GfxNetInfo(String("OtherNet2"), 1, 15));
-    listbox.add(GfxNetInfo(String("OtherNet3"), 8, 25));
-    listbox.add(GfxNetInfo(String("OtherNet4"), 9, 36));
-    listbox.select(1);
-
+    Scanner.startScan();
     DBLN(F("E:setup"));
 }
 
 void loop()
 {
     CbRotaryInput.update();
-
-    if (CbMillis() > lastDisplayRefresh + 3000 || displayUpdate) {
-         lastDisplayRefresh = CbMillis();
-         CbOled.clearBuffer();
-         listbox.draw();
-         CbOled.sendBuffer();
-         displayUpdate = false;
-    }
-
+    Scanner.update();
+    updateDisplay();
 }
+
 

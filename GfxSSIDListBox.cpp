@@ -303,7 +303,7 @@ int16_t GfxSSIDListBox::update(String ssid, int8_t channel, uint8_t signal)
         _items[idx]->update(channel, signal);
         return idx;
     } else {
-        GfxNetInfo* netInfo = new GfxNetInfo(ssid, signal, channel);
+        GfxNetInfo* netInfo = new GfxNetInfo(ssid, channel, signal);
         if (netInfo == NULL) {
             // ERROR, could not allocate new object
             return -1;

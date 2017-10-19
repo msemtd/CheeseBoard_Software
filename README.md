@@ -5,6 +5,8 @@ This library contains components for use with the CheeseBoard Cheddar and varian
 
 Select your hardware by copying or linking the appropriate XXXConfig.h file to CheeseboardConfig.h in this directory.
 
+Lots of code copied from Mutila https://github.com/matthewg42/Mutila (DebouncedButton and so on).
+
 
 Future
 ======

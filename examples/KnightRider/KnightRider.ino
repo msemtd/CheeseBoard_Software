@@ -18,19 +18,29 @@
 // Include files from this example
 #include "KnightRiderEffect.h"
 
-void speedChange(int8_t diff, int32_t value)
+void rotaryCb(int8_t diff, int32_t value)
 {
-    DBF("speedChange diff=%d value=%d\n", diff, value);
-    if (diff > 0) {
-        KnightRiderEffect.setFrequency(KnightRiderEffect.getFrequency() * 1.15);
+    DBF("rotaryCb diff=%d value=%d\n", diff, value);
+    if (CbRotaryInput.buttonPushed()) {
+        // If we push and hold while twisting, adjust the brightness
+        if (diff > 0) {
+            KnightRiderEffect.brighter();
+        } else {
+            KnightRiderEffect.dimmer();
+        }
     } else {
-        KnightRiderEffect.setFrequency(KnightRiderEffect.getFrequency() / 1.15);
+        // Otherwise, adjust the frequency of the effect
+        if (diff > 0) {
+            KnightRiderEffect.setFrequency(KnightRiderEffect.getFrequency() * 1.15);
+        } else {
+            KnightRiderEffect.setFrequency(KnightRiderEffect.getFrequency() / 1.15);
+        }
     }
 }
 
-void changeColor(void)
+void buttonCb(void)
 {
-    DBLN("changeColor()");
+    DBLN("buttonCb() - changing color");
     KnightRiderEffect.changeColor();
 }
 
@@ -44,7 +54,7 @@ void setup()
     CbLeds.begin();
 
     // Init the RotaryInput object
-    CbRotaryInput.begin(changeColor, speedChange);
+    CbRotaryInput.begin(buttonCb, rotaryCb);
 
     // Start initialize the KnightRiderEffect
     KnightRiderEffect.begin();

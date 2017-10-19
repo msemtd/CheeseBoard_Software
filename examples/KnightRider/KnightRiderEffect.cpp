@@ -22,6 +22,8 @@ void KnightRiderEffectClass::begin(float defaultFrequency, float minFrequency, f
     _nextLED = 0;
     _goingRight = true;
     _color = 0;
+    _brightness = 128;
+    CbLeds.setBrightness(_brightness);
 }
 
 void KnightRiderEffectClass::update()
@@ -56,6 +58,28 @@ void KnightRiderEffectClass::changeColor()
 {
     _color = (_color+1) % 7;
     DBF("color now: %d\n", _color);
+}
+
+void KnightRiderEffectClass::dimmer()
+{
+    float f = _brightness;
+    f *= _fadeRatio;
+    _brightness = (uint8_t)f;
+    CbLeds.setBrightness(_brightness);
+}
+
+void KnightRiderEffectClass::brighter()
+{
+    float f = _brightness;
+    f /= _fadeRatio;
+    if (f > 250) {
+        _brightness = 255;
+    } else if (f < 1.) {
+        _brightness = 22;
+    } else {
+        _brightness = (uint8_t)f;
+    }
+    CbLeds.setBrightness(_brightness);
 }
 
 void KnightRiderEffectClass::fader()

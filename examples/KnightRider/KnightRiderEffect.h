@@ -34,6 +34,12 @@ public:
     //! Changed color (red -> green -> blue -> red)
     void changeColor();
 
+    //! Make the effect less bright
+    void dimmer();
+
+    //! Make the effect brighter
+    void brighter();
+
 protected:
     // fades all CbLeds one notch
     void fader();
@@ -55,6 +61,7 @@ private:
     uint16_t _nextLED;
     bool _goingRight;
     uint8_t _color;
+    uint8_t _brightness;
 
 };
 

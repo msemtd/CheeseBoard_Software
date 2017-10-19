@@ -70,6 +70,6 @@ void loop()
         CbOled.sendBuffer();
         displayUpdate = false;
     }
-
+    DBF("%-12d D8 digitalRead=%d\n", CbMillis(), digitalRead(D8));
 }
 

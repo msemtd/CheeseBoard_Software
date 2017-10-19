@@ -22,7 +22,7 @@ GfxSSIDListBox listbox(128);        // A global listbox object
 uint32_t lastDisplayRefresh = 0;    // Timer to refresh display now and then
 bool displayUpdate = true;          // Flag to request immediate display update
 
-void buttonCb(void)
+void buttonCb(uint16_t durationMs)
 {
     DBLN("buttonCb");
     displayUpdate = true;

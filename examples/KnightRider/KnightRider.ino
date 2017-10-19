@@ -38,10 +38,15 @@ void rotaryCb(int8_t diff, int32_t value)
     }
 }
 
-void buttonCb(void)
+void buttonCb(uint16_t durationMs)
 {
-    DBLN("buttonCb() - changing color");
-    KnightRiderEffect.changeColor();
+    DBF("buttonCb() - durationMs=%d ", durationMs);
+    if (durationMs < 180) {
+        KnightRiderEffect.changeColor();
+        DBLN("changing color");
+    } else {
+        DBLN("no color change (press > 180ms)");
+    }
 }
 
 void setup()

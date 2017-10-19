@@ -28,10 +28,11 @@ void CbRotaryInputClass::update()
 {
     // Update the button and handle presses
     _button.update();
-    if (_button.tapped()) {
+    uint16_t tapDuration = _button.tapped();
+    if (tapDuration > 0) {
         DBLN(F("CbRotaryInputClass::update button press"));
         if (_buttonCb != NULL) {
-            _buttonCb();
+            _buttonCb(tapDuration);
         }
     }
 

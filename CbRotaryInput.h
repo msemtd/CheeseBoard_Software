@@ -14,7 +14,7 @@
 //! rotary encoder is moved and/or the button is pushed.
 class CbRotaryInputClass {
 public:
-    typedef void (*t_buttonCb)();
+    typedef void (*t_buttonCb)(uint16_t);
     typedef void (*t_rotaryCb)(int8_t, int32_t);
 
     //! Constructor

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include <CbDebug.h>
+#include <MutilaDebug.h>
 #include "CbOled.h"
 #include "Config.h"
 

@@ -15,7 +15,7 @@
  *
  * This class is a simple sub-class of the Adafruit_NeoPixel class
  * which estimates the offset to the millis timer, and updates the
- * offset for the CbMillis() call.
+ * offset for the Millis() call.
  */
 class CbNeoPixel : public Adafruit_NeoPixel {
 public:

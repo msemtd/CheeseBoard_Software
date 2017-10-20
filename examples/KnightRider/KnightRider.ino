@@ -8,19 +8,28 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
+#include <ESP8266WiFi.h>
+
+// Some includes from the Mutila library which is used by the 
+// CheeseBoard library and others which I use 
+#include <MutilaDebug.h>
+#include <Millis.h>
 
 // Include CheeseBoard headers for the components we'll be using in
 // this example
-#include <CbDebug.h>
 #include <CbLeds.h>
+#include <CbOled.h>
 #include <CbRotaryInput.h>
 
 // Include files from this example
 #include "KnightRiderEffect.h"
 
+bool twisted = false;
+
 void rotaryCb(int8_t diff, int32_t value)
 {
     DBF("rotaryCb diff=%d value=%d\n", diff, value);
+    twisted = true;
     if (CbRotaryInput.buttonPushed()) {
         // If we push and hold while twisting, adjust the brightness
         if (diff > 0) {
@@ -41,12 +50,11 @@ void rotaryCb(int8_t diff, int32_t value)
 void buttonCb(uint16_t durationMs)
 {
     DBF("buttonCb() - durationMs=%d ", durationMs);
-    if (durationMs < 180) {
+    if (!twisted) {
         KnightRiderEffect.changeColor();
         DBLN("changing color");
-    } else {
-        DBLN("no color change (press > 180ms)");
     }
+    twisted = false;
 }
 
 void setup()
@@ -63,6 +71,11 @@ void setup()
 
     // Start initialize the KnightRiderEffect
     KnightRiderEffect.begin();
+
+    CbOled.begin();
+    CbOled.clearBuffer();
+    CbOled.drawText("Twist: speed\nPush: color\nPush+twist: bright", 'L', 'M');
+    CbOled.sendBuffer();
 
     DBLN(F("E:setup"));
 }

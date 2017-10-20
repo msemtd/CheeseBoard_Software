@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Encoder.h>
-#include <CbDebouncedButton.h>
+#include <DebouncedButton.h>
 #include <stdint.h>
 
 //! \class CbRotaryInputClass 
@@ -41,7 +41,7 @@ public:
     bool buttonPushed();
 
 private:
-    CbDebouncedButton _button;
+    DebouncedButton _button;
     Encoder _encoder;
     int32_t _position;
     t_buttonCb _buttonCb;

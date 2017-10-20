@@ -1,5 +1,5 @@
-#include <CbMillis.h>
-#include <CbDebug.h>
+#include <Millis.h>
+#include <MutilaDebug.h>
 
 #include "KnightRiderEffect.h"
 #include "CbLeds.h"
@@ -28,7 +28,7 @@ void KnightRiderEffectClass::begin(float defaultFrequency, float minFrequency, f
 
 void KnightRiderEffectClass::update()
 {
-    uint32_t now = CbMillis();
+    uint32_t now = Millis();
 
     // If it's time, dim any CbLeds which are on at all
     if (now > _lastFade + _fadeMs) {
@@ -72,12 +72,13 @@ void KnightRiderEffectClass::brighter()
 {
     float f = _brightness;
     f /= _fadeRatio;
-    if (f > 250) {
+    if (f > 255) {
         _brightness = 255;
-    } else if (f < 1.) {
-        _brightness = 22;
+    } else if ((uint8_t)f == _brightness) {
+        // This is the case for low f because casting to in rounds down to _brightness
+        _brightness++;
     } else {
-        _brightness = (uint8_t)f;
+        _brightness = f;
     }
     CbLeds.setBrightness(_brightness);
 }

@@ -12,8 +12,8 @@
 
 // Include CheeseBoard headers for the components we'll be using in
 // this example
-#include <CbDebug.h>
-#include <CbMillis.h>
+#include <MutilaDebug.h>
+#include <Millis.h>
 #include <CbOled.h>
 #include <GfxSSIDListBox.h>
 #include <CbRotaryInput.h>
@@ -69,8 +69,8 @@ void scanCb(int16_t numNetworks)
 
 void updateDisplay()
 {
-    if (CbMillis() > lastDisplayRefresh + 3000 || displayUpdate) {
-        lastDisplayRefresh = CbMillis();
+    if (Millis() > lastDisplayRefresh + 3000 || displayUpdate) {
+        lastDisplayRefresh = Millis();
         displayUpdate = false;
 
         CbOled.clearBuffer();

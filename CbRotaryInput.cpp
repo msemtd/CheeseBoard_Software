@@ -1,5 +1,5 @@
 #include "CbRotaryInput.h"
-#include "CbDebug.h"
+#include "MutilaDebug.h"
 #include "Config.h"
 
 CbRotaryInputClass CbRotaryInput(ROT_PUSH_PIN, ROT_A_PIN, ROT_B_PIN);

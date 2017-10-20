@@ -1,5 +1,5 @@
-#include <CbDebug.h>
-#include <CbMillis.h>
+#include <MutilaDebug.h>
+#include <Millis.h>
 #include "GfxNetInfo.h"
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
@@ -10,7 +10,7 @@ GfxNetInfo::GfxNetInfo(String newSsid, int8_t newChannel, uint8_t newSignal) :
     _ssid(newSsid),
     _channel(newChannel),
     _signal(newSignal),
-    _lastSeenMs(CbMillis())
+    _lastSeenMs(Millis())
 {
 }
 
@@ -80,7 +80,7 @@ uint32_t GfxNetInfo::lastSeenMs()
 
 String GfxNetInfo::lastSeen()
 {
-    uint32_t ago = (CbMillis() - _lastSeenMs) / 1000;
+    uint32_t ago = (Millis() - _lastSeenMs) / 1000;
     String s;
     if (ago >= 3600) {
         s += String(ago/3600);
@@ -99,7 +99,7 @@ void GfxNetInfo::update(int8_t newChannel, uint8_t newSignal)
 {
     _channel = newChannel;
     _signal = newSignal;
-    _lastSeenMs = CbMillis();
+    _lastSeenMs = Millis();
 }
 
 bool GfxNetInfo::operator==(const GfxNetInfo& other)

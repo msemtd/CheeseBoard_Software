@@ -7,7 +7,7 @@
 
 class GfxSSIDListBox : public GfxItem {
 public:
-    const static uint8_t MaxItems = 10;
+    const static uint8_t MaxItems = 32;
 
 public:
     GfxSSIDListBox(uint16_t x=0, uint16_t y=0);

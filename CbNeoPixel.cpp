@@ -1,5 +1,5 @@
 #include "CbNeoPixel.h"
-#include "CbMillis.h"
+#include "Millis.h"
 
 CbNeoPixel::CbNeoPixel(uint16_t n, uint8_t p, neoPixelType t) :
     Adafruit_NeoPixel(n, p, t)

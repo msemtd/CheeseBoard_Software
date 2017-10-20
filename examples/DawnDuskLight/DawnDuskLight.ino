@@ -43,6 +43,8 @@
 #include "Config.h"
 #include "ModeRealTime.h"
 
+uint32_t lastDisplay = 0;
+
 void rotaryCb(int8_t diff, int32_t value)
 {
     DBF("rotaryCb diff=%d value=%d\n", diff, value);
@@ -143,6 +145,10 @@ void loop()
     EspApConfigurator.update();
     ModeRealTime.update();
     CbRotaryInput.update();
-    displayStatus();
+
+    if (Millis() > lastDisplay + 1000) {
+        lastDisplay = Millis();
+        displayStatus();
+    }
 }
 

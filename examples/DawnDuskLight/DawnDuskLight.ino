@@ -43,9 +43,19 @@
 
 // And finally includes from this project
 #include "Config.h"
+#include "StandbyMode.h"
 #include "ModeRealTime.h"
 
-uint32_t lastDisplay = 0;
+Mode* mode = NULL;
+
+void switchMode(Mode* newMode)
+{
+    if (mode != NULL) {
+        mode->stop();
+    }   
+    mode = newMode;
+    mode->start();
+}
 
 void rotaryCb(int8_t diff, int32_t value)
 {
@@ -111,9 +121,9 @@ void setup()
         DBLN(EspApConfigurator[i].setting->get());                                       
     }
 
-
-    // Init CbLeds
+    // Init CbLeds and blank them
     CbLeds.begin();
+    CbLeds.show();
 
     // Init the RotaryInput object
     CbRotaryInput.begin(buttonCb, rotaryCb);
@@ -123,27 +133,11 @@ void setup()
     CbOledDisplay.clearBuffer();
     CbOledDisplay.sendBuffer();
 
-    DBLN(F("E:setup"));
-}
+    // Init modes from this project
+    StandbyMode.begin();
+    switchMode(&StandbyMode);
 
-void displayStatus()
-{
-    CbOledDisplay.clearBuffer();
-    String s = F("Dusk & Dawn Light");
-    s += F("\nTime: ");
-    // TODO: add Tz and Dst
-    s += ModeRealTime.timeStr();
-    s += F("\nWiFi: ");
-    if (EspApConfigurator.inApMode()) {
-        s += F("AP ");
-        s += ModeAP.ssid();
-    } else if (WiFi.status() == WL_CONNECTED) {
-        s += F("connected");
-    } else {
-        s += F("not connected");
-    }
-    CbOledDisplay.drawText(s.c_str());
-    CbOledDisplay.sendBuffer();
+    DBLN(F("E:setup"));
 }
 
 void loop()
@@ -151,10 +145,7 @@ void loop()
     EspApConfigurator.update();
     ModeRealTime.update();
     CbRotaryInput.update();
+    if (mode) { mode->update(); }
 
-    if (Millis() > lastDisplay + 1000) {
-        lastDisplay = Millis();
-        displayStatus();
-    }
 }
 

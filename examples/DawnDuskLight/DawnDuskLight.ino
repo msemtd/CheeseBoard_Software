@@ -14,8 +14,10 @@
 // NTP setup, latitude and timezone..
 #include <EspApConfigurator.h>
 #include <PersistentSettingChar.h>
+#include <PersistentSettingTime.h>
 #include <PersistentSettingFloat.h>
 #include <PersistentSettingBool.h>
+#include <PersistentSettingUInt8.h>
 #include <PersistentSettingString.h>
 #include <ModeWifiClient.h>
 #include <ModeAP.h>
@@ -82,6 +84,7 @@ void setup()
     DBLN(F("S:setup"));
 
     EspApConfigurator.begin();
+    EspApConfigurator.setApDetails(AP_SSID, AP_PASSPHRASE); 
 
     // Enable web server in ModeWifiClient - this just makes testing
     // easier as I don't have to keep connecting to the AP to see
@@ -92,10 +95,13 @@ void setup()
     ModeRealTime.begin();
 
     // Must add settings AFTER EspApConfigurator.begin()
-    EspApConfigurator.addSetting(SET_LATITUDE,   new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
-    EspApConfigurator.addSetting(SET_TIMEZONE,   new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 0, 1, timezoneValidator));
-    EspApConfigurator.addSetting(SET_DST,        new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
-    EspApConfigurator.addSetting(SET_NTP_SERVER, new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));
+    EspApConfigurator.addSetting(SET_WAKE_TIME,      new PersistentSettingTime(EspApConfigurator.nextFreeAddress(), "7:30"));
+    EspApConfigurator.addSetting(SET_WAKE_DURATION,  new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 30));
+    EspApConfigurator.addSetting(SET_SLEEP_DURATION, new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 15));
+    EspApConfigurator.addSetting(SET_LATITUDE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
+    EspApConfigurator.addSetting(SET_TIMEZONE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 0, 1, timezoneValidator));
+    EspApConfigurator.addSetting(SET_DST,            new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
+    EspApConfigurator.addSetting(SET_NTP_SERVER,     new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));
 
     // Dump settings 
     DBLN(F("Settings:"));                   

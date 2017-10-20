@@ -14,7 +14,7 @@
 // this example
 #include <MutilaDebug.h>
 #include <Millis.h>
-#include <CbOled.h>
+#include <CbOledDisplay.h>
 #include <GfxSSIDListBox.h>
 #include <CbRotaryInput.h>
 
@@ -73,16 +73,16 @@ void updateDisplay()
         lastDisplayRefresh = Millis();
         displayUpdate = false;
 
-        CbOled.clearBuffer();
+        CbOledDisplay.clearBuffer();
         if (listbox.count() == 0) { 
-            CbOled.drawText("no networks found\nscanning...", 'C', 'M');
+            CbOledDisplay.drawText("no networks found\nscanning...", 'C', 'M');
         } else {
             if (listbox.selected() == -1) {
                 listbox.select(0);
             }
             listbox.draw();
         }
-        CbOled.sendBuffer();
+        CbOledDisplay.sendBuffer();
     }
 }
 void setup()
@@ -90,7 +90,7 @@ void setup()
     Serial.begin(115200);
     DBLN(F("S:setup"));
 
-    CbOled.begin();
+    CbOledDisplay.begin();
     CbRotaryInput.begin(buttonCb, rotaryCb);
     Scanner.begin(scanCb);
 

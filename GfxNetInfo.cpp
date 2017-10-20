@@ -3,7 +3,7 @@
 #include "GfxNetInfo.h"
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
-#include "CbOled.h"
+#include "CbOledDisplay.h"
 #include "Config.h"
 
 GfxNetInfo::GfxNetInfo(String newSsid, int8_t newChannel, uint8_t newSignal) :

@@ -1,6 +1,6 @@
 #include <MutilaDebug.h>
 #include "GfxSignalStrength.h"
-#include "CbOled.h"
+#include "CbOledDisplay.h"
 
 GfxSignalStrength::GfxSignalStrength() : 
     _signal(0)
@@ -13,8 +13,8 @@ void GfxSignalStrength::draw(uint16_t xOffset, uint16_t yOffset)
     uint8_t fullBar = height() - 4;
     uint8_t h = fullBar * _signal / 100;
     
-    CbOled.drawVLine(xOffset+3, yOffset+fullBar+2-h, h);
-    CbOled.drawVLine(xOffset+4, yOffset+fullBar+2-h, h);
+    CbOledDisplay.drawVLine(xOffset+3, yOffset+fullBar+2-h, h);
+    CbOledDisplay.drawVLine(xOffset+4, yOffset+fullBar+2-h, h);
 }
 
 uint16_t GfxSignalStrength::width()

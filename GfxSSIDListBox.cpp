@@ -3,7 +3,7 @@
 #include "GfxSSIDListBox.h"
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
-#include "CbOled.h"
+#include "CbOledDisplay.h"
 #include "Config.h"
 
 GfxSSIDListBox::GfxSSIDListBox(uint16_t x, uint16_t y) :
@@ -16,7 +16,7 @@ GfxSSIDListBox::GfxSSIDListBox(uint16_t x, uint16_t y) :
     // TODO: calculate screen lines based on line height and screen size
     // as ooposed to this hard-coded value
     _lineHeight = (CBOLED_MESSAGE_FONT_HEIGHT + (2*CBOLED_MESSAGE_FONT_VSEP));
-    _screenLines = CbOled.getDisplayHeight() / _lineHeight;
+    _screenLines = CbOledDisplay.getDisplayHeight() / _lineHeight;
     _screenStart = 0;
 }
 
@@ -71,7 +71,7 @@ void GfxSSIDListBox::draw(uint16_t xOffset, uint16_t yOffset)
                 uint16_t y = drawn * _items[i]->height();
                 _items[i]->draw(xOffset, yOffset+y);
                 if (_selected == i) {
-                    CbOled.drawFrame(xOffset, y, _items[i]->width(), _items[i]->height());
+                    CbOledDisplay.drawFrame(xOffset, y, _items[i]->width(), _items[i]->height());
                 }
                 drawn++;
             }

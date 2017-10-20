@@ -2,30 +2,30 @@
 
 #include <Arduino.h>
 #include <MutilaDebug.h>
-#include "CbOled.h"
+#include "CbOledDisplay.h"
 #include "Config.h"
 
-CbOledClass CbOled(U8G2_R0, CBOLED_SCK_PIN, CBOLED_SDA_PIN, A0);
+CbOledDisplayClass CbOledDisplay(U8G2_R0, CBOLED_SCK_PIN, CBOLED_SDA_PIN, A0);
 
-CbOledClass::CbOledClass(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset) :
+CbOledDisplayClass::CbOledDisplayClass(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset) :
     U8G2_SSD1306_128X64_NONAME_F_SW_I2C(rotation, clock, data, reset)
 {
 }
 
-u8g2_uint_t CbOledClass::getCharWidth(char c)
+u8g2_uint_t CbOledDisplayClass::getCharWidth(char c)
 {
     char buf[2];
     buf[0] = c;
     buf[1] = 0;
-    return CbOled.getStrWidth(buf);
+    return CbOledDisplay.getStrWidth(buf);
 }
 
-u8g2_uint_t CbOledClass::drawStrR(u8g2_uint_t x, u8g2_uint_t y, const char *s)
+u8g2_uint_t CbOledDisplayClass::drawStrR(u8g2_uint_t x, u8g2_uint_t y, const char *s)
 {
     return drawStr(x-getStrWidth(s), y, s);
 }
 
-void CbOledClass::drawText(const char* text, char hAlign, char vAlign)
+void CbOledDisplayClass::drawText(const char* text, char hAlign, char vAlign)
 {
     DB(F("ModeMessage::display "));
     DBLN(text);

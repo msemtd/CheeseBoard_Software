@@ -18,7 +18,7 @@
 // Include CheeseBoard headers for the components we'll be using in
 // this example
 #include <CbLeds.h>
-#include <CbOled.h>
+#include <CbOledDisplay.h>
 #include <CbRotaryInput.h>
 
 // Include files from this example
@@ -72,10 +72,10 @@ void setup()
     // Start initialize the KnightRiderEffect
     KnightRiderEffect.begin();
 
-    CbOled.begin();
-    CbOled.clearBuffer();
-    CbOled.drawText("Twist: speed\nPush: color\nPush+twist: bright", 'L', 'M');
-    CbOled.sendBuffer();
+    CbOledDisplay.begin();
+    CbOledDisplay.clearBuffer();
+    CbOledDisplay.drawText("Twist: speed\nPush: color\nPush+twist: bright", 'L', 'M');
+    CbOledDisplay.sendBuffer();
 
     DBLN(F("E:setup"));
 }

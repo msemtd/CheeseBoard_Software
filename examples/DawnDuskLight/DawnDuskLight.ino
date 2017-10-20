@@ -52,6 +52,12 @@ void buttonCb(uint16_t durationMs)
     EspApConfigurator.setApMode();
 }
 
+bool latitudeValidator(String s) 
+{
+    float f = s.toFloat();
+    return f >= -180.0 && f <= 180.0;
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -69,6 +75,7 @@ void setup()
     ModeRealTime.begin();
 
     // Must add settings AFTER EspApConfigurator.begin()
+    EspApConfigurator.addSetting(SET_LATITUDE,   new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
     EspApConfigurator.addSetting(SET_NTP_SERVER, new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));
 
     // Dump settings 

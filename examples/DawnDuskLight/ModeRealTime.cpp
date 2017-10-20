@@ -126,6 +126,23 @@ String ModeRealTime_::isoTimestamp()
     return String(buf);
 }
 
+String ModeRealTime_::timeStr()
+{
+    char buf[6];
+    time_t unixtime = unixTime();
+
+    // Adjust for timezone
+    unixtime += EspApConfigurator[SET_TIMEZONE]->get().toInt() * 3600;
+
+    // Additional offset for daylight savings if set
+    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? -3600 : 0;
+    
+    snprintf(buf, 6, "%d:%02d", 
+             hour(unixtime), 
+             minute(unixtime));
+    return String(buf);
+}
+
 void ModeRealTime_::clearBuf()
 {
     memset(_buf, 0, NTP_PACKET_SIZE * sizeof(byte));

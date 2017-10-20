@@ -25,6 +25,7 @@ public:
     void modeUpdate();
     time_t unixTime();
     String isoTimestamp();
+    String timeStr();
 
 protected:
     unsigned long _lastNtpAttempt;

@@ -15,9 +15,10 @@
 #include <EspApConfigurator.h>
 #include <PersistentSettingChar.h>
 #include <PersistentSettingFloat.h>
-#include <PersistentSettingLong.h>
+#include <PersistentSettingBool.h>
 #include <PersistentSettingString.h>
 #include <ModeWifiClient.h>
+#include <ModeAP.h>
 // Other ESP and network operation headers which are needed for
 // EspApConfigurator
 #include <EEPROM.h>
@@ -36,6 +37,7 @@
 #include <MutilaDebug.h>
 #include <CbLeds.h>
 #include <CbRotaryInput.h>
+#include <CbOledDisplay.h>
 
 // And finally includes from this project
 #include "Config.h"
@@ -58,6 +60,19 @@ bool latitudeValidator(String s)
     return f >= -180.0 && f <= 180.0;
 }
 
+bool timezoneValidator(String s) 
+{
+    // Timezones can be between -12 and 12, and have .0 and .5 frational parts
+    const float tol = 0.001; // tolerance for float precision 
+    float tz = s.toFloat();
+
+    // get fractional part of tz...
+    float f = tz - (int)tz;
+    if (f < 0) f *= -1;
+
+    return tz >= -12 && tz <= 12 && ((f > -tol && f < tol) || (f > 0.5-tol && f < 0.5+tol));
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -76,6 +91,8 @@ void setup()
 
     // Must add settings AFTER EspApConfigurator.begin()
     EspApConfigurator.addSetting(SET_LATITUDE,   new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
+    EspApConfigurator.addSetting(SET_TIMEZONE,   new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 0, 1, timezoneValidator));
+    EspApConfigurator.addSetting(SET_DST,        new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
     EspApConfigurator.addSetting(SET_NTP_SERVER, new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));
 
     // Dump settings 
@@ -93,7 +110,32 @@ void setup()
     // Init the RotaryInput object
     CbRotaryInput.begin(buttonCb, rotaryCb);
 
+    // Init the OLED display
+    CbOledDisplay.begin();
+    CbOledDisplay.clearBuffer();
+    CbOledDisplay.sendBuffer();
+
     DBLN(F("E:setup"));
+}
+
+void displayStatus()
+{
+    CbOledDisplay.clearBuffer();
+    String s = F("Dusk & Dawn Light");
+    s += F("\nTime: ");
+    // TODO: add Tz and Dst
+    s += ModeRealTime.timeStr();
+    s += F("\nWiFi: ");
+    if (EspApConfigurator.inApMode()) {
+        s += F("AP ");
+        s += ModeAP.ssid();
+    } else if (WiFi.status() == WL_CONNECTED) {
+        s += F("connected");
+    } else {
+        s += F("not connected");
+    }
+    CbOledDisplay.drawText(s.c_str());
+    CbOledDisplay.sendBuffer();
 }
 
 void loop()
@@ -101,5 +143,6 @@ void loop()
     EspApConfigurator.update();
     ModeRealTime.update();
     CbRotaryInput.update();
+    displayStatus();
 }
 

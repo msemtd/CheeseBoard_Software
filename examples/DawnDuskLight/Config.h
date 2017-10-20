@@ -2,6 +2,7 @@
 
 #define SET_NTP_SERVER                  "Time Server"
 #define SET_LATITUDE                    "Latitude (+ve N, -ve S)"
+#define SET_DST                         "Daylight Savings (ON=summer, OFF=winter)"
 #define SET_TIMEZONE                    "Time Zone"
 
 // How often to try to sync time with NTP server

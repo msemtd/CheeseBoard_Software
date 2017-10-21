@@ -30,3 +30,26 @@ NOTE: most of this is still just the goal, and not yet implemented...
    * The first item will be to turn on/off the morning light
    * The second item enables AP mode for network configuration
    
+## TODO
+
++ EspApConfigurator: have option to turn off LED once connected
++ Display status and/or time on OLED
++ Set DST from Rotary
++ Offline mode - set time, tz etc with rotary
+
++ Move clock drawing into separate class 
+  - can force re-draw, else drawing only updates if time has changed
+  - draws clock big
+  - has displayon and display off modes
+
++ ModeRealTime doens't need to be a mode, better to just call it
+  RealTimeClock or something, and remove inheritance from Mode
+
++ Fix time (DST seems wrong way round again)
+
++ Usability:
+  - in GoToSleepMode:
+    - rotate should adjust brightness
+    - push-rotate should adjust time
+      - from now - start color should be copied from current brightness
+

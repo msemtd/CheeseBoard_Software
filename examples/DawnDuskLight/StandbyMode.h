@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Mode.h>
 #include <stdint.h>
+
+#include "EventMode.h"
 
 /*! \class StandbyModeClass
  * 
@@ -11,7 +12,7 @@
  *
  */
 
-class StandbyModeClass : public Mode {
+class StandbyModeClass : public EventMode {
 public:
     const uint8_t FadeMs = 30;
     const float FadeRatio = 0.9;

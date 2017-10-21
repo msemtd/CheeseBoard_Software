@@ -42,6 +42,20 @@ void GoToSleepModeClass::modeUpdate()
     fadeLed();
 }
 
+void GoToSleepModeClass::rotaryEvent(int8_t diff, int32_t value)
+{
+    DB(F("GoToSleepModeClass::rotaryEvent diff="));
+    DB(diff);
+    DB(F(" value="));
+    DBLN(value);
+}
+
+void GoToSleepModeClass::buttonEvent(uint16_t durationMs)
+{
+    DB(F("GoToSleepModeClass::buttonEvent ms="));
+    DBLN(durationMs);
+}
+
 void GoToSleepModeClass::setFadeTime(uint8_t minutes)
 {
     DB(F("GoToSleepModeClass::setFadeTime mins="));

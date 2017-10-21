@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Mode.h>
 #include <stdint.h>
+
+#include "EventMode.h"
 
 /*! \class GoToSleepModeClass
  * 
@@ -17,7 +18,7 @@
  * If the user presses the rotary button, the mode will end immediately.
  */
 
-class GoToSleepModeClass : public Mode {
+class GoToSleepModeClass : public EventMode {
 public:
     // How often we update the LEDs.  Levels = 256, min time is 1 minute, so 
     // should be at most 60s/256 = 234ms
@@ -41,6 +42,10 @@ public:
 
     //! Called periodically while mode is active
     void modeUpdate();
+
+    //! Handle incoming events from the RotaryInput
+    void rotaryEvent(int8_t diff, int32_t value);
+    void buttonEvent(uint16_t durationMs);
 
     //! Let parent mode know we have competed our duties
     bool isFinished() { return _finished; }

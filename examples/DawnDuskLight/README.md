@@ -18,11 +18,14 @@ In the morning - at a time of your choosing - it will slowly fade on to full bri
 
 NOTE: most of this is still just the goal, and not yet implemented...
 
-* When off:
-   * Press the rotary input to turn the light on
+* When off (StandbyMode):
+   * Press the rotary input to turn the light on (enter OnMode)
    * Twist to adjust the wake time
    * Long press to enter the menu
-* When on:
+* When on (OnMode):
+   * Twist to change brightness
+   * Push to turn enter GoToSleepMode
+* When in GoToSleepMode:
    * Twist to change brightness
    * Push+twist to set the fade time
    * Push to turn off

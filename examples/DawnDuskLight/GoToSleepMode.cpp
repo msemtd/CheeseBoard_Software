@@ -4,6 +4,8 @@
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
 #include "GoToSleepMode.h"
+#include "StandbyMode.h"
+#include "ModeManager.h"
 #include "ModeRealTime.h"
 #include "ColorUtils.h"
 #include "Config.h"
@@ -46,6 +48,7 @@ void GoToSleepModeClass::pushEvent(uint16_t durationMs)
 {
     DB(F("GoToSleepModeClass::pushEvent ms="));
     DBLN(durationMs);
+    ModeManager.switchMode(&StandbyMode);
 }
 
 void GoToSleepModeClass::twistEvent(int8_t diff, int32_t value)

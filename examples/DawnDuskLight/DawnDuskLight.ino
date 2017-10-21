@@ -44,10 +44,10 @@
 // And finally includes from this project
 #include "Config.h"
 #include "StandbyMode.h"
+#include "OnMode.h"
 #include "GoToSleepMode.h"
 #include "ModeManager.h"
 #include "ModeRealTime.h"
-#include "EventMode.h"
 
 bool pushTwist = false;
 
@@ -59,11 +59,6 @@ void rotaryCb(int8_t diff, int32_t value)
     } else {
         ModeManager.twistEvent(diff, value);
     }
-
-    //int mins = value + EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
-    //if (mins >= 1 && mins <= 30) {
-    //    GoToSleepMode.setFadeTime(mins);
-    //}
 }
 
 void buttonCb(uint16_t durationMs)
@@ -71,19 +66,9 @@ void buttonCb(uint16_t durationMs)
     if (pushTwist) {
         pushTwist = false;
     } else {
+        // TODO: long press = setup menu
         ModeManager.pushEvent(durationMs);
     }
-    //if (durationMs > 1000) {
-    //    EspApConfigurator.setApMode();
-    //} else if (ModeRealTime.unixTime() == 0) {
-    //    DBLN(F("Haven't got real time yet..."));
-    //} else {
-    //    if (mode != &GoToSleepMode) {
-    //        switchMode(&GoToSleepMode);
-    //    } else {
-    //        switchMode(&StandbyMode);
-    //    }
-    //}
 }
 
 bool latitudeValidator(String s) 

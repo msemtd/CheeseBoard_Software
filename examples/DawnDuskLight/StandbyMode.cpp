@@ -4,6 +4,8 @@
 #include <CbLeds.h>
 #include "StandbyMode.h"
 #include "ModeRealTime.h"
+#include "OnMode.h"
+#include "ModeManager.h"
 
 StandbyModeClass StandbyMode;
 
@@ -42,6 +44,7 @@ void StandbyModeClass::pushEvent(uint16_t durationMs)
 {
     DB(F("StandbyModeClass::pushEvent ms="));
     DBLN(durationMs);
+    ModeManager.switchMode(&OnMode);
 }
 
 void StandbyModeClass::twistEvent(int8_t diff, int32_t value)

@@ -5,6 +5,9 @@ This library contains components for use with the CheeseBoard Cheddar and varian
 
 Select your hardware by copying or linking the appropriate XXXConfig.h file to CheeseboardConfig.h in this directory.
 
+Documentation
+-------------
+
 Dependencies
 ------------
 
@@ -15,5 +18,6 @@ Dependencies
 Future
 ------
 
+* Host generated docs on github or readthedocs
 * Create boards.txt / json hardware config to make selection of different boards simpler for the end user.
 

@@ -35,6 +35,9 @@ NOTE: most of this is still just the goal, and not yet implemented...
    
 ## TODO
 
+* OnMode initial brightness should be remembered (save to PersistentSetting when leaving mode)
+* OnMode brightness should call over into GoToSleepMode
+
 + EspApConfigurator: have option to turn off LED once connected
 + Display status and/or time on OLED
 + Set DST from Rotary

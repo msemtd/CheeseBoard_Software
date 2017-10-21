@@ -4,6 +4,7 @@ tmp
 .*swp
 .worklog
 log/
+doc/
 wifi.mk
 **/build-*
 **/*.pyc

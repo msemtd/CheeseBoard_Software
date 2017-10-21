@@ -32,6 +32,11 @@ public:
     //! Called periodically while mode is active
     void modeUpdate();
 
+    //! Handle input events
+    void pushEvent(uint16_t durationMs);
+    void twistEvent(int8_t diff, int32_t value);
+    void pushTwistEvent(int8_t diff, int32_t value);
+
     void drawClock();
 
     void fadeLed();

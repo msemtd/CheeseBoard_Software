@@ -10,7 +10,8 @@
  */
 class EventMode : public Mode {
 public:
-    void rotaryEvent(int8_t diff, int32_t value) {;}
-    void buttonEvent(uint16_t durationMs) {;}
+    virtual void pushEvent(uint16_t durationMs) {;}
+    virtual void twistEvent(int8_t diff, int32_t value) {;}
+    virtual void pushTwistEvent(int8_t diff, int32_t value) {;}
 
 };

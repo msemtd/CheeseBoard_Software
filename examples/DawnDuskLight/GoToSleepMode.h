@@ -44,8 +44,9 @@ public:
     void modeUpdate();
 
     //! Handle incoming events from the RotaryInput
-    void rotaryEvent(int8_t diff, int32_t value);
-    void buttonEvent(uint16_t durationMs);
+    void pushEvent(uint16_t durationMs);
+    void twistEvent(int8_t diff, int32_t value);
+    void pushTwistEvent(int8_t diff, int32_t value);
 
     //! Let parent mode know we have competed our duties
     bool isFinished() { return _finished; }

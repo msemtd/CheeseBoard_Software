@@ -38,6 +38,28 @@ void StandbyModeClass::modeUpdate()
     fadeLed();
 }
 
+void StandbyModeClass::pushEvent(uint16_t durationMs)
+{
+    DB(F("StandbyModeClass::pushEvent ms="));
+    DBLN(durationMs);
+}
+
+void StandbyModeClass::twistEvent(int8_t diff, int32_t value)
+{
+    DB(F("StandbyModeClass::twistEvent diff="));
+    DB(diff);
+    DB(F(" value="));
+    DBLN(value);
+}
+
+void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
+{
+    DB(F("StandbyModeClass::pushTwistEvent diff="));
+    DB(diff);
+    DB(F(" value="));
+    DBLN(value);
+}
+
 void StandbyModeClass::drawClock()
 {
     String t = ModeRealTime.timeStr();   

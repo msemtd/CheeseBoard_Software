@@ -45,42 +45,45 @@
 #include "Config.h"
 #include "StandbyMode.h"
 #include "GoToSleepMode.h"
+#include "ModeManager.h"
 #include "ModeRealTime.h"
+#include "EventMode.h"
 
-Mode* mode = NULL;
-
-void switchMode(Mode* newMode)
-{
-    if (mode != NULL) {
-        mode->stop();
-    }   
-    mode = newMode;
-    mode->start();
-}
+bool pushTwist = false;
 
 void rotaryCb(int8_t diff, int32_t value)
 {
-    DBF("rotaryCb diff=%d value=%d\n", diff, value);
-    int mins = value + EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
-    if (mins >= 1 && mins <= 30) {
-        GoToSleepMode.setFadeTime(mins);
+    if (CbRotaryInput.buttonPushed()) {
+        pushTwist = true;
+        ModeManager.pushTwistEvent(diff, value);
+    } else {
+        ModeManager.twistEvent(diff, value);
     }
+
+    //int mins = value + EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
+    //if (mins >= 1 && mins <= 30) {
+    //    GoToSleepMode.setFadeTime(mins);
+    //}
 }
 
 void buttonCb(uint16_t durationMs)
 {
-    DBF("buttonCb() - durationMs=%d ", durationMs);
-    if (durationMs > 1000) {
-        EspApConfigurator.setApMode();
-    } else if (ModeRealTime.unixTime() == 0) {
-        DBLN(F("Haven't got real time yet..."));
+    if (pushTwist) {
+        pushTwist = false;
     } else {
-        if (mode != &GoToSleepMode) {
-            switchMode(&GoToSleepMode);
-        } else {
-            switchMode(&StandbyMode);
-        }
+        ModeManager.pushEvent(durationMs);
     }
+    //if (durationMs > 1000) {
+    //    EspApConfigurator.setApMode();
+    //} else if (ModeRealTime.unixTime() == 0) {
+    //    DBLN(F("Haven't got real time yet..."));
+    //} else {
+    //    if (mode != &GoToSleepMode) {
+    //        switchMode(&GoToSleepMode);
+    //    } else {
+    //        switchMode(&StandbyMode);
+    //    }
+    //}
 }
 
 bool latitudeValidator(String s) 
@@ -152,7 +155,7 @@ void setup()
     // Init modes from this project
     StandbyMode.begin();
     GoToSleepMode.begin();
-    switchMode(&StandbyMode);
+    ModeManager.begin(&StandbyMode);
 
     DBLN(F("E:setup"));
 }
@@ -162,12 +165,12 @@ void loop()
     EspApConfigurator.update();
     ModeRealTime.update();
     CbRotaryInput.update();
-    if (mode) { mode->update(); }
+    ModeManager.update();   // updates the currently-active mode
 
     // All modes that are not StandbyMode can finish - and we will switch
     // back to standby.
-    if (mode->isFinished()) {
-        switchMode(&StandbyMode);
+    if (ModeManager.isFinished()) {
+        ModeManager.switchMode(&StandbyMode);
     }
 
 }

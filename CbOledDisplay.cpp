@@ -27,8 +27,12 @@ u8g2_uint_t CbOledDisplayClass::drawStrR(u8g2_uint_t x, u8g2_uint_t y, const cha
 
 void CbOledDisplayClass::drawText(const char* text, char hAlign, char vAlign)
 {
-    DB(F("ModeMessage::display "));
-    DBLN(text);
+    DB(F("CbOledDisplayClass::drawText: "));
+    DB(text);
+    DB(F(" hAl="));
+    DB(hAlign);
+    DB(F(" vAl="));
+    DBLN(vAlign);
     setFont(CBOLED_MESSAGE_FONT);            // choose a suitable font
     
     const uint8_t maxLines = getDisplayHeight() / (CBOLED_MESSAGE_FONT_HEIGHT+CBOLED_MESSAGE_FONT_VSEP);

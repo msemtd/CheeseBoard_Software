@@ -57,7 +57,7 @@ void ModeRealTime_::modeUpdate()
 
 void ModeRealTime_::ntpUpdate()
 {
-    DBLN("ModeRealTime::ntpUpdate");
+    DBLN(F("ModeRealTime_::ntpUpdate"));
     if (!EspApConfigurator.isConnected()) {
         DBLN(F("no network connection"));
         return;
@@ -73,7 +73,6 @@ void ModeRealTime_::ntpUpdate()
 
     // Clear previously RX packets
     while (_udp.parsePacket() > 0) {;}
-
 
     // Send a request
     sendNtpPacket();
@@ -101,6 +100,7 @@ void ModeRealTime_::ntpUpdate()
             DB(F(" (diff="));
             DB(diff);
             DBLN(')');
+            _state = NtpWorking;
             return;
         }
     }
@@ -111,6 +111,22 @@ time_t ModeRealTime_::unixTime()
 {
     if (_unixTime == 0) return 0;
     return _unixTime + ((Millis() - _lastNtpSuccess) / 1000);
+}
+
+long ModeRealTime_::daySeconds()
+{
+    time_t unixtime = unixTime();
+
+    // Adjust for timezone
+    unixtime += EspApConfigurator[SET_TIMEZONE]->get().toInt() * 3600;
+
+    // Additional offset for daylight savings if set
+    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? -3600 : 0;
+
+    long result = hour(unixtime)*3600;
+    result += minute(unixtime)*60;
+    result += second(unixtime);
+    return result;
 }
 
 String ModeRealTime_::isoTimestamp()
@@ -126,9 +142,9 @@ String ModeRealTime_::isoTimestamp()
     return String(buf);
 }
 
-String ModeRealTime_::timeStr()
+String ModeRealTime_::timeStr(bool includeSeconds)
 {
-    char buf[6];
+    char buf[9];
     time_t unixtime = unixTime();
 
     // Adjust for timezone
@@ -137,9 +153,16 @@ String ModeRealTime_::timeStr()
     // Additional offset for daylight savings if set
     unixtime += EspApConfigurator[SET_DST]->get().toInt() ? -3600 : 0;
     
-    snprintf(buf, 6, "%d:%02d", 
-             hour(unixtime), 
-             minute(unixtime));
+    if (includeSeconds) {
+        snprintf(buf, 9, "%d:%02d:%02d", 
+                 hour(unixtime), 
+                 minute(unixtime),
+                 second(unixtime));
+    } else {
+        snprintf(buf, 9, "%d:%02d", 
+                 hour(unixtime), 
+                 minute(unixtime));
+    }
     return String(buf);
 }
 

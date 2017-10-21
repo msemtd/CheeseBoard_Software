@@ -24,8 +24,21 @@ public:
     void modeStop();
     void modeUpdate();
     time_t unixTime();
+
+    //! Get the number of seconds into the day (taking into account
+    //! timezone and DST
+    long daySeconds();
+
+    //! Get time as "YYYY-MM-DD HH:MM:SS UT"
     String isoTimestamp();
-    String timeStr();
+
+    //! Get time of day as string (taking into account timezone and dst)
+    //! \param includeSeconds include seconds in output
+    String timeStr(bool includeSeconds=false);
+
+    //! \return true if we have a real time (i.e. NTP has been set since 
+    //! instantiation
+    bool haveRealTime() { return _state == NtpWorking; }
 
 protected:
     unsigned long _lastNtpAttempt;

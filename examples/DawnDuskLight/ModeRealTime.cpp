@@ -121,7 +121,7 @@ long ModeRealTime_::daySeconds()
     unixtime += EspApConfigurator[SET_TIMEZONE]->get().toInt() * 3600;
 
     // Additional offset for daylight savings if set
-    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? -3600 : 0;
+    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? 3600 : 0;
 
     long result = hour(unixtime)*3600;
     result += minute(unixtime)*60;

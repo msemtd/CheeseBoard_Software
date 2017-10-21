@@ -44,6 +44,7 @@
 // And finally includes from this project
 #include "Config.h"
 #include "StandbyMode.h"
+#include "GoToSleepMode.h"
 #include "ModeRealTime.h"
 
 Mode* mode = NULL;
@@ -60,12 +61,26 @@ void switchMode(Mode* newMode)
 void rotaryCb(int8_t diff, int32_t value)
 {
     DBF("rotaryCb diff=%d value=%d\n", diff, value);
+    int mins = value + EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
+    if (mins >= 1 && mins <= 30) {
+        GoToSleepMode.setFadeTime(mins);
+    }
 }
 
 void buttonCb(uint16_t durationMs)
 {
     DBF("buttonCb() - durationMs=%d ", durationMs);
-    EspApConfigurator.setApMode();
+    if (durationMs > 1000) {
+        EspApConfigurator.setApMode();
+    } else if (ModeRealTime.unixTime() == 0) {
+        DBLN(F("Haven't got real time yet..."));
+    } else {
+        if (mode != &GoToSleepMode) {
+            switchMode(&GoToSleepMode);
+        } else {
+            switchMode(&StandbyMode);
+        }
+    }
 }
 
 bool latitudeValidator(String s) 
@@ -123,6 +138,7 @@ void setup()
 
     // Init CbLeds and blank them
     CbLeds.begin();
+    CbLeds.clear();
     CbLeds.show();
 
     // Init the RotaryInput object
@@ -135,6 +151,7 @@ void setup()
 
     // Init modes from this project
     StandbyMode.begin();
+    GoToSleepMode.begin();
     switchMode(&StandbyMode);
 
     DBLN(F("E:setup"));
@@ -146,6 +163,12 @@ void loop()
     ModeRealTime.update();
     CbRotaryInput.update();
     if (mode) { mode->update(); }
+
+    // All modes that are not StandbyMode can finish - and we will switch
+    // back to standby.
+    if (mode->isFinished()) {
+        switchMode(&StandbyMode);
+    }
 
 }
 

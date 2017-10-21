@@ -151,7 +151,7 @@ String ModeRealTime_::timeStr(bool includeSeconds)
     unixtime += EspApConfigurator[SET_TIMEZONE]->get().toInt() * 3600;
 
     // Additional offset for daylight savings if set
-    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? -3600 : 0;
+    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? 3600 : 0;
     
     if (includeSeconds) {
         snprintf(buf, 9, "%d:%02d:%02d", 

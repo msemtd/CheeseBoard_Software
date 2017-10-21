@@ -66,9 +66,11 @@ void StandbyModeClass::fadeLed()
                 allBlack = false;
             }
         }
-    }
-    if (allBlack) {
-        _fade = false;
+        CbLeds.show();
+        if (allBlack) {
+            DBLN(F("allBlack now, stopping fade"));
+            _fade = false;
+        }
     }
 }
 

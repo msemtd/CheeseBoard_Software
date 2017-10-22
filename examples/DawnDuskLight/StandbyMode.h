@@ -41,6 +41,9 @@ public:
     //! \param minutes the number of minutes to adjust 
     void adjustWakeTime(int8_t minutes);
 
+    //! Save the wake time (if it is different from the value in EEPROM)
+    void saveWakeTime();
+
     void fadeLed();
 
 protected:
@@ -49,6 +52,7 @@ protected:
 private:
     bool _fade;
     uint32_t _lastFade;
+    uint32_t _lastWakeChange;
 
 };
 

@@ -28,15 +28,19 @@ void GoToSleepModeClass::modeStart()
     _fade = true;
     _lastFade = 0;
     _finished = false;
+    _lastModeLineUpdate = 0;
+    _lastModeLine = "";
+    _lastFadeChange = 0;
 
     ClockDisplay.enable();
-    setFadeTime(EspApConfigurator[SET_SLEEP_DURATION]->get().toInt());
-
+    _fadeMinutes = EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
+    applyFadeDuration();
 }
 
 void GoToSleepModeClass::modeStop()
 {
     DB(F("GoToSleepMode::modeStop"));
+    saveFadeDuration();
 }
 
 void GoToSleepModeClass::modeUpdate()
@@ -65,6 +69,16 @@ void GoToSleepModeClass::modeUpdate()
             }
         }
     }
+
+    if (Millis() > _lastModeLineUpdate + 2000) {
+        _lastModeLineUpdate = Millis();
+        updateModeLine();
+    }
+
+    if (_lastFadeChange > 0 && Millis() > (_lastFadeChange + 10000)) {
+        _lastFadeChange = 0;
+        saveFadeDuration();
+    }
 }
 
 void GoToSleepModeClass::pushEvent(uint16_t durationMs)
@@ -80,6 +94,7 @@ void GoToSleepModeClass::twistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
+    adjustFadeDuration(diff);
 }
 
 void GoToSleepModeClass::pushTwistEvent(int8_t diff, int32_t value)
@@ -88,14 +103,49 @@ void GoToSleepModeClass::pushTwistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
+    adjustFadeDuration(diff*5);
 }
 
-void GoToSleepModeClass::setFadeTime(uint8_t minutes)
+void GoToSleepModeClass::adjustFadeDuration(int8_t minutes)
 {
-    DB(F("GoToSleepModeClass::setFadeTime mins="));
+    DB(F("GoToSleepModeClass::adjustFadeDuration current="));
+    DB(_fadeMinutes);
+    DB(F(" adjust mins="));
     DBLN(minutes);
-    _fadeMinutes = minutes;
+    int newFade = _fadeMinutes;
+    newFade += minutes;
+    if (newFade > 60) {
+        newFade = 60;
+    } else if (newFade < 1) {
+        newFade = 1;
+    }
+    _fadeMinutes = newFade;
+    _lastFadeChange = Millis();
+    applyFadeDuration();
+}
+
+void GoToSleepModeClass::saveFadeDuration()
+{
+    String currentValue = String(_fadeMinutes);
+    EspApConfigurator[SET_SLEEP_DURATION]->load();
+    String savedValue = EspApConfigurator[SET_SLEEP_DURATION]->get();
+    if (currentValue != savedValue) {
+        DB(F("GoToSleepModeClass::saveFadeDuration "));
+        DB(currentValue);
+        DB(F(" != "));
+        DB(savedValue);
+        DBLN(F(", saving"));
+        EspApConfigurator[SET_SLEEP_DURATION]->set(currentValue);
+        EspApConfigurator[SET_SLEEP_DURATION]->save();
+    } else {
+        _fadeMinutes = currentValue.toInt();
+    }
+}
+
+void GoToSleepModeClass::applyFadeDuration()
+{
     _fadeStartUnixTime = ModeRealTime.unixTime();
+    updateModeLine();
 }
 
 float GoToSleepModeClass::getFadePercent()
@@ -109,5 +159,17 @@ float GoToSleepModeClass::getFadePercent()
     return 100-f;
 }
 
+void GoToSleepModeClass::updateModeLine()
+{
+    String newModeLine(F("Lights out in "));
+    newModeLine += _fadeMinutes - ((ModeRealTime.unixTime() - _fadeStartUnixTime) / 60);
+    newModeLine += F(" minutes");
+    if (newModeLine != _lastModeLine) {
+        DB(F("GoToSleepModeClass::updateModeLine updating: "));
+        DBLN(newModeLine);
+        ClockDisplay.setModeLine(newModeLine);
+        _lastModeLine = newModeLine;
+    }
+}
 
 

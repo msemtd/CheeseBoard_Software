@@ -51,13 +51,20 @@ public:
     //! Let parent mode know we have competed our duties
     bool isFinished() { return _finished; }
 
-    //! The rotary encoder controls a temporary value in the mode here
-    void setFadeTime(uint8_t minutes);
+    //! Change the fade duration setting
+    void adjustFadeDuration(int8_t minutes);
+
+    //! Save fade duration to EEPROM
+    void saveFadeDuration();
+
+    //! (re-)apply the new value of fade duration to the fader - starts counter again
+    void applyFadeDuration();
 
     void fadeLed();
 
 protected:
     float getFadePercent();
+    void updateModeLine();
 
 private:
     uint32_t _fadeStartUnixTime;
@@ -65,6 +72,9 @@ private:
     uint32_t _lastFade;
     uint8_t _fadeMinutes;
     bool _finished;
+    uint32_t _lastModeLineUpdate;
+    String _lastModeLine;
+    uint32_t _lastFadeChange;
 
 };
 

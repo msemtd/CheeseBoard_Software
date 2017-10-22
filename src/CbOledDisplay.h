@@ -30,6 +30,11 @@ public:
     // \param vAlign vertical aignment: T M B
     void drawText(const char* text, char hAlign='L', char vAlign='M');
 
+    //! Alias for clearBuffer() to make interface more consistent with CbLeds
+    void clear() { this->clearBuffer(); }
+    //! Alias for sendBuffer() to make interface more consistent with CbLeds
+    void show() { this->sendBuffer(); }
+
 };
 
 extern CbOledDisplayClass CbOledDisplay;

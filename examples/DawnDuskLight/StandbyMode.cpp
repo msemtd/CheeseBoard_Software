@@ -107,7 +107,7 @@ void StandbyModeClass::saveWakeTime()
         DB(currentValue);
         DB(F(" != "));
         DB(savedValue);
-        DB(F(", saving"));
+        DBLN(F(", saving"));
         EspApConfigurator[SET_WAKE_TIME]->set(currentValue);
         EspApConfigurator[SET_WAKE_TIME]->save();
     }

@@ -4,6 +4,7 @@
 #define SET_WAKE_DURATION               "Wake Duration"
 #define SET_SLEEP_DURATION              "Sleep Duration"
 #define SET_LATITUDE                    "Latitude (+ve N, -ve S)"
+#define SET_MAX_BRIGHTNESS              "Maximum Brightness (percent)"
 #define SET_DST                         "Daylight Savings (ON=summer, OFF=winter)"
 #define SET_TIMEZONE                    "Time Zone"
 #define SET_NTP_SERVER                  "Time Server"

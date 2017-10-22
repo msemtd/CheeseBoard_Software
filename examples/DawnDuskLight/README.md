@@ -35,13 +35,22 @@ NOTE: most of this is still just the goal, and not yet implemented...
    
 ## TODO
 
-* OnMode initial brightness should be remembered (save to PersistentSetting when leaving mode)
-* OnMode brightness should call over into GoToSleepMode
++ OnMode brightness should call over into GoToSleepMode
 
-+ EspApConfigurator: have option to turn off LED once connected
-+ Display status and/or time on OLED
-+ Set DST from Rotary
-+ Offline mode - set time, tz etc with rotary
++ If ModeRealTime::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
+
++ SetupMode - implement menus
+  + set/cancel/auto DST
+  + set/cancel/auto timezone
+  + set offline mode - don't try to connect
+  + auto dawn time (use long/lat to lookup dawn time)
+
++ EspApConfigurator: have option to turn off LED heartbeat
+
++ ClockDisplay - make new class with singleton
+  - displays time large
+  - display date small under
+  - has additional status line for displaying things like the mode name
 
 + Move clock drawing into separate class 
   - can force re-draw, else drawing only updates if time has changed
@@ -51,11 +60,12 @@ NOTE: most of this is still just the goal, and not yet implemented...
 + ModeRealTime doens't need to be a mode, better to just call it
   RealTimeClock or something, and remove inheritance from Mode
 
-+ Fix time (DST seems wrong way round again)
++ in GoToSleepMode:
+  - rotate should adjust brightness
+  - push-rotate should adjust duration
 
-+ Usability:
-  - in GoToSleepMode:
-    - rotate should adjust brightness
-    - push-rotate should adjust time
-      - from now - start color should be copied from current brightness
++ Auto DST&Timezone - use online DST API based on long/lat
+  - Add latitude setting
+
++ Auto location based on IP
 

@@ -46,6 +46,7 @@
 #include "StandbyMode.h"
 #include "OnMode.h"
 #include "GoToSleepMode.h"
+#include "SetupMode.h"
 #include "ModeManager.h"
 #include "ModeRealTime.h"
 
@@ -65,8 +66,11 @@ void buttonCb(uint16_t durationMs)
 {
     if (pushTwist) {
         pushTwist = false;
-    } else {
+    } else if (durationMs > 1500) {
         // TODO: long press = setup menu
+        ModeManager.switchMode(&SetupMode);
+    } else {
+        // Short presses get sent to current mode as a pushEvent
         ModeManager.pushEvent(durationMs);
     }
 }
@@ -90,6 +94,12 @@ bool timezoneValidator(String s)
     return tz >= -12 && tz <= 12 && ((f > -tol && f < tol) || (f > 0.5-tol && f < 0.5+tol));
 }
 
+bool percentValidator(String s) 
+{
+    float percent = s.toFloat();
+    return percent >= 0 && percent <= 100;
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -111,6 +121,7 @@ void setup()
     EspApConfigurator.addSetting(SET_WAKE_TIME,      new PersistentSettingTime(EspApConfigurator.nextFreeAddress(), "7:30"));
     EspApConfigurator.addSetting(SET_WAKE_DURATION,  new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 30));
     EspApConfigurator.addSetting(SET_SLEEP_DURATION, new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 15));
+    EspApConfigurator.addSetting(SET_MAX_BRIGHTNESS, new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 100, 0, percentValidator));
     EspApConfigurator.addSetting(SET_LATITUDE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
     EspApConfigurator.addSetting(SET_TIMEZONE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 0, 1, timezoneValidator));
     EspApConfigurator.addSetting(SET_DST,            new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));

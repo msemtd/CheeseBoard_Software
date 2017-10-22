@@ -4,6 +4,7 @@
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
 #include "OnMode.h"
+#include "StandbyMode.h"
 #include "GoToSleepMode.h"
 #include "ModeManager.h"
 #include "ModeRealTime.h"
@@ -26,12 +27,15 @@ void OnModeClass::modeStart()
     DB(F("OnMode::modeStart"));
     _lastTime = "";
     _color = dayColor(ModeRealTime.daySeconds());
-    setBrightness(100.0);
+    setBrightness(EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 }
 
 void OnModeClass::modeStop()
 {
     DB(F("OnMode::modeStop"));
+
+    // Save the setting for brightness so it can be picked up in GoToSleepMode
+    EspApConfigurator[SET_MAX_BRIGHTNESS]->set(String(_brightnessPercent));
 }
 
 void OnModeClass::modeUpdate()
@@ -71,13 +75,21 @@ void OnModeClass::drawClock()
         CbOledDisplay.sendBuffer();
     }
 }
+
 void OnModeClass::updateLeds()
 {
     if (!_updateBrightness) {
         return;
     }
 
+    DB(F("OnModeClass::updateLeds new % ="));
+    DBLN(_brightnessPercent, 1);
     uint32_t col = fadeColor(_color, _brightnessPercent);
+    if (col == 0x000000) {
+        DBLN(F("Brighness set to 0 - reverting to StandbyMode"));
+        ModeManager.switchMode(&StandbyMode);
+    }
+
     for(uint16_t i=0; i<RGBLED_COUNT; i++) {
         CbLeds.setPixelColor(i, col);
     }

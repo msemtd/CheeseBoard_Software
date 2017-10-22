@@ -32,14 +32,10 @@ public:
     void pushEvent(uint16_t durationMs);
     void twistEvent(int8_t diff, int32_t value);
 
-    void drawClock();
-    void updateLeds();
-
 protected:
     void setBrightness(float percent);
 
 private:
-    String _lastTime;
     uint32_t _color;
     float _brightnessPercent;
     bool _updateBrightness;

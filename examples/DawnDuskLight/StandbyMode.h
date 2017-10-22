@@ -37,6 +37,10 @@ public:
     void twistEvent(int8_t diff, int32_t value);
     void pushTwistEvent(int8_t diff, int32_t value);
 
+    //! Adjust the wake time
+    //! \param minutes the number of minutes to adjust 
+    void adjustWakeTime(int8_t minutes);
+
     void fadeLed();
 
 protected:

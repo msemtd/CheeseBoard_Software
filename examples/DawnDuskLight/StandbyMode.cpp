@@ -3,6 +3,7 @@
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
 #include <EspApConfigurator.h>
+#include <PersistentSettingTime.h>
 #include "StandbyMode.h"
 #include "ModeRealTime.h"
 #include "ClockDisplay.h"
@@ -26,9 +27,8 @@ void StandbyModeClass::modeStart()
 {
     DB(F("StandbyMode::modeStart"));
     ClockDisplay.enable();
-    String s(F("Wake at "));
-    s += EspApConfigurator[SET_WAKE_TIME]->get();
-    ClockDisplay.setModeLine(s);
+    // This will update the mode line without actually changing the wake time
+    adjustWakeTime(0);
     _fade = true;
     _lastFade = 0;
 }
@@ -58,6 +58,7 @@ void StandbyModeClass::twistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
+    adjustWakeTime(diff);
 }
 
 void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
@@ -66,6 +67,23 @@ void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
+    adjustWakeTime(diff*30);
+}
+
+void StandbyModeClass::adjustWakeTime(int8_t minutes)
+{
+    DB(F("StandbyModeClass::adjustWakeTime mins="));
+    DB(minutes);
+    long wakeSeconds = (timeStrToSeconds(EspApConfigurator[SET_WAKE_TIME]->get()) + (minutes*60) + (60*60*24)) % (60*60*24);
+    DB(F(" wakeSeconds="));
+    DB(wakeSeconds);
+    String wakeString = secondsToTimeStr(wakeSeconds, false);
+    DB(F(" wakeString="));
+    DBLN(wakeString);
+    EspApConfigurator[SET_WAKE_TIME]->set(wakeString);
+    String s(F("Wake at "));
+    s += wakeString;
+    ClockDisplay.setModeLine(s);
 }
 
 void StandbyModeClass::fadeLed()

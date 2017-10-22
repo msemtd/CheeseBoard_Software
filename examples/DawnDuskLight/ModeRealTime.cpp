@@ -166,6 +166,25 @@ String ModeRealTime_::timeStr(bool includeSeconds)
     return String(buf);
 }
 
+String ModeRealTime_::dateStr()
+{
+    char buf[21];
+    time_t unixtime = unixTime();
+
+    // Adjust for timezone
+    unixtime += EspApConfigurator[SET_TIMEZONE]->get().toInt() * 3600;
+
+    // Additional offset for daylight savings if set
+    unixtime += EspApConfigurator[SET_DST]->get().toInt() ? 3600 : 0;
+    
+    snprintf(buf, 21, "%s %04d-%02d-%02d", 
+             "Dayname",
+             year(unixtime), 
+             month(unixtime), 
+             day(unixtime));
+    return String(buf);
+}
+
 void ModeRealTime_::clearBuf()
 {
     memset(_buf, 0, NTP_PACKET_SIZE * sizeof(byte));

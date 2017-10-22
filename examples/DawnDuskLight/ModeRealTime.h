@@ -36,6 +36,9 @@ public:
     //! \param includeSeconds include seconds in output
     String timeStr(bool includeSeconds=false);
 
+    //! Get date as "Dayname YYYY-MM-DD", e.g. "Sunday 2017-10-22"
+    String dateStr();
+
     //! \return true if we have a real time (i.e. NTP has been set since 
     //! instantiation
     bool haveRealTime() { return _state == NtpWorking; }

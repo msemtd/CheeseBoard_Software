@@ -43,6 +43,7 @@
 
 // And finally includes from this project
 #include "Config.h"
+#include "ClockDisplay.h"
 #include "StandbyMode.h"
 #include "OnMode.h"
 #include "GoToSleepMode.h"
@@ -135,6 +136,7 @@ void setup()
         DBLN(EspApConfigurator[i].setting->get());                                       
     }
 
+    // Init CheeseBoard hardwares
     // Init CbLeds and blank them
     CbLeds.begin();
     CbLeds.clear();
@@ -148,7 +150,9 @@ void setup()
     CbOledDisplay.clearBuffer();
     CbOledDisplay.sendBuffer();
 
-    // Init modes from this project
+    // Init objects modes from this sketch
+    ClockDisplay.begin();
+
     StandbyMode.begin();
     GoToSleepMode.begin();
     ModeManager.begin(&StandbyMode);
@@ -161,6 +165,7 @@ void loop()
     EspApConfigurator.update();
     ModeRealTime.update();
     CbRotaryInput.update();
+    ClockDisplay.update();
     ModeManager.update();   // updates the currently-active mode
 
     // All modes that are not StandbyMode can finish - and we will switch

@@ -24,6 +24,8 @@ void ClockDisplayClass::update()
     if (Millis() > _lastUpdate + RefreshMs) {
         _lastUpdate = Millis();
 
+        if (!_enabled) { return; }
+
         String timeStr = ModeRealTime.timeStr();
         if (timeStr != _lastTimeStr) {
             _updated = true;
@@ -31,6 +33,9 @@ void ClockDisplayClass::update()
         }
 
         if (_updated) {
+            // clear update flag
+            _updated = false;
+
             CbOledDisplay.clearBuffer();
             // TODO: draw time large, top, centre justified
             //

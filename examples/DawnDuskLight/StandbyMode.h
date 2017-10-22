@@ -37,15 +37,12 @@ public:
     void twistEvent(int8_t diff, int32_t value);
     void pushTwistEvent(int8_t diff, int32_t value);
 
-    void drawClock();
-
     void fadeLed();
 
 protected:
     uint8_t fadeChannel(uint8_t c);
 
 private:
-    String _lastTime;
     bool _fade;
     uint32_t _lastFade;
 

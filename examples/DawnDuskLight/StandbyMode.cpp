@@ -4,6 +4,7 @@
 #include <CbLeds.h>
 #include "StandbyMode.h"
 #include "ModeRealTime.h"
+#include "ClockDisplay.h"
 #include "OnMode.h"
 #include "ModeManager.h"
 
@@ -22,7 +23,7 @@ void StandbyModeClass::begin()
 void StandbyModeClass::modeStart()
 {
     DB(F("StandbyMode::modeStart"));
-    _lastTime = "";
+    ClockDisplay.enable();
     _fade = true;
     _lastFade = 0;
 }
@@ -36,7 +37,6 @@ void StandbyModeClass::modeStop()
 //! Called periodically while mode is active
 void StandbyModeClass::modeUpdate()
 {
-    drawClock();
     fadeLed();
 }
 
@@ -61,18 +61,6 @@ void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
-}
-
-void StandbyModeClass::drawClock()
-{
-    String t = ModeRealTime.timeStr();   
-    if (t != _lastTime) {
-        DBLN(F("StandbyMode::drawClock updating clock display"));
-        _lastTime = t;
-        CbOledDisplay.clearBuffer();
-        CbOledDisplay.drawText(t.c_str(), 'C', 'M');
-        CbOledDisplay.sendBuffer();
-    }
 }
 
 void StandbyModeClass::fadeLed()

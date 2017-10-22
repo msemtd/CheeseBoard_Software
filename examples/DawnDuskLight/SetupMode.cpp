@@ -3,6 +3,7 @@
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
 #include <EspApConfigurator.h>
+#include "ClockDisplay.h"
 #include "SetupMode.h"
 #include "ModeRealTime.h"
 #include "StandbyMode.h"
@@ -27,6 +28,7 @@ void SetupModeClass::modeStart()
 {
     DB(F("SetupMode::modeStart"));
     EspApConfigurator.setApMode(true);
+    ClockDisplay.disable();
     CbOledDisplay.clearBuffer();
     String message(F("Access Point Mode activated, connect to "));
     message += AP_SSID;

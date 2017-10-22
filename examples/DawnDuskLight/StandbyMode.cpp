@@ -2,11 +2,13 @@
 #include <Millis.h>
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
+#include <EspApConfigurator.h>
 #include "StandbyMode.h"
 #include "ModeRealTime.h"
 #include "ClockDisplay.h"
 #include "OnMode.h"
 #include "ModeManager.h"
+#include "Config.h"
 
 StandbyModeClass StandbyMode;
 
@@ -24,6 +26,9 @@ void StandbyModeClass::modeStart()
 {
     DB(F("StandbyMode::modeStart"));
     ClockDisplay.enable();
+    String s(F("Wake at "));
+    s += EspApConfigurator[SET_WAKE_TIME]->get();
+    ClockDisplay.setModeLine(s);
     _fade = true;
     _lastFade = 0;
 }

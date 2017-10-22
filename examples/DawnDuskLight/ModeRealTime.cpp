@@ -60,9 +60,9 @@ void ModeRealTime_::modeUpdate()
 
 void ModeRealTime_::ntpUpdate()
 {
-    DBLN(F("ModeRealTime_::ntpUpdate"));
+    //DBLN(F("ModeRealTime_::ntpUpdate"));
     if (!EspApConfigurator.isConnected()) {
-        DBLN(F("no network connection"));
+        //DBLN(F("no network connection"));
         return;
     }
 

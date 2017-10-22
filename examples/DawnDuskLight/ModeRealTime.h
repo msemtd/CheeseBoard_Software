@@ -13,6 +13,9 @@ const uint8_t  NTP_PACKET_SIZE  = 48;
 //! * Periodcally synchronizes local clock by NTP
 class ModeRealTime_ : public Mode {
 public:
+    static char* const DayNames[];
+
+public:
     enum State {
         Wait,
         NtpWorking

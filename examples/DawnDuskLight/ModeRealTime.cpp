@@ -13,7 +13,10 @@
  *
  */
 
+char* const ModeRealTime_::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
+
 ModeRealTime_ ModeRealTime;
+
 
 ModeRealTime_::ModeRealTime_() :
     _lastNtpAttempt(0),
@@ -178,7 +181,7 @@ String ModeRealTime_::dateStr()
     unixtime += EspApConfigurator[SET_DST]->get().toInt() ? 3600 : 0;
     
     snprintf(buf, 21, "%s %04d-%02d-%02d", 
-             "Dayname",
+             DayNames[weekday(unixtime)],
              year(unixtime), 
              month(unixtime), 
              day(unixtime));

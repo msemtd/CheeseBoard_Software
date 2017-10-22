@@ -39,6 +39,8 @@ NOTE: most of this is still just the goal, and not yet implemented...
 
 + If ModeRealTime::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
 
++ Before NTP works, set mode line in clock to show "connecting..."
+
 + SetupMode - implement menus
   + set/cancel/auto DST
   + set/cancel/auto timezone

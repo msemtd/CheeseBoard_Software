@@ -3,6 +3,7 @@
 #include <EspApConfigurator.h>
 #include <CbOledDisplay.h>
 #include <CbLeds.h>
+#include "ClockDisplay.h"
 #include "GoToSleepMode.h"
 #include "StandbyMode.h"
 #include "ModeManager.h"
@@ -24,11 +25,11 @@ void GoToSleepModeClass::begin()
 void GoToSleepModeClass::modeStart()
 {
     DB(F("GoToSleepMode::modeStart"));
-    _lastTime = "";
     _fade = true;
     _lastFade = 0;
     _finished = false;
 
+    ClockDisplay.enable();
     setFadeTime(EspApConfigurator[SET_SLEEP_DURATION]->get().toInt());
 
 }
@@ -40,8 +41,30 @@ void GoToSleepModeClass::modeStop()
 
 void GoToSleepModeClass::modeUpdate()
 {
-    drawClock();
-    fadeLed();
+    if (_fade) {
+        if (Millis() > _lastFade + FadeMs) {
+            _lastFade = Millis();
+            long seconds = ModeRealTime.daySeconds();
+            uint32_t color = dayColor(seconds);
+            float percent = getFadePercent();
+            uint32_t faded = fadeColor(color, percent);
+            DBF("GoToSleepModeClass::modeUpdate updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
+                _lastFade,
+                seconds,
+                color,
+                percent,
+                faded);
+            for (uint16_t i=0; i<RGBLED_COUNT; i++) { 
+                CbLeds.setPixelColor(i, faded);
+            }
+            CbLeds.show();
+            if (percent <= FloatTolerance) {
+                DBLN(F("GoToSleepModeClass::modeUpdate fade complete"));
+                _fade = false;
+                _finished = true;
+            }
+        }
+    }
 }
 
 void GoToSleepModeClass::pushEvent(uint16_t durationMs)
@@ -73,46 +96,6 @@ void GoToSleepModeClass::setFadeTime(uint8_t minutes)
     DBLN(minutes);
     _fadeMinutes = minutes;
     _fadeStartUnixTime = ModeRealTime.unixTime();
-}
-
-void GoToSleepModeClass::drawClock()
-{
-    String t = ModeRealTime.timeStr();   
-    if (t != _lastTime) {
-        DBLN(F("GoToSleepMode::drawClock updating clock display"));
-        _lastTime = t;
-        CbOledDisplay.clearBuffer();
-        CbOledDisplay.drawText(t.c_str(), 'C', 'M');
-        CbOledDisplay.sendBuffer();
-    }
-}
-
-void GoToSleepModeClass::fadeLed()
-{
-    if (_fade) {
-        if (Millis() > _lastFade + FadeMs) {
-            _lastFade = Millis();
-            long seconds = ModeRealTime.daySeconds();
-            uint32_t color = dayColor(seconds);
-            float percent = getFadePercent();
-            uint32_t faded = fadeColor(color, percent);
-            DBF("GoToSleepModeClass::fadeLed updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
-                _lastFade,
-                seconds,
-                color,
-                percent,
-                faded);
-            for (uint16_t i=0; i<RGBLED_COUNT; i++) { 
-                CbLeds.setPixelColor(i, faded);
-            }
-            CbLeds.show();
-            if (percent <= FloatTolerance) {
-                DBLN(F("GoToSleepModeClass::fadeLed fade complete"));
-                _fade = false;
-                _finished = true;
-            }
-        }
-    }
 }
 
 float GoToSleepModeClass::getFadePercent()

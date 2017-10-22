@@ -54,7 +54,6 @@ public:
     //! The rotary encoder controls a temporary value in the mode here
     void setFadeTime(uint8_t minutes);
 
-    void drawClock();
     void fadeLed();
 
 protected:
@@ -62,7 +61,6 @@ protected:
 
 private:
     uint32_t _fadeStartUnixTime;
-    String _lastTime;
     bool _fade;
     uint32_t _lastFade;
     uint8_t _fadeMinutes;

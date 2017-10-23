@@ -8,6 +8,7 @@
 #include "RealTimeClock.h"
 #include "ClockDisplay.h"
 #include "OnMode.h"
+#include "WakeUpMode.h"
 #include "ModeManager.h"
 #include "Config.h"
 
@@ -31,6 +32,7 @@ void StandbyModeClass::modeStart()
     adjustWakeTime(0);
     _fade = true;
     _lastFade = 0;
+    _lastWakeCheck = 0;
 }
 
 //! Called when this mode is de-activated
@@ -44,6 +46,18 @@ void StandbyModeClass::modeStop()
 void StandbyModeClass::modeUpdate()
 {
     fadeLed();
+
+    if (Millis() > _lastWakeCheck + 3000) {
+        _lastWakeCheck = Millis();
+        // How many seconds until the wake time
+        uint32_t untilWakeEnd = RealTimeClock.secondsUntilNext(EspApConfigurator[SET_WAKE_TIME]->get());
+        int32_t untilWakeStart = untilWakeEnd - (EspApConfigurator[SET_WAKE_DURATION]->get().toInt() * 60);
+        DB(F("WakeUpMode starts in: "));
+        DBLN(untilWakeStart);
+        if (untilWakeStart <= 0) {
+            ModeManager.switchMode(&WakeUpMode);
+        }
+    }
 
     // Periodically check to see if the wake time has changed and save it to EEPROM 
     // if it has changed.  The reason we delay is that we don't want to write EEPROM 

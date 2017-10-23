@@ -1,6 +1,7 @@
 #include <MutilaDebug.h>
 #include <Millis.h>
 #include <EspApConfigurator.h>
+#include <PersistentSettingTime.h>
 #include <TimeLib.h>
 #include "RealTimeClock.h"
 #include "Config.h"
@@ -208,5 +209,18 @@ void RealTimeClockClass::sendNtpPacket()
     _udp.beginPacket(_ntpServerIP, 123); // port 123 = NTP
     _udp.write(_buf, NtpPacketSize);
     _udp.endPacket();
+}
+
+uint32_t RealTimeClockClass::secondsUntilNext(String timeStr)
+{
+    if (!haveRealTime()) {
+        return 100000;
+    }
+
+    int32_t until = timeStrToSeconds(timeStr) - daySeconds();
+    while (until < 0) {
+        until += (3600*24);
+    }
+    return until;
 }
 

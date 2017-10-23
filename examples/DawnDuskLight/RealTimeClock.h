@@ -54,6 +54,11 @@ public:
     //! Sorry, no i18n support at this time. Hah, "at this time"... Very punny.
     String dateStr();
 
+    //! \return number of seconds until the clock next reads timeStr, or 100000 if
+    //!         we don't know (e.g. we haven't got real time yet)
+    //! \param timeStr may or may not include seconds
+    uint32_t secondsUntilNext(String timeStr);
+
 protected:
     uint32_t _lastNtpAttempt;
     uint32_t _lastNtpSuccess;

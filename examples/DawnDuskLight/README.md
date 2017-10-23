@@ -35,11 +35,14 @@ NOTE: most of this is still just the goal, and not yet implemented...
    
 ## TODO
 
-+ OnMode brightness should call over into GoToSleepMode
++ Have a SET_POST_WAKE number of minutes to keep light on after end of wake up fade in
+
++ When adjusting wake time in StandbyMode, only start detecting the new time when the save() is called so that 
+  it's possible to scoot "over" the wake period without immediately triggering WakeUpMode
+
++ WakeUpMode should not re-trigger if cancelled!
 
 + If RealTimeClock::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
-
-+ Before NTP works, set mode line in clock to show "connecting..."
 
 + SetupMode - implement menus
   + set/cancel/auto DST
@@ -49,22 +52,8 @@ NOTE: most of this is still just the goal, and not yet implemented...
 
 + EspApConfigurator: have option to turn off LED heartbeat
 
-+ ClockDisplay - make new class with singleton
-  - displays time large
-  - display date small under
-  - has additional status line for displaying things like the mode name
-
-+ Move clock drawing into separate class 
-  - can force re-draw, else drawing only updates if time has changed
-  - draws clock big
-  - has displayon and display off modes
-
-+ RealTimeClock doens't need to be a mode, better to just call it
-  RealTimeClock or something, and remove inheritance from Mode
-
 + in GoToSleepMode:
-  - rotate should adjust brightness
-  - push-rotate should adjust duration
+  + when adjusting duration, current brightness should stay the same - the new duration should be from there til black
 
 + Auto DST&Timezone - use online DST API based on long/lat
   - Add latitude setting

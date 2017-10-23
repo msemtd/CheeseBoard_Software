@@ -47,6 +47,7 @@
 #include "StandbyMode.h"
 #include "OnMode.h"
 #include "GoToSleepMode.h"
+#include "WakeUpMode.h"
 #include "SetupMode.h"
 #include "ModeManager.h"
 #include "RealTimeClock.h"
@@ -157,6 +158,7 @@ void setup()
 
     StandbyMode.begin();
     GoToSleepMode.begin();
+    WakeUpMode.begin();
     ModeManager.begin(&StandbyMode);
 
     DBLN(F("E:setup"));

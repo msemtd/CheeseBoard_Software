@@ -1,8 +1,10 @@
 #include <CbOledDisplay.h>
 #include <RealTimeClock.h>
+#include <EspApConfigurator.h>
 #include <Millis.h>
 
 #include "ClockDisplay.h"
+#include "Config.h"
 
 ClockDisplayClass ClockDisplay;
 
@@ -26,7 +28,13 @@ void ClockDisplayClass::update()
 
         if (!_enabled) { return; }
 
-        String timeStr = RealTimeClock.timeStr();
+        String timeStr;
+
+        if (RealTimeClock.haveRealTime()) {
+            timeStr = RealTimeClock.timeStr(EspApConfigurator[SET_SHOW_SECONDS]->get().toInt());
+        } else { 
+            timeStr = F("I'm making time...");
+        }
         if (timeStr != _lastTimeStr) {
             _updated = true;
             _lastTimeStr = timeStr;

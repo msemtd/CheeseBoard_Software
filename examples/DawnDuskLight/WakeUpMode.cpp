@@ -31,6 +31,7 @@ void WakeUpModeClass::modeStart()
     _lastModeLine = "";
 
     ClockDisplay.enable();
+    ClockDisplay.setNightMode(false);
     _fadeSeconds = EspApConfigurator[SET_WAKE_DURATION]->get().toInt() * 60;
 }
 

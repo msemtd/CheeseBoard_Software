@@ -26,8 +26,9 @@ void StandbyModeClass::begin()
 //! Called when this mode is activated
 void StandbyModeClass::modeStart()
 {
-    DB(F("StandbyMode::modeStart"));
+    DBLN(F("StandbyMode::modeStart"));
     ClockDisplay.enable();
+    ClockDisplay.setNightMode(true); // TODO: remove this line - TESTING
     // This will update the mode line without actually changing the wake time
     adjustWakeTime(0);
     _fade = true;
@@ -66,7 +67,9 @@ void StandbyModeClass::pushEvent(uint16_t durationMs)
 {
     DB(F("StandbyModeClass::pushEvent ms="));
     DBLN(durationMs);
-    ModeManager.switchMode(&OnMode);
+    if (!ClockDisplay.nightModeWake()) {
+        ModeManager.switchMode(&OnMode);
+    }
 }
 
 void StandbyModeClass::twistEvent(int8_t diff, int32_t value)
@@ -75,7 +78,9 @@ void StandbyModeClass::twistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
-    adjustWakeTime(diff);
+    if (!ClockDisplay.nightModeWake()) {
+        adjustWakeTime(diff);
+    }
 }
 
 void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
@@ -84,7 +89,9 @@ void StandbyModeClass::pushTwistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
-    adjustWakeTime(diff*30);
+    if (!ClockDisplay.nightModeWake()) {
+        adjustWakeTime(diff*30);
+    }
 }
 
 void StandbyModeClass::adjustWakeTime(int8_t minutes)

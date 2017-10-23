@@ -33,6 +33,7 @@ void GoToSleepModeClass::modeStart()
     _initialColor = fadeColor(dayColor(RealTimeClock.daySeconds()), EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 
     ClockDisplay.enable();
+    ClockDisplay.setNightMode(false);
     _fadeMinutes = EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
     applyFadeDuration();
 }
@@ -81,6 +82,7 @@ void GoToSleepModeClass::pushEvent(uint16_t durationMs)
 {
     DB(F("GoToSleepModeClass::pushEvent ms="));
     DBLN(durationMs);
+    ClockDisplay.setNightMode(true);
     ModeManager.switchMode(&StandbyMode);
 }
 

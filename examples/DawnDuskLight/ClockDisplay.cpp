@@ -18,7 +18,8 @@ ClockDisplayClass::ClockDisplayClass() :
     _modeLine(""),
     _updated(true),
     _lastTimeStr(""),
-    _lastUpdate(0)
+    _lastUpdate(0),
+    _lastNightOn(0) // default to night mode off
 {
 }
 
@@ -26,9 +27,9 @@ void ClockDisplayClass::begin()
 {
 }
 
-void ClockDisplayClass::update()
+void ClockDisplayClass::update(bool forceDraw)
 {
-    if (Millis() > _lastUpdate + RefreshMs) {
+    if (Millis() > _lastUpdate + RefreshMs || forceDraw) {
         _lastUpdate = Millis();
 
         if (!_enabled) { return; }
@@ -46,18 +47,41 @@ void ClockDisplayClass::update()
             _lastTimeStr = timeStr;
         }
 
-        if (_updated) {
+        if (_updated || forceDraw) {
             // clear update flag
             _updated = false;
 
             CbOledDisplay.clearBuffer();
-            GfxTextBox2 timeBox(timeStr, TimeFont, false, 0);
-            GfxTextBox2 dateBox(RealTimeClock.dateStr(), GfxDefaultFont, false, 0);
-            timeBox.draw(64 - (timeBox.width()/2), 0);
-            dateBox.draw(64 - (dateBox.width()/2), timeBox.height() + 3);
-            CbOledDisplay.drawText(_modeLine.c_str(), 'C', 'B');
+            if (!_nightMode || Millis() < _lastNightOn + NightModeActiveMs) {
+                GfxTextBox2 timeBox(timeStr, TimeFont, false, 0);
+                GfxTextBox2 dateBox(RealTimeClock.dateStr(), GfxDefaultFont, false, 0);
+                timeBox.draw(64 - (timeBox.width()/2), 0);
+                dateBox.draw(64 - (dateBox.width()/2), timeBox.height() + 3);
+                CbOledDisplay.drawText(_modeLine.c_str(), 'C', 'B');
+            } 
             CbOledDisplay.sendBuffer();
         }
     }
 }
+
+void ClockDisplayClass::setNightMode(bool on) 
+{ 
+    DB(F("setNightMode on="));
+    DBLN(on);
+    _nightMode = on; 
+    _lastNightOn = Millis(); 
+}
+
+bool ClockDisplayClass::nightModeWake()
+{
+    DB(F("nightModeWake"));
+    if (_nightMode && Millis() > _lastNightOn + NightModeActiveMs) {
+        _lastNightOn = Millis();
+        update(true);
+        return true;
+    }
+    return false;
+}
+
+
 

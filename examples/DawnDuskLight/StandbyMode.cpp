@@ -46,7 +46,7 @@ void StandbyModeClass::modeUpdate()
 {
     fadeLed();
 
-    if (_lastWakeChange > 0 && Millis() > _lastWakeChange + 5000) {
+    if (_lastWakeChange > 0 && Millis() > _lastWakeChange + 3000) {
         _lastWakeChange = Millis();
         // How many seconds until the wake time
         uint32_t untilWakeEnd = RealTimeClock.secondsUntilNext(EspApConfigurator[SET_WAKE_TIME]->get());
@@ -98,8 +98,11 @@ void StandbyModeClass::adjustWakeTime(int8_t minutes)
     DB(F(" wakeString="));
     DBLN(wakeString);
     EspApConfigurator[SET_WAKE_TIME]->set(wakeString);
-    String s(F("Wake at "));
+    String s(F("Wake "));
     s += wakeString;
+    s += F(" - ");
+    s += EspApConfigurator[SET_WAKE_DURATION]->get();
+    s += EspApConfigurator[SET_WAKE_DURATION]->get().toInt() > 1 ? F(" mins") : F(" min");
     ClockDisplay.setModeLine(s);
     _lastWakeChange = Millis();
 }

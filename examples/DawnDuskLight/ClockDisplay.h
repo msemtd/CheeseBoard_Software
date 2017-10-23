@@ -32,6 +32,8 @@ public:
     //! When disabled, updates will not draw to the OLED display
     void disable() { _enabled = false; }
 
+    bool nightMode() { return _nightMode; }
+
     //! Enable/disable Night Mode
     void setNightMode(bool on);
 

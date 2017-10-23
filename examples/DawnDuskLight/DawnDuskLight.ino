@@ -69,8 +69,12 @@ void buttonCb(uint16_t durationMs)
     if (pushTwist) {
         pushTwist = false;
     } else if (durationMs > 1500) {
-        // TODO: long press = setup menu
-        ModeManager.switchMode(&SetupMode);
+        // Long press = cancel night mode, and if night mode isn't set, setup mode
+        if (ClockDisplay.nightMode()) {
+            ClockDisplay.setNightMode(false);
+        } else {
+            ModeManager.switchMode(&SetupMode);
+        }
     } else {
         // Short presses get sent to current mode as a pushEvent
         ModeManager.pushEvent(durationMs);

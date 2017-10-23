@@ -33,7 +33,7 @@ void GoToSleepModeClass::modeStart()
     _initialColor = fadeColor(dayColor(RealTimeClock.daySeconds()), EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 
     ClockDisplay.enable();
-    ClockDisplay.setNightMode(false);
+    ClockDisplay.setNightMode(true);
     _fadeMinutes = EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
     applyFadeDuration();
 }
@@ -82,8 +82,9 @@ void GoToSleepModeClass::pushEvent(uint16_t durationMs)
 {
     DB(F("GoToSleepModeClass::pushEvent ms="));
     DBLN(durationMs);
-    ClockDisplay.setNightMode(true);
-    ModeManager.switchMode(&StandbyMode);
+    if (!ClockDisplay.nightModeWake()) {
+        ModeManager.switchMode(&StandbyMode);
+    }
 }
 
 void GoToSleepModeClass::twistEvent(int8_t diff, int32_t value)
@@ -92,7 +93,9 @@ void GoToSleepModeClass::twistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
-    adjustFadeDuration(diff);
+    if (!ClockDisplay.nightModeWake()) {
+        adjustFadeDuration(diff);
+    }
 }
 
 void GoToSleepModeClass::pushTwistEvent(int8_t diff, int32_t value)
@@ -101,7 +104,9 @@ void GoToSleepModeClass::pushTwistEvent(int8_t diff, int32_t value)
     DB(diff);
     DB(F(" value="));
     DBLN(value);
-    adjustFadeDuration(diff*5);
+    if (!ClockDisplay.nightModeWake()) {
+        adjustFadeDuration(diff*5);
+    }
 }
 
 void GoToSleepModeClass::adjustFadeDuration(int8_t minutes)

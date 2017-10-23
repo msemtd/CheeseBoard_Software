@@ -28,7 +28,6 @@ void StandbyModeClass::modeStart()
 {
     DBLN(F("StandbyMode::modeStart"));
     ClockDisplay.enable();
-    ClockDisplay.setNightMode(true); // TODO: remove this line - TESTING
     // This will update the mode line without actually changing the wake time
     adjustWakeTime(0);
     _fade = true;

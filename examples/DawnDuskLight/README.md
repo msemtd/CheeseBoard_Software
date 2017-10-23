@@ -56,8 +56,6 @@ NOTE: most of this is still just the goal, and not yet implemented...
   + set offline mode - don't try to connect
   + auto dawn time (use long/lat to lookup dawn time)
 
-+ EspApConfigurator: have option to turn off LED heartbeat
-
 + in GoToSleepMode:
   + when adjusting duration, current brightness should stay the same - the new duration should be from there til black
 

@@ -109,6 +109,11 @@ void setup()
     DBLN(F("S:setup"));
 
     EspApConfigurator.begin();
+
+    // Turn off the annoying flashing blue light!
+    EspApConfigurator.heartbeat()->setEnabled(false);
+
+    // Set AP mode details
     EspApConfigurator.setApDetails(AP_SSID, AP_PASSPHRASE); 
 
     // Enable web server in ModeWifiClient - this just makes testing

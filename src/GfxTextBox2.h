@@ -15,7 +15,7 @@ public:
      * \param height the height in pixels.  If 0, determine width from font/text
      * \param border whether or not to draw the border around the text box
      */
-    GfxTextBox2(String initialText, GfxFont& font=GfxDefaultFont, char justify='C', uint16_t width=0, uint16_t height=0, bool border=true);
+    GfxTextBox2(String initialText, GfxFont& font=GfxDefaultFont, uint8_t padding=1, char justify='C', uint16_t width=0, uint16_t height=0, bool border=true);
 
     /*! Draw
      * Draws the bext box, starting at the top left corner specified by (xOffset,yOffset)
@@ -32,8 +32,9 @@ public:
     void setText(const String& newText);
 
 protected:
-    GfxFont& _font;
     String _text;
+    GfxFont& _font;
+    uint8_t _padding;
     bool _justify;
     uint16_t _width;
     uint16_t _height;

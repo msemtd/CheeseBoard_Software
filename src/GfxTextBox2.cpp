@@ -2,9 +2,10 @@
 #include "GfxTextBox2.h"
 #include "CbOledDisplay.h"
 
-GfxTextBox2::GfxTextBox2(String initialText, GfxFont& font, char justify, uint16_t width, uint16_t height, bool border) :
+GfxTextBox2::GfxTextBox2(String initialText, GfxFont& font, uint8_t padding, char justify, uint16_t width, uint16_t height, bool border) :
     _text(initialText),
     _font(font),
+    _padding(padding),
     _justify(justify),
     _width(width),
     _height(height),
@@ -15,12 +16,12 @@ GfxTextBox2::GfxTextBox2(String initialText, GfxFont& font, char justify, uint16
     }
 
     if (height == 0) {
-        _height = _font.height() + 4;
+        _height = _font.height() + 2 + (2*_padding);
     }
 
     if (width == 0) {
         _font.use();
-        _width = CbOledDisplay.getStrWidth(_text.c_str()) + 4;
+        _width = CbOledDisplay.getStrWidth(_text.c_str()) + 2 + (2*_padding);
     }
 }
 
@@ -31,15 +32,15 @@ void GfxTextBox2::draw(uint16_t xOffset, uint16_t yOffset) {
     uint16_t useLen = _text.length();
     // If the text does not fit in the box, trucate it until it does
     while (true) {
-        if (CbOledDisplay.getStrWidth(_text.substring(0, useLen).c_str()) <= _width-4 || useLen == 0) {
+        if (CbOledDisplay.getStrWidth(_text.substring(0, useLen).c_str()) <= _width-2-(2*_padding) || useLen == 0) {
             break;
         } else {
             useLen--;
         }
     }
 
-    CbOledDisplay.drawStr(xOffset + 2, 
-                          yOffset + _height - 2,
+    CbOledDisplay.drawStr(xOffset + 1 + _padding, 
+                          yOffset + _height - 1 - _padding,
                           _text.substring(0, useLen+1).c_str());
 
     if (_border) {

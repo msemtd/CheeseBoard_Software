@@ -27,18 +27,18 @@ void setup()
 
     CbOledDisplay.begin();
     CbOledDisplay.clear();
-    GfxTextBox2 no("Nop");
-    GfxTextBox2 maybe("Mayb", font14);
-    GfxTextBox2 yes("yES!", font18);
+    GfxTextBox2 t1("Crypto");
+    GfxTextBox2 t2("Crypto", font14, 3);   // padding=3
+    GfxTextBox2 t3("Crypto", font18, 5);   // padding=5
     uint16_t x = 0;
     uint16_t y = 0;
-    no.draw(x, y);
-    x += no.width();
-    y += no.height();
-    maybe.draw(x, y);
-    x += maybe.width();
-    y += maybe.height();
-    yes.draw(x, y);
+    t1.draw(x, y);
+    x += t1.width();
+    y += t1.height();
+    t2.draw(x, y);
+    x += t2.width();
+    y += t2.height();
+    t3.draw(x, y);
     CbOledDisplay.show();
 
     DBLN(F("E:setup"));

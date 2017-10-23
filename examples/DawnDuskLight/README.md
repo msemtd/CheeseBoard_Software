@@ -35,10 +35,16 @@ NOTE: most of this is still just the goal, and not yet implemented...
    
 ## TODO
 
++ Clock display off at night
+  - enable for 10 seconds with any input
+  - only enter this "display off" state after GoToSleep mode has activated
+  - display should be on in the daytime
+
 + Have a SET_POST_WAKE number of minutes to keep light on after end of wake up fade in
 
 + When adjusting wake time in StandbyMode, only start detecting the new time when the save() is called so that 
   it's possible to scoot "over" the wake period without immediately triggering WakeUpMode
+
 
 + WakeUpMode should not re-trigger if cancelled!
 

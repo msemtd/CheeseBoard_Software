@@ -74,6 +74,7 @@ private:
     uint32_t _lastModeLineUpdate;
     String _lastModeLine;
     uint32_t _lastFadeChange;
+    uint32_t _initialColor;
 
 };
 

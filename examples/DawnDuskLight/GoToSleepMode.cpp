@@ -30,6 +30,7 @@ void GoToSleepModeClass::modeStart()
     _lastModeLineUpdate = 0;
     _lastModeLine = "";
     _lastFadeChange = 0;
+    _initialColor = fadeColor(dayColor(RealTimeClock.daySeconds()), EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 
     ClockDisplay.enable();
     _fadeMinutes = EspApConfigurator[SET_SLEEP_DURATION]->get().toInt();
@@ -47,13 +48,12 @@ void GoToSleepModeClass::modeUpdate()
     if (Millis() > _lastFade + FadeMs) {
         _lastFade = Millis();
         long seconds = RealTimeClock.daySeconds();
-        uint32_t color = dayColor(seconds);
         float percent = getFadePercent();
-        uint32_t faded = fadeColor(color, percent);
+        uint32_t faded = fadeColor(_initialColor, percent);
         DBF("GoToSleepModeClass::modeUpdate updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
             _lastFade,
             seconds,
-            color,
+            _initialColor,
             percent,
             faded);
         for (uint16_t i=0; i<RGBLED_COUNT; i++) { 

@@ -2,59 +2,46 @@
 #include <Millis.h>
 #include <EspApConfigurator.h>
 #include <TimeLib.h>
-//#include <TimeLib.h>
 #include "RealTimeClock.h"
 #include "Config.h"
 
-/*
- * NTP code taken from the TimeNTP_ESP8266WiFi example in TimeLib version 1.5
- * by Michael Margolis & Paul Stoffregen
- * http://playground.arduino.cc/code/time
- *
- */
+// Days of week - modify this for other languages.
+char* const RealTimeClockClass::DayNames[] = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
 
-char* const RealTimeClockClass::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
-
+// Global instance
 RealTimeClockClass RealTimeClock;
-
 
 RealTimeClockClass::RealTimeClockClass() :
     _lastNtpAttempt(0),
     _lastNtpSuccess(0),
     _unixTime(0),
-    _state(RealTimeClockClass::Wait)
+    _state(Wait)
 {
-    setUpdatePeriod(1000);
     clearBuf();
 }
 
 void RealTimeClockClass::begin()
 {
     DBLN(F("RealTimeClock::begin"));
-    _udp.begin(LOCAL_NTP_PORT);
-}
-
-void RealTimeClockClass::modeStart()
-{
-    DBLN(F("RealTimeClock::modeStart"));
+    _udp.begin(LocalNtpPort);
     clearBuf();
 }
 
-void RealTimeClockClass::modeStop()
+void RealTimeClockClass::update()
 {
-    DBLN(F("RealTimeClock::modeStop"));
-}
-
-void RealTimeClockClass::modeUpdate()
-{
-    // If we managed to set time using NTP in the last NTP_REFRESH_PERIOD_S seconds
-    // we don't need to do anything - just return
-    if (Millis() < _lastNtpSuccess + (NTP_REFRESH_PERIOD_S*1000) && _lastNtpSuccess != 0) {
+    if (_state == NtpOff) {
         return;
     }
 
-    if (Millis() >= _lastNtpAttempt + (NTP_RETRY_PERIOD_S*1000) || _lastNtpAttempt == 0) {
-        ntpUpdate();
+    if (_lastNtpSuccess == 0 || Millis() > _lastNtpSuccess + (NTP_REFRESH_PERIOD_S*1000)) {
+        // It's time we tried to get the time by Ntp, either because we have not yet
+        // got it or because it's been more than NTP_REFRESH_PERIOD_S seconds since we
+        // did, so we should refresh it
+        if (_lastNtpAttempt == 0 || Millis() > _lastNtpAttempt + (NTP_RETRY_PERIOD_S*1000)) {
+            // We throttle our attempts to no more than once every NTP_RETRY_PERIOD_S seconds...
+            _lastNtpAttempt = Millis();
+            ntpUpdate();
+        }
     }
 }
 
@@ -84,9 +71,9 @@ void RealTimeClockClass::ntpUpdate()
     uint32_t beginWait = millis();
     while (millis() - beginWait < 1500) {
         int size = _udp.parsePacket();
-        if (size >= NTP_PACKET_SIZE) {
+        if (size >= NtpPacketSize) {
             DBLN(F("NTP RX"));
-            _udp.read(_buf, NTP_PACKET_SIZE); // read packet into the buffer
+            _udp.read(_buf, NtpPacketSize); // read packet into the buffer
             unsigned long secsSince1900;
             // convert four bytes starting at location 40 to a long integer
             secsSince1900 =  (unsigned long)_buf[40] << 24;
@@ -103,7 +90,7 @@ void RealTimeClockClass::ntpUpdate()
             DB(F(" (diff="));
             DB(diff);
             DBLN(')');
-            _state = NtpWorking;
+            _state = NtpOn;
             return;
         }
     }
@@ -130,19 +117,6 @@ long RealTimeClockClass::daySeconds()
     result += minute(unixtime)*60;
     result += second(unixtime);
     return result;
-}
-
-String RealTimeClockClass::isoTimestamp()
-{
-    char buf[24];
-    snprintf(buf, 24, "%04d-%02d-%02d %02d:%02d:%02d UT", 
-             year(unixTime()), 
-             month(unixTime()), 
-             day(unixTime()), 
-             hour(unixTime()), 
-             minute(unixTime()), 
-             second(unixTime()));
-    return String(buf);
 }
 
 String RealTimeClockClass::timeStr(bool includeSeconds)
@@ -190,7 +164,7 @@ String RealTimeClockClass::dateStr()
 
 void RealTimeClockClass::clearBuf()
 {
-    memset(_buf, 0, NTP_PACKET_SIZE * sizeof(byte));
+    memset(_buf, 0, NtpPacketSize * sizeof(byte));
 }
 
 
@@ -231,9 +205,8 @@ void RealTimeClockClass::sendNtpPacket()
 
     // all NTP fields have been given values, now
     // you can send a packet requesting a timestamp:
-    _lastNtpAttempt = Millis();
     _udp.beginPacket(_ntpServerIP, 123); // port 123 = NTP
-    _udp.write(_buf, NTP_PACKET_SIZE);
+    _udp.write(_buf, NtpPacketSize);
     _udp.endPacket();
 }
 

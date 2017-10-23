@@ -8,7 +8,7 @@
 #include "StandbyMode.h"
 #include "GoToSleepMode.h"
 #include "ModeManager.h"
-#include "ModeRealTime.h"
+#include "RealTimeClock.h"
 #include "ColorUtils.h"
 #include "Config.h"
 
@@ -28,7 +28,7 @@ void OnModeClass::modeStart()
     DB(F("OnMode::modeStart"));
     ClockDisplay.enable();
     ClockDisplay.setModeLine("On");
-    _color = dayColor(ModeRealTime.daySeconds());
+    _color = dayColor(RealTimeClock.daySeconds());
     setBrightness(EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 }
 

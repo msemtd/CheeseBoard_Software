@@ -7,7 +7,7 @@
 #include "GoToSleepMode.h"
 #include "StandbyMode.h"
 #include "ModeManager.h"
-#include "ModeRealTime.h"
+#include "RealTimeClock.h"
 #include "ColorUtils.h"
 #include "Config.h"
 
@@ -48,7 +48,7 @@ void GoToSleepModeClass::modeUpdate()
     if (_fade) {
         if (Millis() > _lastFade + FadeMs) {
             _lastFade = Millis();
-            long seconds = ModeRealTime.daySeconds();
+            long seconds = RealTimeClock.daySeconds();
             uint32_t color = dayColor(seconds);
             float percent = getFadePercent();
             uint32_t faded = fadeColor(color, percent);
@@ -144,13 +144,13 @@ void GoToSleepModeClass::saveFadeDuration()
 
 void GoToSleepModeClass::applyFadeDuration()
 {
-    _fadeStartUnixTime = ModeRealTime.unixTime();
+    _fadeStartUnixTime = RealTimeClock.unixTime();
     updateModeLine();
 }
 
 float GoToSleepModeClass::getFadePercent()
 {
-    uint32_t secDone = ModeRealTime.unixTime() - _fadeStartUnixTime;
+    uint32_t secDone = RealTimeClock.unixTime() - _fadeStartUnixTime;
     float f = (secDone * 100.) / (_fadeMinutes * 60);
     if (f < 0) { f = 0; }
     else if (f > 100) {
@@ -162,7 +162,7 @@ float GoToSleepModeClass::getFadePercent()
 void GoToSleepModeClass::updateModeLine()
 {
     String newModeLine(F("Lights out in "));
-    newModeLine += _fadeMinutes - ((ModeRealTime.unixTime() - _fadeStartUnixTime) / 60);
+    newModeLine += _fadeMinutes - ((RealTimeClock.unixTime() - _fadeStartUnixTime) / 60);
     newModeLine += F(" minutes");
     if (newModeLine != _lastModeLine) {
         DB(F("GoToSleepModeClass::updateModeLine updating: "));

@@ -1,5 +1,5 @@
 #include <CbOledDisplay.h>
-#include <ModeRealTime.h>
+#include <RealTimeClock.h>
 #include <Millis.h>
 
 #include "ClockDisplay.h"
@@ -26,7 +26,7 @@ void ClockDisplayClass::update()
 
         if (!_enabled) { return; }
 
-        String timeStr = ModeRealTime.timeStr();
+        String timeStr = RealTimeClock.timeStr();
         if (timeStr != _lastTimeStr) {
             _updated = true;
             _lastTimeStr = timeStr;
@@ -44,7 +44,7 @@ void ClockDisplayClass::update()
             // TODO: draw mode line at bottom, centre justfied
             String text = timeStr;
             text += '\n';
-            text += ModeRealTime.dateStr();
+            text += RealTimeClock.dateStr();
             text += '\n';
             text += '\n';
             text += _modeLine;

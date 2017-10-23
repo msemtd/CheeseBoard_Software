@@ -3,7 +3,7 @@
 #include <EspApConfigurator.h>
 #include <TimeLib.h>
 //#include <TimeLib.h>
-#include "ModeRealTime.h"
+#include "RealTimeClock.h"
 #include "Config.h"
 
 /*
@@ -13,39 +13,39 @@
  *
  */
 
-char* const ModeRealTime_::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
+char* const RealTimeClock_::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
 
-ModeRealTime_ ModeRealTime;
+RealTimeClock_ RealTimeClock;
 
 
-ModeRealTime_::ModeRealTime_() :
+RealTimeClock_::RealTimeClock_() :
     _lastNtpAttempt(0),
     _lastNtpSuccess(0),
     _unixTime(0),
-    _state(ModeRealTime_::Wait)
+    _state(RealTimeClock_::Wait)
 {
     setUpdatePeriod(1000);
     clearBuf();
 }
 
-void ModeRealTime_::begin()
+void RealTimeClock_::begin()
 {
-    DBLN(F("ModeRealTime::begin"));
+    DBLN(F("RealTimeClock::begin"));
     _udp.begin(LOCAL_NTP_PORT);
 }
 
-void ModeRealTime_::modeStart()
+void RealTimeClock_::modeStart()
 {
-    DBLN(F("ModeRealTime::modeStart"));
+    DBLN(F("RealTimeClock::modeStart"));
     clearBuf();
 }
 
-void ModeRealTime_::modeStop()
+void RealTimeClock_::modeStop()
 {
-    DBLN(F("ModeRealTime::modeStop"));
+    DBLN(F("RealTimeClock::modeStop"));
 }
 
-void ModeRealTime_::modeUpdate()
+void RealTimeClock_::modeUpdate()
 {
     // If we managed to set time using NTP in the last NTP_REFRESH_PERIOD_S seconds
     // we don't need to do anything - just return
@@ -58,9 +58,9 @@ void ModeRealTime_::modeUpdate()
     }
 }
 
-void ModeRealTime_::ntpUpdate()
+void RealTimeClock_::ntpUpdate()
 {
-    //DBLN(F("ModeRealTime_::ntpUpdate"));
+    //DBLN(F("RealTimeClock_::ntpUpdate"));
     if (!EspApConfigurator.isConnected()) {
         //DBLN(F("no network connection"));
         return;
@@ -110,13 +110,13 @@ void ModeRealTime_::ntpUpdate()
     DBLN("NTP failed");
 }
 
-time_t ModeRealTime_::unixTime()
+time_t RealTimeClock_::unixTime()
 {
     if (_unixTime == 0) return 0;
     return _unixTime + ((Millis() - _lastNtpSuccess) / 1000);
 }
 
-long ModeRealTime_::daySeconds()
+long RealTimeClock_::daySeconds()
 {
     time_t unixtime = unixTime();
 
@@ -132,7 +132,7 @@ long ModeRealTime_::daySeconds()
     return result;
 }
 
-String ModeRealTime_::isoTimestamp()
+String RealTimeClock_::isoTimestamp()
 {
     char buf[24];
     snprintf(buf, 24, "%04d-%02d-%02d %02d:%02d:%02d UT", 
@@ -145,7 +145,7 @@ String ModeRealTime_::isoTimestamp()
     return String(buf);
 }
 
-String ModeRealTime_::timeStr(bool includeSeconds)
+String RealTimeClock_::timeStr(bool includeSeconds)
 {
     char buf[9];
     time_t unixtime = unixTime();
@@ -169,7 +169,7 @@ String ModeRealTime_::timeStr(bool includeSeconds)
     return String(buf);
 }
 
-String ModeRealTime_::dateStr()
+String RealTimeClock_::dateStr()
 {
     char buf[21];
     time_t unixtime = unixTime();
@@ -188,15 +188,15 @@ String ModeRealTime_::dateStr()
     return String(buf);
 }
 
-void ModeRealTime_::clearBuf()
+void RealTimeClock_::clearBuf()
 {
     memset(_buf, 0, NTP_PACKET_SIZE * sizeof(byte));
 }
 
 
-bool ModeRealTime_::dnsLookup()
+bool RealTimeClock_::dnsLookup()
 {
-    DB(F("ModeRealTime::dnsLookup for "));
+    DB(F("RealTimeClock::dnsLookup for "));
     DBLN(EspApConfigurator[SET_NTP_SERVER]->get());
     if (!WiFi.hostByName(EspApConfigurator[SET_NTP_SERVER]->get().c_str(), _ntpServerIP)) { // Get the IP address of the NTP server
         DB(F("DNS lookup failure for: "));
@@ -211,9 +211,9 @@ bool ModeRealTime_::dnsLookup()
     }
 }
 
-void ModeRealTime_::sendNtpPacket()
+void RealTimeClock_::sendNtpPacket()
 {
-    DBLN(F("ModeRealTime::sendNtpPacket"));
+    DBLN(F("RealTimeClock::sendNtpPacket"));
 
     clearBuf();
 

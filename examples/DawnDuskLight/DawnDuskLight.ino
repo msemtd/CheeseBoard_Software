@@ -49,7 +49,7 @@
 #include "GoToSleepMode.h"
 #include "SetupMode.h"
 #include "ModeManager.h"
-#include "ModeRealTime.h"
+#include "RealTimeClock.h"
 
 bool pushTwist = false;
 
@@ -116,7 +116,7 @@ void setup()
     ModeWifiClient.enableHttpServer(true);
 
     // Set up NTP time adjuster
-    ModeRealTime.begin();
+    RealTimeClock.begin();
 
     // Must add settings AFTER EspApConfigurator.begin()
     EspApConfigurator.addSetting(SET_WAKE_TIME,      new PersistentSettingTime(EspApConfigurator.nextFreeAddress(), "7:30"));
@@ -163,7 +163,7 @@ void setup()
 void loop()
 {
     EspApConfigurator.update();
-    ModeRealTime.update();
+    RealTimeClock.update();
     CbRotaryInput.update();
     ClockDisplay.update();
     ModeManager.update();   // updates the currently-active mode

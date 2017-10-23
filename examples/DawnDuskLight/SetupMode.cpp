@@ -5,7 +5,7 @@
 #include <EspApConfigurator.h>
 #include "ClockDisplay.h"
 #include "SetupMode.h"
-#include "ModeRealTime.h"
+#include "RealTimeClock.h"
 #include "StandbyMode.h"
 #include "ModeManager.h"
 #include "Config.h"

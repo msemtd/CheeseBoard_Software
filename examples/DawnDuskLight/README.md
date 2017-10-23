@@ -37,7 +37,7 @@ NOTE: most of this is still just the goal, and not yet implemented...
 
 + OnMode brightness should call over into GoToSleepMode
 
-+ If ModeRealTime::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
++ If RealTimeClock::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
 
 + Before NTP works, set mode line in clock to show "connecting..."
 
@@ -59,7 +59,7 @@ NOTE: most of this is still just the goal, and not yet implemented...
   - draws clock big
   - has displayon and display off modes
 
-+ ModeRealTime doens't need to be a mode, better to just call it
++ RealTimeClock doens't need to be a mode, better to just call it
   RealTimeClock or something, and remove inheritance from Mode
 
 + in GoToSleepMode:

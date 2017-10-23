@@ -11,7 +11,7 @@ const uint8_t  NTP_PACKET_SIZE  = 48;
 //! \brief A real time class - set by NTP
 //! * Fetches time and dat via NTP.
 //! * Periodcally synchronizes local clock by NTP
-class ModeRealTime_ : public Mode {
+class RealTimeClock_ : public Mode {
 public:
     static char* const DayNames[];
 
@@ -21,7 +21,7 @@ public:
         NtpWorking
     };
 
-    ModeRealTime_();
+    RealTimeClock_();
     void begin();
     void modeStart();
     void modeStop();
@@ -61,5 +61,5 @@ protected:
     void sendNtpPacket();
 };
 
-extern ModeRealTime_ ModeRealTime;
+extern RealTimeClock_ RealTimeClock;
 

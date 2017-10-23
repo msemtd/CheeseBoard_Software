@@ -25,7 +25,6 @@ void GoToSleepModeClass::begin()
 void GoToSleepModeClass::modeStart()
 {
     DB(F("GoToSleepMode::modeStart"));
-    _fade = true;
     _lastFade = 0;
     _finished = false;
     _lastModeLineUpdate = 0;
@@ -45,28 +44,25 @@ void GoToSleepModeClass::modeStop()
 
 void GoToSleepModeClass::modeUpdate()
 {
-    if (_fade) {
-        if (Millis() > _lastFade + FadeMs) {
-            _lastFade = Millis();
-            long seconds = RealTimeClock.daySeconds();
-            uint32_t color = dayColor(seconds);
-            float percent = getFadePercent();
-            uint32_t faded = fadeColor(color, percent);
-            DBF("GoToSleepModeClass::modeUpdate updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
-                _lastFade,
-                seconds,
-                color,
-                percent,
-                faded);
-            for (uint16_t i=0; i<RGBLED_COUNT; i++) { 
-                CbLeds.setPixelColor(i, faded);
-            }
-            CbLeds.show();
-            if (percent <= FloatTolerance) {
-                DBLN(F("GoToSleepModeClass::modeUpdate fade complete"));
-                _fade = false;
-                _finished = true;
-            }
+    if (Millis() > _lastFade + FadeMs) {
+        _lastFade = Millis();
+        long seconds = RealTimeClock.daySeconds();
+        uint32_t color = dayColor(seconds);
+        float percent = getFadePercent();
+        uint32_t faded = fadeColor(color, percent);
+        DBF("GoToSleepModeClass::modeUpdate updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
+            _lastFade,
+            seconds,
+            color,
+            percent,
+            faded);
+        for (uint16_t i=0; i<RGBLED_COUNT; i++) { 
+            CbLeds.setPixelColor(i, faded);
+        }
+        CbLeds.show();
+        if (percent <= FloatTolerance) {
+            DBLN(F("GoToSleepModeClass::modeUpdate fade complete"));
+            _finished = true;
         }
     }
 

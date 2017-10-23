@@ -68,7 +68,6 @@ protected:
 
 private:
     uint32_t _fadeStartUnixTime;
-    bool _fade;
     uint32_t _lastFade;
     uint8_t _fadeMinutes;
     bool _finished;

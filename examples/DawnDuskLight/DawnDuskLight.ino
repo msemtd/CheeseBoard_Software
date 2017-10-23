@@ -76,7 +76,7 @@ void buttonCb(uint16_t durationMs)
     }
 }
 
-bool latitudeValidator(String s) 
+bool longLatValidator(String s) 
 {
     float f = s.toFloat();
     return f >= -180.0 && f <= 180.0;
@@ -123,7 +123,9 @@ void setup()
     EspApConfigurator.addSetting(SET_WAKE_DURATION,  new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 30));
     EspApConfigurator.addSetting(SET_SLEEP_DURATION, new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 15));
     EspApConfigurator.addSetting(SET_MAX_BRIGHTNESS, new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 100, 0, percentValidator));
-    EspApConfigurator.addSetting(SET_LATITUDE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.95, 5, latitudeValidator));
+    EspApConfigurator.addSetting(SET_SHOW_SECONDS,   new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
+    EspApConfigurator.addSetting(SET_LATITUDE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 52.9548, 4, longLatValidator));
+    EspApConfigurator.addSetting(SET_LONGITUDE,      new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), -1.1581, 4, longLatValidator));
     EspApConfigurator.addSetting(SET_TIMEZONE,       new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 0, 1, timezoneValidator));
     EspApConfigurator.addSetting(SET_DST,            new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
     EspApConfigurator.addSetting(SET_NTP_SERVER,     new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));

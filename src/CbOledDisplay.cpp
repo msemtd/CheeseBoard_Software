@@ -12,6 +12,12 @@ CbOledDisplayClass::CbOledDisplayClass(const u8g2_cb_t *rotation, uint8_t clock,
 {
 }
 
+void CbOledDisplayClass::begin()
+{
+    CBOLED_CLASS::begin();
+    setFontPosBottom();
+}
+
 u8g2_uint_t CbOledDisplayClass::getCharWidth(char c)
 {
     char buf[2];

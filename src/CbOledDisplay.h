@@ -15,6 +15,9 @@ class CbOledDisplayClass : public CBOLED_CLASS {
 public:
     CbOledDisplayClass(const u8g2_cb_t *rotation, uint8_t clock, uint8_t data, uint8_t reset=U8X8_PIN_NONE);
 
+    // Initialize the OLED object
+    void begin();
+
     // Get the width of a single character
     u8g2_uint_t getCharWidth(char c);
 

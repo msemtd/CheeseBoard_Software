@@ -13,17 +13,32 @@
 // this example
 #include <MutilaDebug.h>
 #include <CbOledDisplay.h>
-#include <GfxTextBox.h>
+#include <GfxTextBox2.h>
+#include <GfxFont.h>
+
+GfxFont font14(u8g2_font_helvR14_tf, 18);
+GfxFont font18(u8g2_font_helvR18_tf, 24);
 
 void setup()
 {
     Serial.begin(115200);
-    DBLN(F("S:setup"));
+    delay(150);
+    DBLN(F("\n\nS:setup"));
 
     CbOledDisplay.begin();
     CbOledDisplay.clear();
-    GfxTextBox tb(64, "Bananas", true);
-    tb.draw(32, 32);
+    GfxTextBox2 no("Nop");
+    GfxTextBox2 maybe("Mayb", font14);
+    GfxTextBox2 yes("yES!", font18);
+    uint16_t x = 0;
+    uint16_t y = 0;
+    no.draw(x, y);
+    x += no.width();
+    y += no.height();
+    maybe.draw(x, y);
+    x += maybe.width();
+    y += maybe.height();
+    yes.draw(x, y);
     CbOledDisplay.show();
 
     DBLN(F("E:setup"));

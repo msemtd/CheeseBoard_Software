@@ -13,39 +13,39 @@
  *
  */
 
-char* const RealTimeClock_::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
+char* const RealTimeClockClass::DayNames[] = {"Noday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
 
-RealTimeClock_ RealTimeClock;
+RealTimeClockClass RealTimeClock;
 
 
-RealTimeClock_::RealTimeClock_() :
+RealTimeClockClass::RealTimeClockClass() :
     _lastNtpAttempt(0),
     _lastNtpSuccess(0),
     _unixTime(0),
-    _state(RealTimeClock_::Wait)
+    _state(RealTimeClockClass::Wait)
 {
     setUpdatePeriod(1000);
     clearBuf();
 }
 
-void RealTimeClock_::begin()
+void RealTimeClockClass::begin()
 {
     DBLN(F("RealTimeClock::begin"));
     _udp.begin(LOCAL_NTP_PORT);
 }
 
-void RealTimeClock_::modeStart()
+void RealTimeClockClass::modeStart()
 {
     DBLN(F("RealTimeClock::modeStart"));
     clearBuf();
 }
 
-void RealTimeClock_::modeStop()
+void RealTimeClockClass::modeStop()
 {
     DBLN(F("RealTimeClock::modeStop"));
 }
 
-void RealTimeClock_::modeUpdate()
+void RealTimeClockClass::modeUpdate()
 {
     // If we managed to set time using NTP in the last NTP_REFRESH_PERIOD_S seconds
     // we don't need to do anything - just return
@@ -58,9 +58,9 @@ void RealTimeClock_::modeUpdate()
     }
 }
 
-void RealTimeClock_::ntpUpdate()
+void RealTimeClockClass::ntpUpdate()
 {
-    //DBLN(F("RealTimeClock_::ntpUpdate"));
+    //DBLN(F("RealTimeClockClass::ntpUpdate"));
     if (!EspApConfigurator.isConnected()) {
         //DBLN(F("no network connection"));
         return;
@@ -110,13 +110,13 @@ void RealTimeClock_::ntpUpdate()
     DBLN("NTP failed");
 }
 
-time_t RealTimeClock_::unixTime()
+time_t RealTimeClockClass::unixTime()
 {
     if (_unixTime == 0) return 0;
     return _unixTime + ((Millis() - _lastNtpSuccess) / 1000);
 }
 
-long RealTimeClock_::daySeconds()
+long RealTimeClockClass::daySeconds()
 {
     time_t unixtime = unixTime();
 
@@ -132,7 +132,7 @@ long RealTimeClock_::daySeconds()
     return result;
 }
 
-String RealTimeClock_::isoTimestamp()
+String RealTimeClockClass::isoTimestamp()
 {
     char buf[24];
     snprintf(buf, 24, "%04d-%02d-%02d %02d:%02d:%02d UT", 
@@ -145,7 +145,7 @@ String RealTimeClock_::isoTimestamp()
     return String(buf);
 }
 
-String RealTimeClock_::timeStr(bool includeSeconds)
+String RealTimeClockClass::timeStr(bool includeSeconds)
 {
     char buf[9];
     time_t unixtime = unixTime();
@@ -169,7 +169,7 @@ String RealTimeClock_::timeStr(bool includeSeconds)
     return String(buf);
 }
 
-String RealTimeClock_::dateStr()
+String RealTimeClockClass::dateStr()
 {
     char buf[21];
     time_t unixtime = unixTime();
@@ -188,13 +188,13 @@ String RealTimeClock_::dateStr()
     return String(buf);
 }
 
-void RealTimeClock_::clearBuf()
+void RealTimeClockClass::clearBuf()
 {
     memset(_buf, 0, NTP_PACKET_SIZE * sizeof(byte));
 }
 
 
-bool RealTimeClock_::dnsLookup()
+bool RealTimeClockClass::dnsLookup()
 {
     DB(F("RealTimeClock::dnsLookup for "));
     DBLN(EspApConfigurator[SET_NTP_SERVER]->get());
@@ -211,7 +211,7 @@ bool RealTimeClock_::dnsLookup()
     }
 }
 
-void RealTimeClock_::sendNtpPacket()
+void RealTimeClockClass::sendNtpPacket()
 {
     DBLN(F("RealTimeClock::sendNtpPacket"));
 

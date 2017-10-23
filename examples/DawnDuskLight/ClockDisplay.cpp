@@ -2,11 +2,16 @@
 #include <RealTimeClock.h>
 #include <EspApConfigurator.h>
 #include <Millis.h>
+#include <GfxTextBox2.h>
+#include <U8g2lib.h>
 
 #include "ClockDisplay.h"
 #include "Config.h"
 
+
 ClockDisplayClass ClockDisplay;
+
+GfxFont TimeFont = GfxFont(u8g2_font_helvR18_tf, 24);
 
 ClockDisplayClass::ClockDisplayClass() :
     _enabled(true),
@@ -33,7 +38,8 @@ void ClockDisplayClass::update()
         if (RealTimeClock.haveRealTime()) {
             timeStr = RealTimeClock.timeStr(EspApConfigurator[SET_SHOW_SECONDS]->get().toInt());
         } else { 
-            timeStr = F("I'm making time...");
+            timeStr = F("--:--");
+            if (EspApConfigurator[SET_SHOW_SECONDS]->get().toInt()) { timeStr += F(":--"); }
         }
         if (timeStr != _lastTimeStr) {
             _updated = true;
@@ -45,18 +51,11 @@ void ClockDisplayClass::update()
             _updated = false;
 
             CbOledDisplay.clearBuffer();
-            // TODO: draw time large, top, centre justified
-            //
-            // TODO: draw date under time, small
-            //
-            // TODO: draw mode line at bottom, centre justfied
-            String text = timeStr;
-            text += '\n';
-            text += RealTimeClock.dateStr();
-            text += '\n';
-            text += '\n';
-            text += _modeLine;
-            CbOledDisplay.drawText(text.c_str(), 'C', 'M');
+            GfxTextBox2 timeBox(timeStr, TimeFont, false, 0);
+            GfxTextBox2 dateBox(RealTimeClock.dateStr(), GfxDefaultFont, false, 0);
+            timeBox.draw(64 - (timeBox.width()/2), 0);
+            dateBox.draw(64 - (dateBox.width()/2), timeBox.height() + 3);
+            CbOledDisplay.drawText(_modeLine.c_str(), 'C', 'B');
             CbOledDisplay.sendBuffer();
         }
     }

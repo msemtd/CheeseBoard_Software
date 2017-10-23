@@ -28,8 +28,8 @@ void setup()
     CbOledDisplay.begin();
     CbOledDisplay.clear();
     GfxTextBox2 t1("Crypto");
-    GfxTextBox2 t2("Crypto", font14, 3);   // padding=3
-    GfxTextBox2 t3("Crypto", font18, 5);   // padding=5
+    GfxTextBox2 t2("Crypto", font14, true, 3);   // border=true, padding=3
+    GfxTextBox2 t3("Crypto", font18, true, 5);   // border=true, padding=5
     uint16_t x = 0;
     uint16_t y = 0;
     t1.draw(x, y);

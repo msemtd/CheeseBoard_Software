@@ -1,11 +1,13 @@
 #pragma once
 
 #include <stdint.h>
+#include <GfxFont.h>
 
 class ClockDisplayClass {
 public:
     //! Minimum time between Oled refreshes
     const static uint16_t RefreshMs = 200;
+
 public:
     ClockDisplayClass();
 

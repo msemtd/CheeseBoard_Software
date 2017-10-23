@@ -2,14 +2,14 @@
 #include "GfxTextBox2.h"
 #include "CbOledDisplay.h"
 
-GfxTextBox2::GfxTextBox2(String initialText, GfxFont& font, uint8_t padding, char justify, uint16_t width, uint16_t height, bool border) :
+GfxTextBox2::GfxTextBox2(String initialText, GfxFont& font, bool border, uint8_t padding, char justify, uint16_t width, uint16_t height) :
     _text(initialText),
     _font(font),
+    _border(border),
     _padding(padding),
     _justify(justify),
     _width(width),
-    _height(height),
-    _border(border)
+    _height(height)
 {
     if (_justify != 'L' && _justify != 'C' && _justify != 'R') {
         _justify = 'C';

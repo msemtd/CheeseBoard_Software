@@ -100,7 +100,9 @@ float WakeUpModeClass::getFadePercent()
 
 void WakeUpModeClass::updateModeLine()
 {
-    String newModeLine(F("Wakey wakey"));
+    String newModeLine(F("Waking... "));
+    newModeLine += String(getFadePercent(), 0);
+    newModeLine += '%';
     if (newModeLine != _lastModeLine) {
         DB(F("WakeUpModeClass::updateModeLine updating: "));
         DBLN(newModeLine);

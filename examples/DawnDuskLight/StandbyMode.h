@@ -53,7 +53,6 @@ private:
     bool _fade;
     uint32_t _lastFade;
     uint32_t _lastWakeChange;
-    uint32_t _lastWakeCheck;
 
 };
 

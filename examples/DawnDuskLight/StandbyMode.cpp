@@ -32,7 +32,6 @@ void StandbyModeClass::modeStart()
     adjustWakeTime(0);
     _fade = true;
     _lastFade = 0;
-    _lastWakeCheck = 0;
 }
 
 //! Called when this mode is de-activated
@@ -47,8 +46,8 @@ void StandbyModeClass::modeUpdate()
 {
     fadeLed();
 
-    if (Millis() > _lastWakeCheck + 3000) {
-        _lastWakeCheck = Millis();
+    if (_lastWakeChange > 0 && Millis() > _lastWakeChange + 5000) {
+        _lastWakeChange = Millis();
         // How many seconds until the wake time
         uint32_t untilWakeEnd = RealTimeClock.secondsUntilNext(EspApConfigurator[SET_WAKE_TIME]->get());
         int32_t untilWakeStart = untilWakeEnd - (EspApConfigurator[SET_WAKE_DURATION]->get().toInt() * 60);
@@ -57,14 +56,8 @@ void StandbyModeClass::modeUpdate()
         if (untilWakeStart <= 0) {
             ModeManager.switchMode(&WakeUpMode);
         }
-    }
 
-    // Periodically check to see if the wake time has changed and save it to EEPROM 
-    // if it has changed.  The reason we delay is that we don't want to write EEPROM 
-    // hundreds of times when the value is being changed... we we only try to save
-    // some seconds after a change...
-    if (_lastWakeChange > 0 && Millis() > _lastWakeChange + 10000) {
-        _lastWakeChange = 0;
+        // Save wake time if it has been changed by the user twisting
         saveWakeTime();
     }
 }

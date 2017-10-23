@@ -42,10 +42,6 @@ NOTE: most of this is still just the goal, and not yet implemented...
 
 + Have a SET_POST_WAKE number of minutes to keep light on after end of wake up fade in
 
-+ When adjusting wake time in StandbyMode, only start detecting the new time when the save() is called so that 
-  it's possible to scoot "over" the wake period without immediately triggering WakeUpMode
-
-
 + WakeUpMode should not re-trigger if cancelled!
 
 + If RealTimeClock::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)

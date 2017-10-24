@@ -23,13 +23,16 @@ TODO: write when UI completed
    
 ## TODO
 
-+ Implement option to tun on/off the alarm!
++ WakeUpMode should not re-trigger if cancelled!
+
++ After wakeup, stay on for some time (add a setting)
+
++ Implement option to turn on/off the alarm!
 
 + Have a SET_POST_WAKE number of minutes to keep light on after end of wake up fade in
 
-+ WakeUpMode should not re-trigger if cancelled!
-
 + If RealTimeClock::dnsLookup fails three times in a row, abort (repeated blocking dnsLookups cause lock up of UI)
+  - or implement non-blocking DNS lookups
 
 + SetupMode - implement menus
   + set/cancel/auto DST

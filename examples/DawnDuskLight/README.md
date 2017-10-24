@@ -18,27 +18,12 @@ In the morning - at a time of your choosing - it will slowly fade on to full bri
 
 NOTE: most of this is still just the goal, and not yet implemented...
 
-* When off (StandbyMode):
-   * Press the rotary input to turn the light on (enter OnMode)
-   * Twist to adjust the wake time
-   * Long press to enter the menu
-* When on (OnMode):
-   * Twist to change brightness
-   * Push to turn enter GoToSleepMode
-* When in GoToSleepMode:
-   * Twist to change brightness
-   * Push+twist to set the fade time
-   * Push to turn off
-* When in the config menu (twist to change item, press to select item):
-   * The first item will be to turn on/off the morning light
-   * The second item enables AP mode for network configuration
+TODO: write when UI completed
+
    
 ## TODO
 
-+ Clock display off at night
-  - enable for 10 seconds with any input
-  - only enter this "display off" state after GoToSleep mode has activated
-  - display should be on in the daytime
++ Implement option to tun on/off the alarm!
 
 + Have a SET_POST_WAKE number of minutes to keep light on after end of wake up fade in
 
@@ -51,9 +36,6 @@ NOTE: most of this is still just the goal, and not yet implemented...
   + set/cancel/auto timezone
   + set offline mode - don't try to connect
   + auto dawn time (use long/lat to lookup dawn time)
-
-+ in GoToSleepMode:
-  + when adjusting duration, current brightness should stay the same - the new duration should be from there til black
 
 + Auto DST&Timezone - use online DST API based on long/lat
   - Add latitude setting

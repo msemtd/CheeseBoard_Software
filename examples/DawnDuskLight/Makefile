@@ -1,5 +1,5 @@
 # Compile options
-#BUILD_EXTRA_FLAGS += -DDEBUG
+BUILD_EXTRA_FLAGS += -DDEBUG
 BUILD_EXTRA_FLAGS += -DDEBUGSTREAM=Serial
 
 # Required to build DnsServer

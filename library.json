@@ -1,0 +1,19 @@
+{
+"name": "CheeseBoard",
+"frameworks": "Arduino",
+"keywords": "ESP8266, Cheese, CheeseBoard, Cheddar",
+"description": "CheeseBoard library",
+"url": "https://www.curiouselectric.co.uk/",
+"authors":
+[
+{
+        "name": "Matthew Gates (Mouse)"
+}
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/matthewg42/CheeseBoard"
+}
+}
+

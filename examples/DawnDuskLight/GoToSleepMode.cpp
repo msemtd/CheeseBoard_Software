@@ -30,7 +30,7 @@ void GoToSleepModeClass::modeStart()
     _lastModeLineUpdate = 0;
     _lastModeLine = "";
     _lastFadeChange = 0;
-    _initialColor = fadeColor(dayColor(RealTimeClock.daySeconds()), EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
+    _initialColor = fadeColor(NIGHT_COLOR, EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 
     ClockDisplay.enable();
     ClockDisplay.setNightMode(true);
@@ -165,8 +165,9 @@ float GoToSleepModeClass::getFadePercent()
 void GoToSleepModeClass::updateModeLine()
 {
     String newModeLine(F("Lights out in "));
-    newModeLine += _fadeMinutes - ((RealTimeClock.unixTime() - _fadeStartUnixTime) / 60);
-    newModeLine += F(" minutes");
+    int mins = _fadeMinutes - ((RealTimeClock.unixTime() - _fadeStartUnixTime) / 60);
+    newModeLine += mins;
+    newModeLine += mins == 1 ? F(" min") : F(" mins");
     if (newModeLine != _lastModeLine) {
         DB(F("GoToSleepModeClass::updateModeLine updating: "));
         DBLN(newModeLine);

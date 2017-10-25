@@ -28,7 +28,7 @@ void OnModeClass::modeStart()
     DB(F("OnMode::modeStart"));
     ClockDisplay.enable();
     ClockDisplay.setModeLine("On");
-    _color = dayColor(RealTimeClock.daySeconds());
+    _color = NIGHT_COLOR;
     setBrightness(EspApConfigurator[SET_MAX_BRIGHTNESS]->get().toFloat());
 }
 

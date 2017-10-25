@@ -29,6 +29,7 @@ void WakeUpModeClass::modeStart()
     _finished = false;
     _lastModeLineUpdate = 0;
     _lastModeLine = "";
+    _postWake = false;
 
     ClockDisplay.enable();
     ClockDisplay.setNightMode(false);
@@ -45,8 +46,20 @@ void WakeUpModeClass::modeUpdate()
     if (Millis() > _lastFade + FadeMs) {
         _lastFade = Millis();
         long seconds = RealTimeClock.daySeconds();
-        float percent = getFadePercent();
-        uint32_t color = dayColor(seconds);
+        float percent;
+        if (_postWake) { 
+            long waitLeft = RealTimeClock.unixTime() - _fadeStartUnixTime;
+            if (waitLeft > EspApConfigurator[SET_WAKE_POST_TIME]->get().toInt() * 60) {
+                _finished = true;
+            } else {
+                DB(F("WakeUpModeClass::modeUpdate postFade left="));
+                DBLN(waitLeft);
+                return;
+            }
+        } else {
+            percent = getFadePercent();
+        }
+        uint32_t color = MORNING_COLOR;
         uint32_t faded = fadeColor(color, percent);
         DBF("WakeUpModeClass::modeUpdate updating LEDs lf=%ld sec=%ld full=0x%06x fade=%.1f%% faded=0x%06x\n",
             _lastFade,
@@ -60,7 +73,8 @@ void WakeUpModeClass::modeUpdate()
         CbLeds.show();
         if (percent >= 100-FloatTolerance) {
             DBLN(F("WakeUpModeClass::modeUpdate fade complete"));
-            _finished = true;
+            _postWake = true;
+            _fadeStartUnixTime = RealTimeClock.unixTime();
         }
     }
 
@@ -101,9 +115,17 @@ float WakeUpModeClass::getFadePercent()
 
 void WakeUpModeClass::updateModeLine()
 {
-    String newModeLine(F("Waking... "));
-    newModeLine += String(getFadePercent(), 0);
-    newModeLine += '%';
+    String newModeLine;
+    if (_postWake) {
+        newModeLine = F("Turning off in ");
+        int mins = ((_fadeStartUnixTime + (EspApConfigurator[SET_WAKE_POST_TIME]->get().toInt()*60) - RealTimeClock.unixTime()) / 60)+1;
+        newModeLine += mins;
+        newModeLine += mins == 1 ? F(" min") : F(" mins");
+    } else {
+        newModeLine = F("Waking... ");
+        newModeLine += String(getFadePercent(), 0);
+        newModeLine += '%';
+    }
     if (newModeLine != _lastModeLine) {
         DB(F("WakeUpModeClass::updateModeLine updating: "));
         DBLN(newModeLine);

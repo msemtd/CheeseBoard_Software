@@ -131,6 +131,7 @@ void setup()
     // Must add settings AFTER EspApConfigurator.begin()
     EspApConfigurator.addSetting(SET_WAKE_TIME,      new PersistentSettingTime(EspApConfigurator.nextFreeAddress(), "7:30"));
     EspApConfigurator.addSetting(SET_WAKE_DURATION,  new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 30));
+    EspApConfigurator.addSetting(SET_WAKE_POST_TIME, new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 30));
     EspApConfigurator.addSetting(SET_SLEEP_DURATION, new PersistentSettingUInt8(EspApConfigurator.nextFreeAddress(), 15));
     EspApConfigurator.addSetting(SET_MAX_BRIGHTNESS, new PersistentSettingFloat(EspApConfigurator.nextFreeAddress(), 100, 0, percentValidator));
     EspApConfigurator.addSetting(SET_SHOW_SECONDS,   new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));

@@ -59,6 +59,7 @@ private:
     bool _finished;
     uint32_t _lastModeLineUpdate;
     String _lastModeLine;
+    bool _postWake;
 
 };
 

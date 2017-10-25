@@ -172,7 +172,13 @@ void RealTimeClockClass::clearBuf()
 bool RealTimeClockClass::dnsLookup()
 {
     DB(F("RealTimeClock::dnsLookup for "));
-    DBLN(EspApConfigurator[SET_NTP_SERVER]->get());
+    String server = EspApConfigurator[SET_NTP_SERVER]->get();
+    DB(server);
+    DB(F(" len="));
+    DBLN(server.length());
+    if (server.length() < 0 || server.length() > 64) {
+        DBLN(F("WARNING: Invalid NTP server"));
+    }
     if (!WiFi.hostByName(EspApConfigurator[SET_NTP_SERVER]->get().c_str(), _ntpServerIP)) { // Get the IP address of the NTP server
         DB(F("DNS lookup failure for: "));
         DBLN(EspApConfigurator[SET_NTP_SERVER]->get());

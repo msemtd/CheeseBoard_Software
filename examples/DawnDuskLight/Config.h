@@ -2,6 +2,7 @@
 
 #define SET_WAKE_TIME                   "Wake Time"
 #define SET_WAKE_DURATION               "Wake Duration"
+#define SET_WAKE_POST_TIME              "Stay On After Wake Time (minutes, 0=manual off)"
 #define SET_SLEEP_DURATION              "Sleep Duration"
 #define SET_MAX_BRIGHTNESS              "Maximum Brightness (percent)"
 #define SET_SHOW_SECONDS                "Display Seconds on Clock"
@@ -19,5 +20,8 @@ const uint32_t NTP_REFRESH_PERIOD_S     = 1800;
 
 // When NTP fails, how long to wait before re-try
 const uint32_t NTP_RETRY_PERIOD_S       = 10;
+
+const uint32_t NIGHT_COLOR              = 0xff8800;
+const uint32_t MORNING_COLOR            = 0xccccff;
 
 

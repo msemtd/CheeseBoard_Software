@@ -5,9 +5,9 @@ This library contains components for use with the CheeseBoard Cheddar and varian
 
 The library defines the following convenience classes:
 
-* CbLeds - Singleton for controlling the RGB LEDs (inherits from Adafruit_NeoPixel)
-* CbOledDisplay - Singleton U2g2 object which adds justified wrapped text 
-* CbRotaryInput - Singleton which used callbacks to reveice input from the rotary encoder + button
+* CbLeds - Global instance of CbNeoPixel - for controlling the RGB LEDs (inherits from Adafruit_NeoPixel)
+* CbOledDisplay - Global instance of CbOledDisplayClass - U2g2 object which adds justified wrapped text 
+* CbRotaryInput - Global instance of CbRotaryInputClass for interactive with the rotary encoder + button inputs
 * GfxItem - base class for high-level objects which can be drawn on CbOledDisplay
 * GfxSSIDListBox - a list box for displaying WiFi network information
 * GfxNetInfo - an item for the GfxSSIDListBox
@@ -18,8 +18,15 @@ The library defines the following convenience classes:
 
 Select your hardware by copying or linking the appropriate XXXConfig.h file to CheeseboardConfig.h in this directory.
 
+Status
+======
+
+2017-10: Still under heavy development.
+
 Documentation
 -------------
+
+Doxygen-generated documentation can be found here: https://matthewg42.github.io/CheeseBoard/
 
 Dependencies
 ------------

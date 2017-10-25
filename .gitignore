@@ -5,6 +5,7 @@ tmp
 .worklog
 log/
 doc/
+mkdoc
 wifi.mk
 **/build-*
 **/*.pyc

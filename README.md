@@ -36,13 +36,12 @@ Dependencies
 * Encoder library (install using IDE library manager)
 * TimeLib (install using IDE library manager)
 * U8g2 (install using IDE library manager)
-* Mutila install manually from https://github.com/matthewg42/Mutila
-* EspApConfigurator install manually from https://github.com/matthewg42/EspApConfigurator
+* Mutila (install manually from https://github.com/matthewg42/Mutila)
+* EspApConfigurator (install manually from https://github.com/matthewg42/EspApConfigurator)
 
 Future
 ------
 
 * Better method of selecting hardware
 * Make sure all dependent libs are available in IDE library manager - including CheeseBoard
-* Host generated docs on github or readthedocs
 

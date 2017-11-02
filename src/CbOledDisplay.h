@@ -1,7 +1,7 @@
 #pragma once
 
 #include <U8g2lib.h>
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>

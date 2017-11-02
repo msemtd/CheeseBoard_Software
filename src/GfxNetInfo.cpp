@@ -4,7 +4,7 @@
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
 #include "CbOledDisplay.h"
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 GfxNetInfo::GfxNetInfo(String newSsid, int8_t newChannel, uint8_t newSignal) :
     _ssid(newSsid),

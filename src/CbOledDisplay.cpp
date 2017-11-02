@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <MutilaDebug.h>
 #include "CbOledDisplay.h"
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 CbOledDisplayClass CbOledDisplay(U8G2_R0, CBOLED_SCK_PIN, CBOLED_SDA_PIN, A0);
 

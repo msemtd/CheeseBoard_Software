@@ -16,7 +16,7 @@ The library defines the following convenience classes:
 * GfxStringListBox - generic listbox for strings (needs completion)
 * GfxTextBox - show text in a box with optional border
 
-Select your hardware by copying or linking the appropriate XXXConfig.h file to CheeseboardConfig.h in this directory.
+Select your hardware by copying or linking the appropriate XXXCheeseboardConfig.h file to CheeseboardConfig.h in this directory.
 
 Status
 ======

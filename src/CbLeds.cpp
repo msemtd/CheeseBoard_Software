@@ -1,6 +1,6 @@
 #include <Millis.h>
 #include "CbLeds.h"
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 CbNeoPixel CbLeds(RGBLED_COUNT, RGBLED_DATA_PIN, RGBLED_TYPE);
 

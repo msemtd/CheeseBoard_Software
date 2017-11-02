@@ -1,7 +1,7 @@
 #include <MutilaDebug.h>
 #include "GfxStringListBox.h"
 #include "GfxTextBox.h"
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 GfxStringListBox::GfxStringListBox(uint16_t width) :
     _width(width),

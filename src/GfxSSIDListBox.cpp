@@ -4,7 +4,7 @@
 #include "GfxTextBox.h"
 #include "GfxSignalStrength.h"
 #include "CbOledDisplay.h"
-#include "Config.h"
+#include "CheeseboardConfig.h"
 
 GfxSSIDListBox::GfxSSIDListBox(uint16_t x, uint16_t y) :
     _selected(-1)

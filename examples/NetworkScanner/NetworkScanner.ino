@@ -9,6 +9,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
 #include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
 
 // Include CheeseBoard headers for the components we'll be using in
 // this example

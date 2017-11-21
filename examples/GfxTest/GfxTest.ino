@@ -8,6 +8,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <Encoder.h>
+#include <SoftwareSerial.h>
 
 // Include CheeseBoard headers for the components we'll be using in
 // this example

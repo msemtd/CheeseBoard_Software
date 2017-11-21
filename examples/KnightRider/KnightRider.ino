@@ -9,6 +9,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
 #include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
 
 // Some includes from the Mutila library which is used by the 
 // CheeseBoard library and others which I use 

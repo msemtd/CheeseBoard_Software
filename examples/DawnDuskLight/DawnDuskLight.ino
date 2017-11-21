@@ -8,6 +8,7 @@
 #include <Wire.h>
 #include <Adafruit_NeoPixel.h>
 #include <Encoder.h>
+#include <SoftwareSerial.h>
 
 // Include the EspApConfigurator header. This lets the ESP act as 
 // an access point for configuration of the device (wifi login, 

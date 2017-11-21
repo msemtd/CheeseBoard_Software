@@ -32,12 +32,22 @@ Dependencies
 ------------
 
 * ESP8266 board (install using IDE boards manager, or manually from here: https://github.com/esp8266/Arduino)
-* Adafruit_NeoPixel library (install using IDE library manager)
-* Encoder library (install using IDE library manager)
-* TimeLib (install using IDE library manager)
-* U8g2 (install using IDE library manager)
-* Mutila (install manually from https://github.com/matthewg42/Mutila)
-* EspApConfigurator (install manually from https://github.com/matthewg42/EspApConfigurator)
+* Adafruit NeoPixel library by Adafruit (install using IDE library manager)
+* Encoder library by Paul Stoffregen (install using IDE library manager)
+* Time library by Michael Margolis (install using IDE library manager, search for "Timekeeping")
+* U8g2 library by Oliver Kraus (install using IDE library manager)
+* Mutila library by Mouse (install manually from https://github.com/matthewg42/Mutila)
+* EspApConfigurator by Mouse (install manually from https://github.com/matthewg42/EspApConfigurator)
+
+Building
+--------
+
+Building your own sketeches or the examples provided may be accomplished using the Arduino IDE as follows:
+
+* Install dependencies as described above
+* Open the desired sketch in the IDE
+* Select Tools [menu] -> Board -> "NodeMCU 1.0 (ESP-12E Module)"
+* Click build/upload button in toolbar
 
 Future
 ------

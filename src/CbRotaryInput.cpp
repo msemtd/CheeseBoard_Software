@@ -30,7 +30,7 @@ void CbRotaryInputClass::update()
     _button.update();
     uint16_t tapDuration = _button.tapped();
     if (tapDuration > 0) {
-        DBLN(F("CbRotaryInputClass::update button press"));
+        // DBLN(F("CbRotaryInputClass::update button press"));
         if (_buttonCb != NULL) {
             _buttonCb(tapDuration);
         }

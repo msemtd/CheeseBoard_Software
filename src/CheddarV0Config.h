@@ -24,7 +24,6 @@ const float     RGBLED_CORRECTION           = 25.4;
 const uint8_t   HC12_RX_PIN                 = D2;
 const uint8_t   HC12_TX_PIN                 = D1;
 const uint8_t   HC12_SET_PIN                = D0;
-const uint32_t  HC12_BAUD                   = 9600;
 
 #define         TEXTLISTITEM_FONT           u8g2_font_helvR08_tf
 const uint8_t   TEXTLISTITEM_FONT_HEIGHT    = 8;

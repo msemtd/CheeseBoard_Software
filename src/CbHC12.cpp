@@ -3,17 +3,18 @@
 #include <CheeseboardConfig.h>
 #include "CbHC12.h"
 
-CbHC12Class CbHC12;
+CbHC12Class CbHC12(HC12_RX_PIN, HC12_TX_PIN, HC12_SET_PIN);
 
-CbHC12Class::CbHC12Class() : 
-    _serial(HC12_RX_PIN, HC12_TX_PIN)
+CbHC12Class::CbHC12Class(uint8_t rxPin, uint8_t txPin, uint8_t setPin) : 
+    SoftwareSerial(rxPin, txPin),
+    _setPin(setPin)
 {
 }
 
-void CbHC12Class::begin()
+void CbHC12Class::begin(long speed)
 {
-    pinMode(HC12_SET_PIN, OUTPUT);
-    _serial.begin(HC12_BAUD);
+    SoftwareSerial::begin(speed);
+    pinMode(_setPin, OUTPUT);
     setCommandMode(false, true);
 }
 
@@ -24,12 +25,12 @@ void CbHC12Class::setCommandMode(bool switchOn, bool force)
     // HIGH for transparent mode
     if (switchOn && (!_cmdMode || force)) {
         _cmdMode = true;
-        digitalWrite(HC12_SET_PIN, !_cmdMode);
+        digitalWrite(_setPin, !_cmdMode);
         delay(40);
     }
     else if (!switchOn && (_cmdMode || force)) {
         _cmdMode = false;
-        digitalWrite(HC12_SET_PIN, !_cmdMode);
+        digitalWrite(_setPin, !_cmdMode);
         delay(80);
     }
     DB(F("CbHC12Class::setCommandMode _cmdMode="));
@@ -43,10 +44,10 @@ bool CbHC12Class::check()
     const char expect[] = "OK\r\n";
     uint8_t idx = 0;
     unsigned long start = Millis();
-    _serial.println("AT");
+    println("AT");
     while (Millis() - start < CheckTimeoutMs && idx < 4) {
-        if (_serial.available()) {
-            if (expect[idx] == _serial.read()) {
+        if (available()) {
+            if (expect[idx] == read()) {
                 idx++;
             } else {
                 break;

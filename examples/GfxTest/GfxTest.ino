@@ -17,6 +17,7 @@
 #include <GfxTextBox2.h>
 #include <GfxFont.h>
 
+// Global variables
 GfxFont font14(u8g2_font_helvR14_tf, 18);
 GfxFont font18(u8g2_font_helvR18_tf, 24);
 

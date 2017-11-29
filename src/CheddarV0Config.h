@@ -1,5 +1,7 @@
 #pragma once
 
+/*! Configuration for CheeseBoard: Cheddar v0 (prototype with track error) */
+
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include <stdint.h>

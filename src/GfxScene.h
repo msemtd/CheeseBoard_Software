@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "GfxItem.h"
 
+/*! Experimental object to tie other GfxItems together */
 class GfxScene {
 public:
     const static uint8_t MaxItems = 16;

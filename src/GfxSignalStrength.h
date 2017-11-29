@@ -4,8 +4,10 @@
 #include <stdint.h>
 #include "GfxItem.h"
 
-// 2 x 12 signal strength indicator
-// draws box between pixels 2 and 11
+/*! Small GfxItem for displaying signal strength as a siny vertical bar graph.
+ *
+ *  The bar is 2 pixels wide and 12 pixels tall.
+ */
 class GfxSignalStrength : public GfxItem {
 public:
     GfxSignalStrength();

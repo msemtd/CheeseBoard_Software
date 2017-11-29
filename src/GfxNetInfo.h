@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "GfxItem.h"
 
+/*! A GfxItem for showing a WiFi network (SSID & signal).
+ */
 class GfxNetInfo : public GfxItem {
 public:
     GfxNetInfo(String newSsid, int8_t newChannel, uint8_t newSignal);

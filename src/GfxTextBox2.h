@@ -7,7 +7,8 @@
 
 class GfxTextBox2 : public GfxItem {
 public:
-    /*! Constructor
+    /*! Constructor.
+     *
      * \param initialText the initial text in the box
      * \param font the font to be used. If NULL, the default font will be used
      * \param border whether or not to draw the border around the text box
@@ -18,18 +19,26 @@ public:
      */
     GfxTextBox2(String initialText, GfxFont& font=GfxDefaultFont, bool border=true, uint8_t padding=1, char justify='C', uint16_t width=0, uint16_t height=0);
 
-    /*! Draw
+    /*! Draw it.
+     *
      * Draws the bext box, starting at the top left corner specified by (xOffset,yOffset)
      */
     void draw(uint16_t xOffset=0, uint16_t yOffset=0);
 
-    //! Get the width of the text box
+    /*! Get the width of the text box.
+     */
     uint16_t width();
-    //! Get the height of the text box
+
+    /*! Get the height of the text box.
+     */
     uint16_t height();
-    //! Get the text in the text box
+
+    /*! Get the text in the text box.
+     */
     const String& text();
-    //! Update the text in the text box
+
+    /*! Update the text in the text box.
+     */
     void setText(const String& newText);
 
 protected:

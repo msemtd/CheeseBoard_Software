@@ -34,7 +34,7 @@ void SetupModeClass::modeStart()
     message += AP_SSID;
     message += F(" with password \"");
     message += AP_PASSPHRASE;
-    message += '"';
+    message += F("\"\nhttp://192.168.4.1/");
     CbOledDisplay.drawText(message.c_str(), 'C', 'M');
     CbOledDisplay.sendBuffer();
 }

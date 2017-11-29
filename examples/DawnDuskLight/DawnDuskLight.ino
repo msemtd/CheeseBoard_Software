@@ -53,60 +53,22 @@
 #include "ModeManager.h"
 #include "RealTimeClock.h"
 
+// Function prototypes added by protoize v2.00 at 2017-11-29 18:14:00
+// Function prototypes.  For the Arduino IDE you don't need these, but they 
+// make it possible to build with the Makefile approach without having to put
+// functions in the file before they are referenced by other functions.
+void setup();
+void loop();
+void buttonCb(uint16_t durationMs);
+bool longLatValidator(String s);
+bool percentValidator(String s);
+void rotaryCb(int8_t diff, int32_t value);
+bool timezoneValidator(String s);
+
+// Global variables
 bool pushTwist = false;
 
-void rotaryCb(int8_t diff, int32_t value)
-{
-    if (CbRotaryInput.buttonPushed()) {
-        pushTwist = true;
-        ModeManager.pushTwistEvent(diff, value);
-    } else {
-        ModeManager.twistEvent(diff, value);
-    }
-}
-
-void buttonCb(uint16_t durationMs)
-{
-    if (pushTwist) {
-        pushTwist = false;
-    } else if (durationMs > 1500) {
-        // Long press = cancel night mode, and if night mode isn't set, setup mode
-        if (ClockDisplay.nightMode()) {
-            ClockDisplay.setNightMode(false);
-        } else {
-            ModeManager.switchMode(&SetupMode);
-        }
-    } else {
-        // Short presses get sent to current mode as a pushEvent
-        ModeManager.pushEvent(durationMs);
-    }
-}
-
-bool longLatValidator(String s) 
-{
-    float f = s.toFloat();
-    return f >= -180.0 && f <= 180.0;
-}
-
-bool timezoneValidator(String s) 
-{
-    // Timezones can be between -12 and 12, and have .0 and .5 frational parts
-    const float tol = 0.001; // tolerance for float precision 
-    float tz = s.toFloat();
-
-    // get fractional part of tz...
-    float f = tz - (int)tz;
-    if (f < 0) f *= -1;
-
-    return tz >= -12 && tz <= 12 && ((f > -tol && f < tol) || (f > 0.5-tol && f < 0.5+tol));
-}
-
-bool percentValidator(String s) 
-{
-    float percent = s.toFloat();
-    return percent >= 0 && percent <= 100;
-}
-
+// Function definitions
 void setup()
 {
     Serial.begin(115200);
@@ -189,5 +151,57 @@ void loop()
         ModeManager.switchMode(&StandbyMode);
     }
 
+}
+
+void buttonCb(uint16_t durationMs)
+{
+    if (pushTwist) {
+        pushTwist = false;
+    } else if (durationMs > 1500) {
+        // Long press = cancel night mode, and if night mode isn't set, setup mode
+        if (ClockDisplay.nightMode()) {
+            ClockDisplay.setNightMode(false);
+        } else {
+            ModeManager.switchMode(&SetupMode);
+        }
+    } else {
+        // Short presses get sent to current mode as a pushEvent
+        ModeManager.pushEvent(durationMs);
+    }
+}
+
+bool longLatValidator(String s) 
+{
+    float f = s.toFloat();
+    return f >= -180.0 && f <= 180.0;
+}
+
+bool percentValidator(String s) 
+{
+    float percent = s.toFloat();
+    return percent >= 0 && percent <= 100;
+}
+
+void rotaryCb(int8_t diff, int32_t value)
+{
+    if (CbRotaryInput.buttonPushed()) {
+        pushTwist = true;
+        ModeManager.pushTwistEvent(diff, value);
+    } else {
+        ModeManager.twistEvent(diff, value);
+    }
+}
+
+bool timezoneValidator(String s) 
+{
+    // Timezones can be between -12 and 12, and have .0 and .5 frational parts
+    const float tol = 0.001; // tolerance for float precision 
+    float tz = s.toFloat();
+
+    // get fractional part of tz...
+    float f = tz - (int)tz;
+    if (f < 0) f *= -1;
+
+    return tz >= -12 && tz <= 12 && ((f > -tol && f < tol) || (f > 0.5-tol && f < 0.5+tol));
 }
 

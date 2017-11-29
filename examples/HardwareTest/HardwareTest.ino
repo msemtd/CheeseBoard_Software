@@ -23,6 +23,8 @@
 #include <CbRotaryInput.h>
 #include <CbHC12.h>
 
+#include "Config.h"
+
 bool HC12Status = false;
 bool previousButton = false;
 int32_t rotaryValue = 0;
@@ -77,7 +79,7 @@ void setup()
     CbLeds.setPixelColor(5, 0x404040);
     CbLeds.show();
 
-    CbHC12.begin();
+    CbHC12.begin(HC12_BAUD);
     delay(50);
     HC12Status = CbHC12.check();
     DB(F("HC12 test "));

@@ -10,28 +10,6 @@
 #include <Encoder.h>
 #include <SoftwareSerial.h>
 
-// Include the EspApConfigurator header. This lets the ESP act as 
-// an access point for configuration of the device (wifi login, 
-// NTP setup, latitude and timezone..
-//#include <EspApConfigurator.h>
-//#include <PersistentSettingBool.h>
-//#include <PersistentSettingString.h>
-//#include <PersistentSettingLong.h>
-//#include <ModeWifiClient.h>
-//#include <ModeAP.h>
-// Other ESP and network operation headers which are needed for
-// EspApConfigurator
-//#include <EEPROM.h>
-//#include <ESP8266HTTPClient.h>
-//#include <ESP8266WebServer.h>
-//#include <ESP8266WiFi.h>
-//#include <WiFiClientSecure.h>
-//#include <DNSServer.h>
-//#include <Mode.h>
-//#include <ParentMode.h>
-//#include <MutilaDebug.h>
-//#include <TimeLib.h>
-
 // Include CheeseBoard headers for the components we'll be using in
 // this example.
 #include <MutilaDebug.h>
@@ -44,7 +22,11 @@
 // Includes from this project directory
 #include "Config.h"
 
-// Function prototypes 
+// Function prototypes.  For the Arduino IDE you don't need these, but they 
+// make it possible to build with the Makefile approach without having to put
+// functions in the file before they are referenced by other functions.
+void setup();
+void loop();
 void buttonCb(uint16_t durationMs);
 void handleBuffer();
 uint8_t prevIdx(uint8_t idx);
@@ -110,29 +92,14 @@ void loop()
     }
 }
 
-void rotaryCb(int8_t diff, int32_t value)
-{
-    String oldBuffer = CharBuffer;
-    CharBuffer = F("Twist diff=");
-    CharBuffer += String(diff);
-    CharBuffer += F(" value=");
-    CharBuffer += String(value);
-    handleBuffer();
-    CharBuffer = oldBuffer;
-}
-
 void buttonCb(uint16_t durationMs)
 {
     String oldBuffer = CharBuffer;
     CharBuffer = F("Push duration=");
-    CharBuffer += String(durATionMs);
+    CharBuffer += String(durationMs);
     CharBuffer += F("ms");
     handleBuffer();
     CharBuffer = oldBuffer;
-}
-
-uint8_t prevIdx(uint8_t idx) {
-    return idx == 0 ? LineBufferSize-1 : idx-1;
 }
 
 void handleBuffer() {
@@ -151,3 +118,19 @@ void handleBuffer() {
     LineBufferIdx = (LineBufferIdx + 1) % (LineBufferSize);
 
 }
+
+uint8_t prevIdx(uint8_t idx) {
+    return idx == 0 ? LineBufferSize-1 : idx-1;
+}
+
+void rotaryCb(int8_t diff, int32_t value)
+{
+    String oldBuffer = CharBuffer;
+    CharBuffer = F("Twist diff=");
+    CharBuffer += String(diff);
+    CharBuffer += F(" value=");
+    CharBuffer += String(value);
+    handleBuffer();
+    CharBuffer = oldBuffer;
+}
+

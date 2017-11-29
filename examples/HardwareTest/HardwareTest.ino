@@ -23,21 +23,24 @@
 #include <CbRotaryInput.h>
 #include <CbHC12.h>
 
+#include "EspID.h"
 #include "Config.h"
 
+// Global variables
 bool HC12Status = false;
-bool previousButton = false;
-int32_t rotaryValue = 0;
+bool PreviousButton = false;
+int32_t RotaryValue = 0;
+uint32_t LastSendHC12 = 0;
 
 void display() {
-    String text = F("CheeseBoard Test\nButton: ");
-    text += CbRotaryInput.buttonPushed() ? F("pressed") : F("not pressed");
-    text += '\n';
-    text += F("Rotary Position: ");
-    text += rotaryValue;
-    text += '\n';
-    text += F("HC12 test: ");
+    String text = F("CheeseBoard Test\nESP8266 ID: ");
+    text += EspID.get();
+    text += F("\nHC12 test: ");
     text += HC12Status ? F("pass") : F("fail");
+    text += F("\nRotary Position: ");
+    text += RotaryValue;
+    text += F("\nButton: ");
+    text += CbRotaryInput.buttonPushed() ? F("pressed") : F("not pressed");
     CbOledDisplay.clearBuffer();
     CbOledDisplay.drawText(text.c_str(), 'C', 'M');
     CbOledDisplay.sendBuffer();
@@ -46,7 +49,7 @@ void display() {
 void rotaryCb(int8_t diff, int32_t value)
 {
     DBF("rotaryCb diff=%d value=%d\n", diff, value);
-    rotaryValue = value;
+    RotaryValue = value;
     display();
 }
 
@@ -60,6 +63,8 @@ void setup()
     Serial.begin(115200);
     delay(100);
     DBLN(F("\n\nCheeseBoard Test Firmware\nLEDs should be on (dim -> brighter)\nOLED should show button status, rotary pos and HC12 status\n"));
+
+    EspID.begin();
 
     // Init CbLeds
     CbLeds.begin();
@@ -79,7 +84,7 @@ void setup()
     CbLeds.setPixelColor(5, 0x404040);
     CbLeds.show();
 
-    CbHC12.begin(HC12_BAUD);
+    CbHC12.begin(H12Baud);
     delay(50);
     HC12Status = CbHC12.check();
     DB(F("HC12 test "));
@@ -93,8 +98,18 @@ void loop()
 {
     CbRotaryInput.update();
     bool button = CbRotaryInput.buttonPushed();
-    if (button != previousButton) {
-        previousButton = button;
+
+    if (Millis() > LastSendHC12 + SendHC12PeriodMs) {
+        LastSendHC12 = Millis();
+        String message(F("CheeseBoard ID="));
+        message += EspID.get();
+        message += F(" button=");
+        message += CbRotaryInput.buttonPushed() ? F("pressed") : F("not pressed");
+        CbHC12.println(message);
+    }
+
+    if (button != PreviousButton) {
+        PreviousButton = button;
         display();
     }
 }

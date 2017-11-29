@@ -6,20 +6,15 @@ This sketch provides a little WiFi scanning tool.
 
 + List box showing what networks are availabale
 + Signal strength wigdet
-+ CbRotaryInput
 
 ## TODO
 
-+ Message while scanning if no devices found
 + Secure connection indicator
-+ Remove time since active in listbox
 + Add ZoomDraw to NetInfo - show all available
-+ Rename Gfx prefix to Cb
 + Removing old items from the list
 + Sorting the list by: ssid or signal
 + Use EspApConfigurator to allow entry to passphrases
-  - Use the multi passphrase feature of the ESP for recording multiple
-+ Use RGB LEDs to display signal strength
++ Use RGB LEDs to display signal strength of selected network
 + Signal chase mode (green = warmer, red = colder)
 
 ## Build instructions
@@ -33,8 +28,8 @@ This sketch provides a little WiFi scanning tool.
 ## Usage
 
 * Twist the Rotary Input to choose a network
-* Press the Rotary Input to select network and see details
-* Long press of the Rotary Input to enable function menu
-   * Enable/Disable AP mode
-   * Connect to [known or open] networks to see traffic flows
+* Press the Rotary Input to select network and see details [planned]
+* Long press of the Rotary Input to enable function menu [planned]
+   * Enable/Disable AP mode [planned]
+   * Connect to [known or open] networks to see traffic flows [planned]
 

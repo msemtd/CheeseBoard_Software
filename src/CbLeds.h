@@ -40,7 +40,8 @@ public:
 
 };
 
-/*! Global instance of CbNeoPixel.
+/*! \var CbNeoPixel CbLeds
+ *  \brief Global instance of CbNeoPixel.
  *
  *  Parameters to the constructor are taken from RGBLED_COUNT, 
  *  RGBLED_DATA_PIN, and RGBLED_TYPE globals, which are defined in the 

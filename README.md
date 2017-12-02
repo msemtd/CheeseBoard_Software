@@ -38,19 +38,52 @@ This library contains components for use with the *CheeseBoard: Cheddar* and var
     * Sketch [menu] -> Include Library [menu item] -> Add .ZIP library... [menu item]
     * Find the .ZIP file you downloaded and select it, click OK
 
-## Building an Example Sketch
+### Installing the Serial Drivers
 
-First set up the Arduino IDE as described above. Then:
+Your computer must have the CP210x driver installed to communicate with the NodeMCU over USB.
+
+#### Linux
+
+* Mainstream Linux distributions (e.g. Fedora 27) tend to come with the driver pre-installed
+* Sourcecode for the drive can be downloaded from [the Silican Labs website](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers) if required
+* When the driver is installed and the NodeMCU is connected to the computer, your system should create a device node with the path */dev/ttyUSB* with a numerical suffix. The suffix starts at 0 and increments for each serial USB device connected, for example */dev/ttyUSB0*, */dev/ttyUSB1* and so on - this is the value of the port setting to be used in the Ardino IDE when uploading
+* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU. This may require your user to be added to an auxillary group. For example, on Fedora, the /dev/ttyUSB nodes have the group permission set to *dialout*, so you should ensure you user is in that group. After adding your user to the group, you may need to log in for the new setting to take effect.
+
+#### Mac OSX
+
+The driver for the NodeMCU's serial interface can be download from the Silican Labs website. Depending on the version of MacOS X you are running, will need different version of the driver.
+
+* For MacOS X 10.11 and later, install the version of the driver labelled "Download VCP" from [the main download page](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
+* For earlier releases of MacOS X, use the legacy driver [from this page](https://www.silabs.com/community/interface/knowledge-base.entry.html/2017/01/10/legacy_os_softwarea-bgvU)
+* When the driver is installed and the NodeMCU is connected to the computer using the MicroUSB cable, a device node should be created with the path */dev/cu.SLAB_USBtoUART*. This is the name used in the *port* setting in the Arduino IDE when uploading
+* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU
+
+#### Windows
+
+On Windows, check to see if the driver is installed as follows:
+
+1. Connect the NodeMCU to your computer using a Micro-USB cable (connect the cable directly to the NodeMCU, not to the secondary (power only) MicroUSB socket on the CheeseBoard itself)
+2. Open Device Manager, and expand the group *Ports (COM & LPT)*
+3. If there is no entry for the CP210x driver, or it has an exclamation mark over the icon, you must install the driver
+    * You can download the driver from [the Silican Labs website](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
+    * After installing the drive, unplug the USB cable and then plug it in again
+4. Once the driver is installed, the device's port identifier can be see in Device Manager under the *Ports (COM & LPT)* group - this idenfifier (e.g. *COM3*) is what is used in the *ports* setting in the Arduino IDE when uploading
+
+## Building and Uploading an Example Sketch
+
+First set up the Arduino IDE as described above. Then connect the NodeMCU to your computer using a Micro USB cable connected directly to the NodeMCU (not the power-only USB socket on the CheeseBoard). Find the *port* setting for the NodeMCU, as described in "Installing the Serial Drivers" above.
 
 * Open the HardwareTest example: File [menu] -> Examples [menu item] -> Examples From Custom Libraries [menu item] -> CheeseBoard [menu item] -> HardwareTest [menu item]
-* Choose the NodeMCU board: Tools [menu] -> Board ... [menu item] -> NodeMCU 1.0 (ESP-12R Module)
+* Choose the NodeMCU board: Tools [menu] -> Board ... [menu item] -> NodeMCU 1.0 (ESP-12E Module)
 * Click Verify [toolbar button] to build the example - this might take a while
 * Connect the USB cable direcly to the NodeMCU module (not to the other USB connector!)
-* Select the correct serial port with Tools [menu] -> Port [menu item] -> ...
+* Select the correct serial port with Tools [menu] -> Port [menu item] -> *port for NodeMCU*
 * Select high speed with Tools [menu] -> Upload Speed [menu item] -> 921600
 * Click Upload [toolbar button]. Upload can take a little while compared to a regular Arduino - there is much more data being sent!
 
 If you have trouble with the upload, try adjusting the speed and trying again (with some cables the highest speeds don't work so well).
+
+Each example has a README.md file which gives an overview of the functionality and how to use it.
 
 ## Library Overview
 
@@ -68,7 +101,7 @@ The library defines the following objects and classes:
 * GfxStringListBox - generic listbox for strings (needs completion)
 * GfxTextBox - show text in a box with optional border
 
-### Notes About the CheeseBoard Library
+## Notes About the CheeseBoard Library
 
 The CheeseBoard library and examples use the Mutila library for various functions and classes. To avoid confusion, I'll mention a few here which you may notice in the examples:
 

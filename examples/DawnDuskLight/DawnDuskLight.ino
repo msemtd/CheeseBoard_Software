@@ -104,6 +104,11 @@ void setup()
     EspApConfigurator.addSetting(SET_DST,            new PersistentSettingBool(EspApConfigurator.nextFreeAddress(), false));
     EspApConfigurator.addSetting(SET_NTP_SERVER,     new PersistentSettingString(EspApConfigurator.nextFreeAddress(), 64, "time.google.com"));
 
+    // Check the signature of the settings in EEPROM matches our setting, and reset to defaults if not
+    if (!EspApConfigurator.checkSignature()) {
+        EspApConfigurator.resetAll();
+    }
+
     // Dump settings 
     DBLN(F("Settings:"));                   
     for (uint8_t i=0; i<EspApConfigurator.count(); i++) {                                

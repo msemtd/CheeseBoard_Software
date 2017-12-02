@@ -45,7 +45,7 @@ void setup()
     DBLN(F("\n\nS:setup"));
 
     // Initialize the HC12 module
-    CbHC12.begin(9600);
+    CbHC12.begin(H12Baud);
 
     // Initialize rotary input with callbacks
     CbRotaryInput.begin(buttonCb, rotaryCb);

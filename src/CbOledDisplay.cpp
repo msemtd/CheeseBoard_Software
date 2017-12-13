@@ -1,5 +1,3 @@
-#pragma once
-
 #include <Arduino.h>
 #include <MutilaDebug.h>
 #include "CbOledDisplay.h"

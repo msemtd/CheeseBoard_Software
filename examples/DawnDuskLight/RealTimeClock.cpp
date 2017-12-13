@@ -7,7 +7,7 @@
 #include "Config.h"
 
 // Days of week - modify this for other languages.
-char* const RealTimeClockClass::DayNames[] = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
+const char* RealTimeClockClass::DayNames[] = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturaday"};
 
 // Global instance
 RealTimeClockClass RealTimeClock;

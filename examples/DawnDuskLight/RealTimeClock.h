@@ -13,7 +13,7 @@
 
 class RealTimeClockClass {
 public:
-    static char* const DayNames[];
+    static const char* DayNames[];
     static const uint16_t LocalNtpPort   = 8888;
     static const uint8_t  NtpPacketSize  = 48;
 

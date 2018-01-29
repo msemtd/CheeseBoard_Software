@@ -61,12 +61,12 @@ void setup()
     CbLeds.clear();
 
     // Set white with varying intensity accross the LEDs
-    CbLeds.setPixelColor(0, 0x020202);
-    CbLeds.setPixelColor(1, 0x040404);
-    CbLeds.setPixelColor(2, 0x080808);
-    CbLeds.setPixelColor(3, 0x101010);
-    CbLeds.setPixelColor(4, 0x202020);
-    CbLeds.setPixelColor(5, 0x404040);
+    CbLeds.setPixelColor(0, 0x040404);
+    CbLeds.setPixelColor(1, 0x080808);
+    CbLeds.setPixelColor(2, 0x101010);
+    CbLeds.setPixelColor(3, 0x202020);
+    CbLeds.setPixelColor(4, 0x404040);
+    CbLeds.setPixelColor(5, 0x808080);
     CbLeds.show();
 
     CbHC12.begin(H12Baud);
@@ -111,8 +111,11 @@ void buttonCb(uint16_t durationMs)
 void display() {
     String text = F("CheeseBoard Test\nESP8266 ID: ");
     text += EspID.get();
-    text += F("\nHC12 test: ");
-    text += HC12Status ? F("pass") : F("fail");
+    if (HC12Status) {
+        text += F("\nHC12 test: pass");
+    } else {
+        text += F("\n");
+    }
     text += F("\nRotary Position: ");
     text += RotaryValue;
     text += F("\nButton: ");

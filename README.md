@@ -28,9 +28,7 @@ This library contains components for use with the *CheeseBoard: Cheddar* and var
     * Encoder library by Paul Stoffregen (install using IDE library manager)
     * Time library by Michael Margolis (install using IDE library manager, search for "Timekeeping")
     * U8g2 library by Oliver Kraus (install using IDE library manager)
-* Visit https://github.com/matthewg42/Mutila click "Clone or download" and choose "Download ZIP"
-    * Sketch [menu] -> Include Library [menu item] -> Add .ZIP library... [menu item]
-    * Find the .ZIP file you downloaded and select it, click OK
+    * Mutila lirary by Matthew Gates (install using IDE library manager)
 * Visit https://github.com/matthewg42/EspApConfigurator click "Clone or download" and choose "Download ZIP"
     * Sketch [menu] -> Include Library [menu item] -> Add .ZIP library... [menu item]
     * Find the .ZIP file you downloaded and select it, click OK
@@ -47,7 +45,7 @@ Your computer must have the CP210x driver installed to communicate with the Node
 * Mainstream Linux distributions (e.g. Fedora 27) tend to come with the driver pre-installed
 * Sourcecode for the drive can be downloaded from [the Silican Labs website](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers) if required
 * When the driver is installed and the NodeMCU is connected to the computer, your system should create a device node with the path */dev/ttyUSB* with a numerical suffix. The suffix starts at 0 and increments for each serial USB device connected, for example */dev/ttyUSB0*, */dev/ttyUSB1* and so on - this is the value of the port setting to be used in the Ardino IDE when uploading
-* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU. This may require your user to be added to an auxillary group. For example, on Fedora, the /dev/ttyUSB nodes have the group permission set to *dialout*, so you should ensure you user is in that group. After adding your user to the group, you may need to log in for the new setting to take effect.
+* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU. This may require your user to be added to an auxillary group. For example, on Fedora, the /dev/ttyUSB nodes have the group permission set to *dialout*, so you should ensure your user is in that group. After adding your user to the group, you may need to log in for the new setting to take effect
 
 #### Mac OSX
 
@@ -71,7 +69,7 @@ On Windows, check to see if the driver is installed as follows:
 
 ## Building and Uploading an Example Sketch
 
-First set up the Arduino IDE as described above. Then connect the NodeMCU to your computer using a Micro USB cable connected directly to the NodeMCU (not the power-only USB socket on the CheeseBoard). Find the *port* setting for the NodeMCU, as described in "Installing the Serial Drivers" above.
+First set up the Arduino IDE as described above and install the CP210x driver if required. Then connect the NodeMCU to your computer using a Micro USB cable connected directly to the NodeMCU (not the power-only USB socket on the CheeseBoard PCB). Find the *port* setting for the NodeMCU, as described in "Installing the Serial Drivers" above.
 
 * Open the HardwareTest example: File [menu] -> Examples [menu item] -> Examples From Custom Libraries [menu item] -> CheeseBoard [menu item] -> HardwareTest [menu item]
 * Choose the NodeMCU board: Tools [menu] -> Board ... [menu item] -> NodeMCU 1.0 (ESP-12E Module)
@@ -105,9 +103,9 @@ The library defines the following objects and classes:
 
 The CheeseBoard library and examples use the Mutila library for various functions and classes. To avoid confusion, I'll mention a few here which you may notice in the examples:
 
-0. The CheeseBoard library and examples are still under development at time of writing. Some of the code is a bit ugly and/or incomplete.
+0. The CheeseBoard library and examples are still under development at time of writing. Some of the code is a bit ugly and/or incomplete
 
-1. The macros DB, DBLN abd DBF act like Serial.print, Serial.println and Serial.printf respectively.  These only produce output if DEBUG is defined, allowing quick enabling / disabling of debugging output on serial when building with the Makefile.  To enable debugging output from the IDE, simply add this line at the top of your sketch:
+1. The macros DB, DBLN abd DBF act like Serial.print, Serial.println and Serial.printf respectively. These only produce output if DEBUG is defined, allowing quick enabling / disabling of debugging output on serial when building with the Makefile. To enable debugging output from the IDE, simply add this line at the top of your sketch:
 
 ```cpp
 #define DEBUG 1
@@ -131,7 +129,7 @@ More detailed Doxygen-generated API documentation for the library can be found h
 
 ## Selecting Cheeseboard Version
 
-Select your hardware by editing the CheeseboardConfig.h file, specifying the ???????Config.h file for your hardware and version.  For example, the prototype CheeseBoard: Cheddar uses the config file CheddarV0Config.h, so we edit the CheeseboardConfig.h to contain:
+Select your hardware by editing the CheeseboardConfig.h file, specifying the ???????Config.h file for your hardware and version. For example, the prototype CheeseBoard: Cheddar uses the config file CheddarV0Config.h, so we edit the CheeseboardConfig.h to contain:
 
 ```cpp
 #pragma once

@@ -28,7 +28,7 @@ This library contains components for use with the *CheeseBoard: Cheddar* and var
     * Encoder library by Paul Stoffregen (install using IDE library manager)
     * Time library by Michael Margolis (install using IDE library manager, search for "Timekeeping")
     * U8g2 library by Oliver Kraus (install using IDE library manager)
-    * Mutila lirary by Matthew Gates (install using IDE library manager)
+    * Mutila library by Matthew Gates (install using IDE library manager)
 * Visit https://github.com/matthewg42/EspApConfigurator click "Clone or download" and choose "Download ZIP"
     * Sketch [menu] -> Include Library [menu item] -> Add .ZIP library... [menu item]
     * Find the .ZIP file you downloaded and select it, click OK
@@ -43,18 +43,18 @@ Your computer must have the CP210x driver installed to communicate with the Node
 #### Linux
 
 * Mainstream Linux distributions (e.g. Fedora 27) tend to come with the driver pre-installed
-* Sourcecode for the drive can be downloaded from [the Silican Labs website](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers) if required
+* Sourcecode for the drive can be downloaded from [the Silicon Labs website](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers) if required
 * When the driver is installed and the NodeMCU is connected to the computer, your system should create a device node with the path */dev/ttyUSB* with a numerical suffix. The suffix starts at 0 and increments for each serial USB device connected, for example */dev/ttyUSB0*, */dev/ttyUSB1* and so on - this is the value of the port setting to be used in the Ardino IDE when uploading
-* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU. This may require your user to be added to an auxillary group. For example, on Fedora, the /dev/ttyUSB nodes have the group permission set to *dialout*, so you should ensure your user is in that group. After adding your user to the group, you may need to log in for the new setting to take effect
+* Note: You must have read/write permissions for the device node in order to communicate with the NodeMCU. This may require your user to be added to an auxillary group. For example, on Fedora, the /dev/ttyUSB nodes have the group permission set to *dialout*, so you should ensure your user is in that group. After adding your user to the group, you may need to log in for the new setting to take effect
 
 #### Mac OSX
 
-The driver for the NodeMCU's serial interface can be download from the Silican Labs website. Depending on the version of MacOS X you are running, will need different version of the driver.
+The driver for the NodeMCU's serial interface can be download from the Silicon Labs website. Depending on the version of MacOS X you are running, will need different version of the driver.
 
 * For MacOS X 10.11 and later, install the version of the driver labelled "Download VCP" from [the main download page](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
 * For earlier releases of MacOS X, use the legacy driver [from this page](https://www.silabs.com/community/interface/knowledge-base.entry.html/2017/01/10/legacy_os_softwarea-bgvU)
 * When the driver is installed and the NodeMCU is connected to the computer using the MicroUSB cable, a device node should be created with the path */dev/cu.SLAB_USBtoUART*. This is the name used in the *port* setting in the Arduino IDE when uploading
-* Note: You must have read/write permissions for the device node in order to communicte with the NodeMCU
+* Note: You must have read/write permissions for the device node in order to communicate with the NodeMCU
 
 #### Windows
 
